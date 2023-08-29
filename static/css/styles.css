@@ -1,19 +1,53 @@
+@font-face {
+    font-family: 'Capriola';
+    src: url('../fonts/Capriola/Capriola-Regular.woff2') format('woff2'),
+        url('../fonts/Capriola/Capriola-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Sacramento';
+    src: url('../fonts/Sacramento/Sacramento-Regular.woff2') format('woff2'),
+        url('../fonts/Sacramento/Sacramento-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 header{
     display: flex;
     width: 100%;
+    min-width: 655px;
     height: 200px;
     background: url(../images/cup-transparent.png) no-repeat right top;
     background-color: #ecdac4;
     background-size: 299px 200px;
 }
 
-.header-text {
+#header-text-primarily {
     display: flex;
     margin-left: 4rem;
     color: #ba9780;
     font-size: 40px;
     font-weight: bold;
     align-items: center;
-    font-family: "Appetite-Italic";
+    font-family: "Capriola";
     text-shadow: 2px 2px #644c42;
+    z-index: 1;
+}
+
+#header-text-secondary {
+    display: flex;
+    margin-left: 0;
+    color: #644c42;
+    font-size: 40px;
+    font-weight: bold;
+    align-items: center;
+    font-family: "Sacramento";
+    transform: translate(-20px, 30px);
+    z-index: 0;
+}
+
+.header-text {
+    user-select: none;
 }
