@@ -14,40 +14,46 @@
     font-style: normal;
 }
 
-header{
-    display: flex;
-    width: 100%;
-    min-width: 655px;
-    height: 200px;
-    background: url(../images/cup-transparent.png) no-repeat right top;
+body {
+    height: 100vh;
     background-color: #ecdac4;
-    background-size: 299px 200px;
 }
 
-#header-text-primarily {
+#log-in-box-header {
     display: flex;
-    margin-left: 4rem;
-    color: #ba9780;
+    height: 150px;
+}
+
+header {
+    display: flex;
+    width: 100vw;
+    height: 200px;
+}
+
+.header-text {
+    display: flex;
     font-size: 40px;
     font-weight: bold;
     align-items: center;
+    user-select: none;
+}
+
+#header-text-primarily {
+    color: #ba9780;
     font-family: "Capriola";
     text-shadow: 2px 2px #644c42;
     z-index: 1;
 }
 
 #header-text-secondary {
-    display: flex;
-    margin-left: 0;
     color: #644c42;
-    font-size: 40px;
-    font-weight: bold;
-    align-items: center;
     font-family: "Sacramento";
     transform: translate(-20px, 30px);
     z-index: 0;
 }
 
-.header-text {
+#img-header {
+    float: right;
+    pointer-events: none;
     user-select: none;
 }
