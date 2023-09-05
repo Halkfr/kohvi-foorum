@@ -1,3 +1,9 @@
+/* #ece0d1
+#dbc1ac
+#967259	
+#634832
+#38220f */
+
 @font-face {
     font-family: 'Capriola';
     src: url('../fonts/Capriola/Capriola-Regular.woff2') format('woff2'),
@@ -56,4 +62,8 @@ header {
     float: right;
     pointer-events: none;
     user-select: none;
+}
+
+.dark {
+    color:#38220f
 }
