@@ -22,7 +22,9 @@
 
 body {
     height: 100vh;
-    background-color: #ecdac4;
+    background-color: #f6ede5;
+    /* background-color: #ecdac4; */
+
 }
 
 #log-in-box-header {
@@ -33,7 +35,8 @@ body {
 header {
     display: flex;
     width: 100vw;
-    height: 200px;
+    height: 20%;
+    background-color: #ecdac4;
 }
 
 .header-text {
@@ -62,4 +65,16 @@ header {
     float: right;
     pointer-events: none;
     user-select: none;
+}
+
+#sidepanel {
+    min-width: 210px;
+    max-width: 400px;
+    background-color: #dbc1ac;
+}
+
+#register-link{
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }

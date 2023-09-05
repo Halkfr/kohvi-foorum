@@ -79,7 +79,7 @@
 
 <body>
     <!-- Header -->
-    <header class="p-4 align-items-center">
+    <header class="p-4 pt-5 pb-5 align-items-center">
         <div class="d-flex" style="min-width: 400px;">
             <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
             <h1 class="header-text" id="header-text-secondary">Forum</h1>
@@ -90,7 +90,7 @@
     </header>
 
     <!-- Log-in box -->
-    <div class="d-flex align-items-center">
+    <div id="log-in-box" class="d-flex align-items-center">
         <main class="w-25 m-auto position-absolute top-50 start-50 translate-middle" style="min-width: 425px;">
             <div id="log-in-box-header" class="align-items-center">
                 <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
@@ -106,70 +106,78 @@
                     <label for="floatingPassword">Password</label>
                 </div>
 
-                <div class="form-check my-3">
-                    <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Remember me
-                    </label>
+                <div class="d-flex flex-row form-check my-3 align-items-center">
+                    <div style="width: 35%;">
+                        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Remember me
+                        </label>
+                    </div>
+                    <nav style="width: 65%; float: right;">
+                        <a id="register-link" class="nav nav-link" href="#" style="float: right;">
+                            Create an account here!
+                        </a>
+                    </nav>
                 </div>
+
                 <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
             </form>
         </main>
     </div>
 
     <!-- Sidepanel -->
-    <span class="sidepanel">
-        <div class="d-flex flex-column flex-shrink-0 w-25 p-3">
-            <ul class="nav nav-pills flex-column mb-auto ">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#home" />
-                        </svg>
-                        Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#chat-dots" />
-                        </svg>
-                        Chat</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#pencil-square" />
-                        </svg>
-                        Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#bell" />
-                        </svg>
-                        Notifications</a>
-                </li>
-            </ul>
-
-            <div class="d-flex flex-column flex-shrink-0 w-25 p-3 fixed-bottom">
-                <hr>
-                <a href="#" class="d-flex align-items-center text-decoration-none">
-                    <svg class="bi pe-none me-2" width="32" height="32">
-                        <use xlink:href="#people-circle" />
-                    </svg>
-                    <strong>Name Surname</strong>
-                </a>
-                <a class="text-decoration-none p-3" href="#">
+    <div id="sidepanel" class="d-flex flex-column flex-shrink-0 w-25 p-3" style="height: 80%;">
+        <ul class="nav nav-pills flex-column mb-auto ">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
                     <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#box-arrow-right" />
+                        <use xlink:href="#home" />
                     </svg>
-                    Sign Out</a>
-            </div>
-            <svg class="bi pe-none mt-2 ms-1" width="24" height="24">
-                <use xlink:href="#arrow-left-circle" />
-            </svg>
-    </span>
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#chat-dots" />
+                    </svg>
+                    Chat</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#pencil-square" />
+                    </svg>
+                    Post</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#bell" />
+                    </svg>
+                    Notifications</a>
+            </li>
+        </ul>
+
+        <div>
+            <hr>
+            <a href="#" class="d-flex align-items-center text-decoration-none ps-3 pb-3">
+                <svg class="bi pe-none me-2" width="32" height="32">
+                    <use xlink:href="#people-circle" />
+                </svg>
+                <strong>Name Surname</strong>
+            </a>
+            <a class="text-decoration-none p-3" href="#">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                    <use xlink:href="#box-arrow-right" />
+                </svg>
+                Sign Out
+            </a>
+        </div>
+        <!-- <svg class="bi pe-none mt-2 ms-1 d-flex flex-row" width="24" height="24">
+            <use xlink:href="#arrow-left-circle" />
+        </svg> -->
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
