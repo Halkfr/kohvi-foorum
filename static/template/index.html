@@ -69,11 +69,17 @@
         <path fill-rule="evenodd"
             d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
     </symbol>
+
+    <symbol id="arrow-left-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+    </symbol>
+
 </svg>
 
 <body>
     <!-- Header -->
-    <header class="p-4 align-items-center d-none">
+    <header class="p-4 align-items-center">
         <div class="d-flex" style="min-width: 400px;">
             <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
             <h1 class="header-text" id="header-text-secondary">Forum</h1>
@@ -112,11 +118,11 @@
     </div>
 
     <!-- Sidepanel -->
-    <span class="sidepanel d-none">
+    <span class="sidepanel">
         <div class="d-flex flex-column flex-shrink-0 w-25 p-3">
             <ul class="nav nav-pills flex-column mb-auto ">
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" href="#">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#home" />
                         </svg>
@@ -146,54 +152,23 @@
                 </li>
             </ul>
 
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#home" />
+            <div class="d-flex flex-column flex-shrink-0 w-25 p-3 fixed-bottom">
+                <hr>
+                <a href="#" class="d-flex align-items-center text-decoration-none">
+                    <svg class="bi pe-none me-2" width="32" height="32">
+                        <use xlink:href="#people-circle" />
                     </svg>
-                    Home
-                    <svg class="bi pe-none me-2" width="16" height="16" style="float: right;">
-                        <use xlink:href="#arrow-left-circle-fill" />
-                    </svg>
+                    <strong>Name Surname</strong>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="text-decoration-none p-3" href="#">
                     <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#chat-dots" />
+                        <use xlink:href="#box-arrow-right" />
                     </svg>
-                    Chat</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#pencil-square" />
-                    </svg>
-                    Post</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#bell" />
-                    </svg>
-                    Notifications</a>
-            </li>
-        </ul>
-        <div class="d-flex flex-column flex-shrink-0 w-25 p-3 fixed-bottom">
-            <hr>
-            <a href="#" class="d-flex align-items-center text-decoration-none">
-                <svg class="bi pe-none me-2" width="32" height="32">
-                    <use xlink:href="#people-circle" />
-                </svg>
-                <strong>Name Surname</strong>
-            </a>
-            <a class="text-decoration-none p-3" href="#">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                    <use xlink:href="#box-arrow-right" />
-                </svg>
-                Sign Out</a>
-        </div>
+                    Sign Out</a>
+            </div>
+            <svg class="bi pe-none mt-2 ms-1" width="24" height="24">
+                <use xlink:href="#arrow-left-circle" />
+            </svg>
     </span>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
