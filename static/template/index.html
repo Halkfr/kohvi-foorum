@@ -84,7 +84,7 @@
 
 <body>
     <!-- Header -->
-    <header class="p-4 pt-5 pb-5 align-items-center">
+    <header class="p-4 pt-5 pb-5 align-items-center d-n one">
         <div class="d-flex" style="min-width: 403px;">
             <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
             <h1 class="header-text" id="header-text-secondary">Forum</h1>
@@ -95,14 +95,14 @@
     </header>
 
     <!-- Log-in box -->
-    <div id="log-in-box" class="d-flex align-items-center">
+    <div id="log-in-box" class="d-flex align-items-center d-none">
         <main class="w-25 m-auto position-absolute top-50 start-50 translate-middle" style="min-width: 425px;">
             <div id="log-in-box-header" class="align-items-center">
                 <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
                 <h1 class="header-text" id="header-text-secondary">Forum</h1>
             </div>
             <form class="mb-5">
-                <div class="form-floating">
+                <div class="form-floating mb-1">
                     <input type="email" class="form-control" id="floatingInput" placeholder=" ">
                     <label for="floatingInput">Email address</label>
                 </div>
@@ -131,7 +131,7 @@
     </div>
 
     <!-- Sign-up box -->
-    <div id="log-in-box" class="d-flex align-items-center d-none">
+    <div id="sign-in-box" class="d-flex align-items-center d-none">
         <main class="w-25 m-auto position-absolute top-50 start-50 translate-middle" style="min-width: 425px;">
             <div id="log-in-box-header" class="align-items-center">
                 <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
@@ -140,7 +140,7 @@
             <form class="mb-5">
                 <div class="d-flex flex-column">
 
-                    <div id="name-form" class="d-none">
+                    <div id="name-form" class="d-n one">
                         <div class="form-floating mt-1 mb-1">
                             <input type="text" class="form-control" id="floatingInput" placeholder=" ">
                             <label for="floatingInput">First Name</label>
@@ -152,10 +152,10 @@
                         <button class="btn btn-primary w-100 my-3 py-2">Next</button>
                     </div>
 
-                    <div id="age-gender-form" class="d- none">
-                        <input id="datepickerr" placeholder="DD/MM/YYYY" style="height: 58px;" />
+                    <div id="age-gender-form" class="d-none">
+                        <input autocomplete="off" id="datepicker" placeholder="DD/MM/YYYY" style="height: 58px;" />
                         <script>
-                            $('#datepickerr').datepicker({
+                            $('#datepicker').datepicker({
                                 uiLibrary: 'bootstrap5',
                             });
                         </script>
@@ -175,7 +175,7 @@
                             <input type="text" class="form-control" id="floatingInput" placeholder=" ">
                             <label for="floatingInput">Nickname</label>
                         </div>
-                        <div class="row g-0">
+                        <div class="row g-0 mt-1 mb-1">
                             <div class="form-floating col pe-1">
                                 <input type="email" class="form-control" id="floatingInput" placeholder=" ">
                                 <label for="floatingInput">Email address</label>
@@ -187,23 +187,13 @@
                         </div>
                         <button class="btn btn-primary w-100 my-3 py-2" type="submit">Submit</button>
                     </div>
-
-                    <!-- <div class="d-flex flex-row form-check my-3 align-items-center">
-                        <div style="width: 35%;">
-                            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Subscribe for a news list
-                            </label>
-                        </div>
-                    </div> -->
-
                 </div>
             </form>
         </main>
     </div>
 
     <!-- Sidepanel -->
-    <div id="sidepanel" class="d-flex flex-column flex-shrink-0 w-25 p-3" style="height: 80%;">
+    <div id="sidepanel" class="d-flex flex-column flex-shrink-0 w-25 p-3 d-n one" style="height: 80%;">
         <ul class="nav nav-pills flex-column mb-auto ">
             <li class="nav-item">
                 <a class="nav-link" href="#">
