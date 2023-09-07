@@ -80,7 +80,7 @@
 
 <body>
     <!-- Header -->
-    <header class="p-4 pt-5 pb-5 align-items-center d-n one">
+    <header class="p-4 pt-5 pb-5 align-items-center d-none">
         <div class="d-flex" style="min-width: 403px;">
             <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
             <h1 class="header-text" id="header-text-secondary">Forum</h1>
@@ -138,43 +138,44 @@
 
                     <div id="name-form" class="d-n one">
                         <div class="form-floating mt-1 mb-1">
-                            <input type="text" name="fname" class="form-control" id="floatingInput" placeholder=" ">
-                            <label for="floatingInput">First Name</label>
+                            <input type="text" class="form-control" id="sign-up-fname" placeholder=" ">
+                            <label for="sign-up-fname">First Name</label>
                         </div>
                         <div class="form-floating mt-1 mb-1">
-                            <input type="text" name="lname" class="form-control" id="floatingInput" placeholder=" ">
-                            <label for="floatingInput">Last Name</label>
+                            <input type="text" class="form-control" id="sign-up-lname" placeholder=" ">
+                            <label for="sign-up-lname">Last Name</label>
                         </div>
                         <button class="btn btn-primary w-100 my-3 py-2" type="button">Next</button>
                     </div>
 
                     <div id="age-gender-form" class="d-n one">
-                        <input type="date" name="dbirth" class="form-control" style="height: 58px;" />
+                        <input type="date" id="sign-up-dbirth" class="form-control" style="height: 58px;" />
+
                         <div class="form-floating mt-1 mb-1">
-                            <select class="form-select pt-3 pb-3" name="gender" aria-label="Default select example">
+                            <select id="sign-up-gender" class="form-select pt-3 pb-3" name="gender" aria-label="Default select example">
                                 <option selected>Male</option>
                                 <option>Female</option>
                                 <option>Other</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary w-100 my-3 py-2" type="button" >Next</button>
+                        <button class="btn btn-primary w-100 my-3 py-2" type="button">Next</button>
                     </div>
 
                     <div id="log-in-data-form" class="d-n one">
                         <div class="form-floating mt-1 mb-1">
-                            <input type="text" name="nick" class="form-control" id="floatingInput" placeholder=" ">
-                            <label for="floatingInput">Nickname</label>
+                            <input type="text" id="sign-up-nick" class="form-control" placeholder=" ">
+                            <label for="sign-up-nick">Nickname</label>
                         </div>
                         <div class="row g-0 mt-1 mb-1">
                             <div class="form-floating col pe-1">
-                                <input type="email" name="email" class="form-control" id="floatingInput"
+                                <input type="email" id="sign-up-email" class="form-control" 
                                     placeholder=" ">
-                                <label for="floatingInput">Email address</label>
+                                <label for="sign-up-email">Email address</label>
                             </div>
                             <div class="form-floating col">
-                                <input type="password" name="pass" class="form-control" id="floatingPassword"
+                                <input type="password" id="sign-up-pass" class="form-control"
                                     placeholder=" ">
-                                <label for="floatingPassword">Password</label>
+                                <label for="sign-up-pass">Password</label>
                             </div>
                         </div>
                         <button class="btn btn-primary w-100 my-3 py-2" type="submit">Submit</button>
@@ -189,18 +190,18 @@
         document.querySelector('form.sign-up').addEventListener('submit', function (e) {
             e.preventDefault();
             let x = document.querySelector('form.sign-up').elements;
-            console.log("First Name: ", x['fname'].value);
-            console.log("Last name: ", x['lname'].value);
-            console.log("Birth date: ", x['dbirth'].value);
-            console.log("Gender: ", x['gender'].value);
-            console.log("Nickname: ", x['nick'].value);
-            console.log("Email: ", x['email'].value);
-            console.log("Password: ", x['pass'].value);
+            console.log("First Name: ", x['sign-up-fname'].value);
+            console.log("Last name: ", x['sign-up-lname'].value);
+            console.log("Birth date: ", x['sign-up-dbirth'].value);
+            console.log("Gender: ", x['sign-up-gender'].value);
+            console.log("Nickname: ", x['sign-up-nick'].value);
+            console.log("Email: ", x['sign-up-email'].value);
+            console.log("Password: ", x['sign-up-pass'].value);
         });
     </script>
 
     <!-- Sidepanel -->
-    <div id="sidepanel" class="d-flex flex-column flex-shrink-0 w-25 p-3 d-n one" style="height: 80%;">
+    <div id="sidepanel" class="d-flex flex-column flex-shrink-0 w-25 p-3 d-none" style="height: 80%;">
         <ul class="nav nav-pills flex-column mb-auto ">
             <li class="nav-item">
                 <a class="nav-link" href="#">
