@@ -136,7 +136,7 @@
             <form class="sign-up mb-5">
                 <div class="d-flex flex-column">
 
-                    <div id="name-form" class="d-n one">
+                    <div id="name-form" class="">
                         <div class="form-floating mt-1 mb-1">
                             <input type="text" class="form-control" id="sign-up-fname" placeholder=" ">
                             <label for="sign-up-fname">First Name</label>
@@ -145,10 +145,13 @@
                             <input type="text" class="form-control" id="sign-up-lname" placeholder=" ">
                             <label for="sign-up-lname">Last Name</label>
                         </div>
-                        <button class="btn btn-primary w-100 my-3 py-2" type="button">Next</button>
+                        <div class="d-flex flex-row">
+                            <button class="btn btn-secondary w-50 my-3 py-2 me-1" onclick=hide1() type="button">Back</button>
+                            <button class="btn btn-primary w-50 my-3 py-2" type="button" onclick=load1()>Next</button>
+                        </div>
                     </div>
 
-                    <div id="age-gender-form" class="d-n one">
+                    <div id="age-gender-form" class="d-none">
                         <input type="date" id="sign-up-dbirth" class="form-control" style="height: 58px;" />
 
                         <div class="form-floating mt-1 mb-1">
@@ -159,10 +162,13 @@
                                 <option>Other</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary w-100 my-3 py-2" type="button">Next</button>
+                        <div class="d-flex flex-row">
+                            <button class="btn btn-secondary w-50 my-3 py-2 me-1" onclick=hide2() type="button">Back</button>
+                            <button class="btn btn-primary w-50 my-3 py-2" onclick=load2() type="button">Next</button>
+                        </div>
                     </div>
 
-                    <div id="log-in-data-form" class="d-n one">
+                    <div id="log-in-data-form" class="d-none">
                         <div class="form-floating mt-1 mb-1">
                             <input type="text" id="sign-up-nick" class="form-control" placeholder=" ">
                             <label for="sign-up-nick">Nickname</label>
@@ -177,7 +183,10 @@
                                 <label for="sign-up-pass">Password</label>
                             </div>
                         </div>
-                        <button class="btn btn-primary w-100 my-3 py-2" type="submit">Submit</button>
+                        <div class="d-flex flex-row">
+                            <button class="btn btn-secondary w-50 my-3 py-2 me-1" onclick="hide3()" type="button">Back</button>
+                            <button class="btn btn-primary w-50 my-3 py-2" type="submit">Submit</button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -186,6 +195,33 @@
 
     <!-- Get form values -->
     <script>
+
+        function hide1() {
+            document.getElementById("name-form").classList.add("d-none")
+            document.getElementById("sign-up-box").classList.add("d-none")
+            document.getElementById("log-in-box").classList.remove("d-none")
+        }
+
+        function load1() {
+            document.getElementById("name-form").classList.add("d-none")
+            document.getElementById("age-gender-form").classList.remove("d-none")
+        }
+
+        function hide2() {
+            document.getElementById("age-gender-form").classList.add("d-none")
+            document.getElementById("name-form").classList.remove("d-none")
+        }
+
+        function load2() {
+            document.getElementById("age-gender-form").classList.add("d-none")
+            document.getElementById("log-in-data-form").classList.remove("d-none")
+        }
+
+        function hide3() {
+            document.getElementById("log-in-data-form").classList.add("d-none")
+            document.getElementById("age-gender-form").classList.remove("d-none")
+        }
+
         document.querySelector('form.sign-up').addEventListener('submit', function (e) {
             e.preventDefault();
             let x = document.querySelector('form.sign-up').elements;
