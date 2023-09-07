@@ -47,6 +47,12 @@ header {
     user-select: none;
 }
 
+.info-text {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+}
+
 #header-text-primarily {
     color: #ba9780;
     font-family: "Capriola";
@@ -57,7 +63,6 @@ header {
 #header-text-secondary {
     color: #644c42;
     font-family: "Sacramento";
-    transform: translate(-20px, 30px);
     z-index: 0;
 }
 
