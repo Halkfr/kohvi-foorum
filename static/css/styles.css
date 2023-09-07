@@ -73,8 +73,21 @@ header {
     background-color: #dbc1ac;
 }
 
-#register-link{
+#register-link {
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 0;
+}
+
+.gj-icon {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+div.gj-datepicker {
+    transform: translate(0px, 12px);
+}
+
+#datepicker {
+    user-select: none;
 }
