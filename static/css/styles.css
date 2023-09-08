@@ -73,8 +73,7 @@ header {
 }
 
 #sidepanel {
-    min-width: 210px;
-    max-width: 400px;
+    width: fit-content;
     background-color: #dbc1ac;
 }
 
