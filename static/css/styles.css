@@ -20,6 +20,14 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Dosis';
+    src: url('../fonts/Dosis/Dosis-VariableFont_wght.woff2') format('woff2'),
+        url('../fonts/Dosis/Dosis-VariableFont_wght.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     height: 100vh;
     background-color: #f6ede5;
