@@ -132,3 +132,12 @@ div.gj-datepicker {
 .border-outline {
     opacity: 0.7;
 }
+
+.post{
+    background-color: #ffffff;
+    height: fit-content;
+}
+
+.post-text{
+    font-size: 18px;
+}
