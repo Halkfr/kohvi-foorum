@@ -32,6 +32,7 @@ body {
     height: 100vh;
     background-color: #f6ede5;
     /* background-color: #ecdac4; */
+    overflow: hidden;
 
 }
 
@@ -140,4 +141,8 @@ div.gj-datepicker {
 
 .post-text{
     font-size: 18px;
+}
+
+#post-scroll-area {
+    overflow-y: scroll;
 }
