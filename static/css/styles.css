@@ -147,3 +147,7 @@ div.gj-datepicker {
 #post-scroll-area {
     overflow-y: scroll;
 }
+
+#chat-scroll-area {
+    overflow-y: scroll;
+}
