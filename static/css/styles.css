@@ -123,15 +123,15 @@ div.gj-datepicker {
 }
 
 .border-v {
-    border-left: 3px solid #644c42;
+    border-left: 3px solid #8f7b72;
 }
 
 .border-h {
-    border-top: 3px solid #644c42;
+    border-top: 3px solid #8f7b72;
 }
 
 .border-outline {
-    opacity: 0.7;
+    opacity: 1;
 }
 
 .post{
