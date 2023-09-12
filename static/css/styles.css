@@ -86,6 +86,7 @@ header {
     color: #644c42;
     font-family: "Sacramento";
     z-index: 0;
+    font-weight: bold;
 }
 
 #img-header {
