@@ -95,13 +95,13 @@ header {
     user-select: none;
 }
 
+#main-container {
+    height: calc(100% - 242px);
+}
+
 #sidepanel {
     width: fit-content;
     background-color: #dbc1ac;
-}
-
-#sidepanel-container {
-    height: calc(100% - 242px);
 }
 
 #register-link {
