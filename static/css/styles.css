@@ -60,13 +60,6 @@ header {
     text-align: center;
 }
 
-#header-text-primarily {
-    color: #ba9780;
-    font-family: "Capriola";
-    text-shadow: 2px 2px #644c42;
-    z-index: 1;
-}
-
 .font-capriola {
     color: #ba9780;
     font-family: "Capriola";
@@ -77,9 +70,16 @@ header {
     font-family: "Sacramento";
 }
 
-.font-dosis{
+.font-dosis {
     color: #644c42;
     font-family: "Dosis";
+}
+
+#header-text-primarily {
+    color: #ba9780;
+    font-family: "Capriola";
+    text-shadow: 2px 2px #644c42;
+    z-index: 1;
 }
 
 #header-text-secondary {
@@ -135,19 +135,24 @@ div.gj-datepicker {
     opacity: 1;
 }
 
-.post{
+.post {
     background-color: #ffffff;
     height: fit-content;
 }
 
-.post-text{
+.post-text {
     font-size: 18px;
 }
 
-#post-scroll-area {
+/* #post-scroll-area {
     overflow-y: scroll;
-}
+} */
 
-#chat-scroll-area {
+/* #chat-scroll-area {
+    overflow-y: scroll;
+} */
+
+#main-view {
+    height: calc(100% - 69px);
     overflow-y: scroll;
 }
