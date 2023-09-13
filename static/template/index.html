@@ -139,7 +139,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li id="user-list" class="nav-item">
                         <a class="nav-link d-flex flex-row align-items-center p-3" href="#" data-toggle="tooltip"
                             data-placement="right" title="Toggle chat panel">
                             <svg class="bi pe-none" width="40" height="40">
@@ -169,7 +169,6 @@
 
                 <div>
                     <hr class="mb-3 border-outline border-h">
-                    <!-- copy from bootstrap example -->
                     <a class="active d-flex align-items-center text-decoration-none p-3" style="text-align: center;"
                         data-toggle="tooltip" data-placement="right" title="Profile">
                         <svg class="bi pe-none" width="40" height="40">
@@ -180,6 +179,40 @@
             </div>
             <hr class="border-outline border-v m-0">
             </hr>
+            <script>
+                document.getElementById("user-list").onclick = openModal
+
+                function openModal() {
+                    let chat = document.getElementById("chat-scroll-area")
+                    if (chat.classList.contains("d-none")) {
+                        document.getElementById("chat-scroll-area").classList.remove("d-none")
+                    } else {
+                        document.getElementById("chat-scroll-area").classList.add("d-none")
+                    }
+                }
+            </script>
+        </div>
+
+        <!-- Chat area -->
+        <div id="chat-scroll-area" class="p-2 py-3 d-none" style="width:400px; height: 100%;">
+            <!-- User template -->
+            <button id="user-template" class="btn btn-light d-flex justify-content-between align-items-center mb-2"
+                style="width:100%; min-width: 240px;">
+                <div class="d-flex flex-row align-items-center">
+                    <svg class="bi pe-none m-2" width="50" height="50">
+                        <use xlink:href="#people-circle" />
+                    </svg>
+                    <div class="d-flex flex-column" style="text-align: left;">
+                        <div>Antosha7</div>
+                        <small>Online</small>
+                    </div>
+                </div>
+                <div>
+                    <svg class="bi pe-none" width="25" height="25">
+                        <use xlink:href="#chat-dots" />
+                    </svg>
+                </div>
+            </button>
         </div>
 
         <!-- Filters and posts -->
@@ -200,15 +233,15 @@
             <hr class="border-outline border-h p-0 m-0">
             </hr>
 
-            <div id="main-view" class="d-flex flex-column" style="width:100%; ">
-                <div class="d-flex flex-row" style="width:100%;">
+            <div class="d-flex flex-row" style="width:100%; height: calc(100% - 69px);">
+                <div class="d-flex flex-column" style="width:100%;">
                     <!-- Posts -->
-                    <div id="post-scroll-area" class="p-4 pt-3" style="width:100%; height: fit-content;">
-
+                    <div id="post-scroll-area" class="pt-3" style="width:100%; height: fit-content;">
                         <!-- Post template -->
-                        <div id="post-template" class="post align-items-center d-flex flex-row p-3 mb-2" style="border-radius: 3px;">
+                        <div id="post-template" class="post align-items-center d-flex flex-row p-3 ms-2 me-2 mt-0 mb-2"
+                            style="border-radius: 3px;">
                             <!-- Profile picture -->
-                            <svg class="bi pe-none m-3" width="100" height="100">
+                            <svg class="bi pe-none m-3" width="75" height="75">
                                 <use xlink:href="#people-circle" />
                             </svg>
 
@@ -239,39 +272,19 @@
                                     style="border-radius: 3px;">
                             </div>
                         </div>
-                        <button id="load-more-btn" class="btn btn-light" style="width: 100%;">Load more</button>
-                    </div>
-
-                    <!-- Chat area -->
-                    <div id="chat-scroll-area" class="pt-3 pb-4" style="width:400px; height: fit-content;">
-
-                        <!-- User template -->
-                        <button id="user-template"
-                            class="btn btn-light d-flex justify-content-between align-items-center mb-1"
-                            style="width:100%;">
-                            <div class="d-flex flex-row align-items-center">
-                                <svg class="bi pe-none m-2" width="50" height="50">
-                                    <use xlink:href="#people-circle" />
-                                </svg>
-                                <div class="d-flex flex-column" style="text-align: left;">
-                                    <div>Antosha7</div>
-                                    <small>Online</small>
-                                </div>
-                            </div>
-                            <div>
-                                <svg class="bi pe-none" width="25" height="25">
-                                    <use xlink:href="#chat-dots" />
-                                </svg>
-                            </div>
-                        </button>
+                        <div style="width: 100%;">
+                            <button id="load-more-btn" class="btn btn-light mb-3 mx-2"
+                                style="width: calc(100% - 16px);">Load more</button>
+                        </div>
+                        <!-- Footer -->
+                        <footer>
+                            <hr class="border-outline border-h px-0 pt-0 me-2" style="padding-bottom: 3px;">
+                            <p class="py-3 px-4 my-4" style="width: 100%; text-align: center;">Developed by Anton and
+                                Margarita, 2023
+                            </p>
+                        </footer>
                     </div>
                 </div>
-
-                <!-- Footer -->
-                <footer>
-                    <hr class="border-outline border-h p-0 m-0">
-                    <p class="py-3 px-4 my-4" style="width: 100%; text-align: center;">© 2023 Anton&Margarita Co,Inc</p>
-                </footer>
             </div>
         </div>
     </div>
@@ -288,8 +301,8 @@
                 i = i + 1;
             }
         }
-        clone("user-template", 19)
-        clone("post-template", 9)
+        clone("user-template", 20)
+        clone("post-template", 10)
 
     </script>
 

@@ -144,15 +144,10 @@ div.gj-datepicker {
     font-size: 18px;
 }
 
-/* #post-scroll-area {
+#post-scroll-area {
     overflow-y: scroll;
-} */
+}
 
-/* #chat-scroll-area {
-    overflow-y: scroll;
-} */
-
-#main-view {
-    height: calc(100% - 69px);
+#chat-scroll-area {
     overflow-y: scroll;
 }
