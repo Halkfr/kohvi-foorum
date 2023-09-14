@@ -148,6 +148,10 @@ div.gj-datepicker {
     overflow-y: scroll;
 }
 
-#chat-scroll-area {
+#userlist-scroll-area {
+    overflow-y: scroll;
+}
+
+#message-scroll-area {
     overflow-y: scroll;
 }
