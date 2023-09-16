@@ -141,7 +141,7 @@
         <div class="d-flex flex-row p-0 d-n one">
             <div id="sidepanel" class="d-flex flex-column flex-shrink-0 pt-3 pb-3 d-n one">
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
+                    <li id="home-nav" class="nav-item">
                         <a class="nav-link d-flex flex-row align-items-center p-3" href="#" data-toggle="tooltip"
                             data-placement="right" title="Home">
                             <svg class="bi pe-none" width="40" height="40" color="#644c42;">
@@ -159,7 +159,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li id="create-post-nav" class="nav-item">
                         <a class="nav-link d-flex flex-row align-items-center p-3" href="#" data-toggle="tooltip"
                             data-placement="right" title="Post">
                             <svg class="bi pe-none" width="40" height="40">
@@ -193,7 +193,7 @@
         </div>
 
         <!-- Userlist area -->
-        <div id="userlist-scroll-area" class="p-2 py-3 d-n one" style="width:400px; height: 100%;">
+        <div id="userlist-scroll-area" class="p-2 py-3 d-none" style="width:400px; height: 100%;">
             <!-- User template -->
             <button id="user-template" class="btn btn-light d-flex justify-content-between align-items-center mb-2"
                 style="width:100%; min-width: 240px;">
@@ -215,7 +215,7 @@
         </div>
 
         <!-- Chat area -->
-        <div id="chat-scroll-area" class="pt-3 d-n one d-flex flex-column justify-content-between"
+        <div id="chat-scroll-area" class="pt-3 d-none d-flex flex-column justify-content-between"
             style="width:400px; min-height: 100%; background-color: #ffffff;">
 
             <div class="d-flex justify-content-center align-items-center mb-2" style="width:100%; min-width: 240px;">
@@ -276,7 +276,7 @@
         </div>
 
         <!-- Filters and posts -->
-        <div class="d-flex flex-column" style="width:100%;height: 100%;">
+        <div id="view-post-area" class="d-flex flex-column d-n one" style="width:100%;height: 100%;">
             <div id="filters" class="d-flex flex-row ps-4 pe-4 pt-3 pb-3 " style="width:100%; height: 69px;">
                 <div class="btn btn-secondary rounded-pill post-text post-category me-3 ps-3 pe-3 pt-1 pb-1">
                     View all</div>
@@ -286,7 +286,7 @@
                     Buy/Sell</div>
                 <div class="btn btn-danger rounded-pill post-text post-category me-3 ps-3 pe-3 pt-1 pb-1">
                     Help!</div>
-                <div class="btn btn-secondary rounded-pill post-text post-category me-3 ps-3 pe-3 pt-1 pb-1">
+                <div class="btn btn-success rounded-pill post-text post-category me-3 ps-3 pe-3 pt-1 pb-1">
                     Discussion</div>
             </div>
 
@@ -347,12 +347,95 @@
                 </div>
             </div>
         </div>
+
+        <!-- Create post -->
+        <div id="create-post-area" class="d-flex flex-row d-none" style="width:100%; height: 100%;">
+            <div class="d-flex flex-column justify-content-between" style="width:100%;">
+                <!-- Create post container -->
+                <div class="row p-5">
+
+                    <!-- Main input box -->
+                    <div style="max-width:1500px;margin: 0 auto;">
+                        <!-- Header -->
+                        <div>
+                            <h1 class="my-2 font-dosis">Create post</h1>
+                            <hr class="border-outline border-h">
+                        </div>
+
+                        <!-- Title row -->
+                        <div class="row my-3">
+                            <div class="col-4 d-flex align-items-center">
+                                <h2 class="font-dosis h1">Title:</h2>
+                            </div>
+
+                            <div class="col-8 d-flex align-items-center">
+                                <div class="dropdown pe-2">
+                                    <button id="titleCategory" class="btn btn-default dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Category
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" type="button"
+                                                onclick="changeDropdownText(this)">Question</a></li>
+                                        <li><a class="dropdown-item" type="button"
+                                                onclick="changeDropdownText(this)">Buy/Sell</a></li>
+                                        <li><a class="dropdown-item" type="button"
+                                                onclick="changeDropdownText(this)">Help!</a></li>
+                                        <li><a class="dropdown-item" type="button"
+                                                onclick="changeDropdownText(this)">Discussion</a></li>
+                                    </ul>
+                                </div>
+                                <textarea class="form-control d-flex align-items-center" type="text" id="TitleInput"
+                                    name="title" placeholder="Write a Title..." required="" minlength="3" maxlength="50"
+                                    rows="1" wrap="soft"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Upload img row -->
+                        <div class="row my-3">
+                            <div class="col-4 d-flex align-items-center">
+                                <h2 class="font-dosis h1">Upload img:</h2>
+                            </div>
+                            <div class="col-8 d-flex align-items-center">
+                                <input class="form-control" type="file" name="image" accept="image/*"></input>
+                            </div>
+                        </div>
+
+                        <!-- Textarea row -->
+                        <div class="row my-3">
+                            <div class="col-4 d-flex align-items-center">
+                                <h2 class="font-dosis h1">Content:</h2>
+                            </div>
+                            <div class="col-8 d-flex align-items-center"><textarea class="form-control form-control-lg"
+                                    name="content" placeholder="Please type your text here..." rows="3" wrap="soft"
+                                    minlength="3" maxlength="500" required=""></textarea></div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+
+                <footer>
+                    <hr class="border-outline border-h px-0 pt-0" style="padding-bottom: 3px;">
+                    <p class="py-3 px-4 my-4" style="width: 100%; text-align: center;">Developed by Anton and
+                        Margarita, 2023
+                    </p>
+                </footer>
+            </div>
+        </div>
+
+    </div>
     </div>
 
     <!-- Clone templates script-->
     <script>
         document.getElementById("user-list").onclick = openList
         document.getElementById("user-template").onclick = openChat
+        document.getElementById("home-nav").onclick = openDefaultPage
+        document.getElementById("create-post-nav").onclick = openCreatePostArea
 
         function openList() {
             let userlist = document.getElementById("userlist-scroll-area")
@@ -372,6 +455,38 @@
             } else {
                 document.getElementById("chat-scroll-area").classList.add("d-none")
             }
+        }
+
+        function openDefaultPage() {
+            // document.getElementById("userlist-scroll-area").classList.add("d-none")
+            // document.getElementById("chat-scroll-area").classList.add("d-none")
+            document.getElementById("create-post-area").classList.add("d-none")
+            document.getElementById("view-post-area").classList.remove("d-none")
+        }
+
+        function openCreatePostArea() {
+            document.getElementById("view-post-area").classList.add("d-none")
+            document.getElementById("create-post-area").classList.remove("d-none")
+        }
+
+        function changeDropdownText(item) {
+            let element = document.getElementById("titleCategory").classList
+            element.remove("btn-default", "btn-primary", "btn-warning", "btn-danger", "btn-success")
+            switch (item.innerHTML) {
+                case "Question":
+                    document.getElementById("titleCategory").classList.add("btn-primary")
+                    break;
+                case "Buy/Sell":
+                    document.getElementById("titleCategory").classList.add("btn-warning")
+                    break;
+                case "Help!":
+                    document.getElementById("titleCategory").classList.add("btn-danger")
+                    break;
+                case "Discussion":
+                    document.getElementById("titleCategory").classList.add("btn-success")
+                    break;
+            }
+            document.getElementById("titleCategory").innerHTML = item.innerHTML;
         }
 
         function clone(div, x) {
