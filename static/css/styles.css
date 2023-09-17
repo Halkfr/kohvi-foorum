@@ -155,3 +155,7 @@ div.gj-datepicker {
 #message-scroll-area {
     overflow-y: scroll;
 }
+
+#notification-scroll-area{
+    overflow-y: scroll;
+}

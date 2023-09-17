@@ -119,8 +119,8 @@
 
 <body>
     <!-- Header -->
-    <div class="position-relative d-n one" style="height: 242px;">
-        <header id="main-header" class="p-4 pt-5 pb-5 align-items-center">
+    <div id="main-header" class="position-relative d-n one" style="height: 242px;">
+        <header class="p-4 pt-5 pb-5 align-items-center">
             <div class="d-flex" style="min-width: 403px;">
                 <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
                 <h1 class="header-text" id="header-text-secondary" style="transform: translate(-20px, 30px);">Forum</h1>
@@ -154,7 +154,7 @@
                         <a class="nav-link d-flex flex-row align-items-center p-3" href="#" data-toggle="tooltip"
                             data-placement="right" title="Toggle chat panel">
                             <svg class="bi pe-none" width="40" height="40">
-                                <use xlink:href="#person-lines-fill" />
+                                <use xlink:href="#chat-dots" />
                             </svg>
                         </a>
                     </li>
@@ -167,25 +167,24 @@
                             </svg>
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link d-flex flex-row align-items-center p-3" href="#" data-toggle="tooltip"
-                            data-placement="right" title="Notification">
-                            <svg class="bi pe-none" width="40" height="40" style="background-color: transparent">
-                                <use xlink:href="#bell" />
-                            </svg>
-                        </a>
-                    </li>
                 </ul>
 
-                <div>
+                <div class="dropdown">
                     <hr class="mb-3 border-outline border-h">
-                    <a class="active d-flex align-items-center text-decoration-none p-3" style="text-align: center;"
-                        data-toggle="tooltip" data-placement="right" title="Profile">
+                    <a class="d-flex align-items-center text-decoration-none p-3"
+                        style="text-align: center; color: #644c42;" data-toggle="tooltip" data-placement="right"
+                        title="Profile" data-bs-toggle="dropdown" aria-expanded="false" href="#">
                         <svg class="bi pe-none" width="40" height="40">
                             <use xlink:href="#people-circle" />
                         </svg>
                     </a>
+                    <ul class="dropdown-menu text-small shadow mx-3">
+                        <li><a class="dropdown-item" onclick="openProfilePage()" href="#">View profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" onclick="signOut()">Sign out</a></li>
+                    </ul>
                 </div>
             </div>
             <hr class="border-outline border-v m-0">
@@ -427,7 +426,97 @@
             </div>
         </div>
 
-    </div>
+        <!-- Profile page -->
+        <div id="view-profile-area" class="d-flex flex-row d-none" style="width:100%; height: 100%;">
+            <div class="d-flex flex-column justify-content-between" style="width:100%;">
+                <!-- Create post container -->
+                <div class="row">
+
+                    <!-- Main input box -->
+                    <div style="max-width:1500px;margin: 0 auto;">
+                        <!-- Header -->
+                        <div>
+                            <h1 class="my-3 font-dosis">Your Profile</h1>
+                            <hr class="border-outline border-h">
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <svg class="bi pe-none" width="150" height="150">
+                                <use xlink:href="#people-circle" />
+                            </svg>
+
+                            <div class="d-flex flex-column ms-3 justify-content-center">
+                                <h5 class="font-dosis" style="color: #644c42; font-weight: bold;">Antosha7</h5>
+                                <h5 class="font-dosis" style="color: #644c42; font-weight: bold;">Joined: 01.01.2023
+                                </h5>
+                                <h5 class="font-dosis" style="color: #644c42; font-weight: bold;">Last seen: 21:12,
+                                    21.06.2023</h5>
+                            </div>
+                        </div>
+
+                        <div>
+                            <hr class="border-outline border-h">
+                            <h1 class="my-2 font-dosis">Your Posts</h1>
+                            <hr class="border-outline border-h">
+                        </div>
+
+                        <div id="post-scroll-area" class="pt-3" style="width:100%; height: fit-content;">
+                            <!-- Post template -->
+                            <div id="post-template"
+                                class="post align-items-center d-flex flex-row p-3 ms-2 me-2 mt-0 mb-2"
+                                style="border-radius: 3px;">
+                                <!-- Profile picture -->
+                                <svg class="bi pe-none m-3" width="75" height="75">
+                                    <use xlink:href="#people-circle" />
+                                </svg>
+
+                                <!-- Post info container -->
+
+                                <div style="width:100%">
+                                    <div class="d-flex flex-row align-items-center">
+                                        <button
+                                            class="btn btn-primary rounded-pill post-text post-category m-1 ps-3 pe-3 pt-1 pb-1">
+                                            Question</button>
+                                        <a href="#" class="post-text post-title p-1">How to start coffee journey?</a>
+                                    </div>
+                                    <div class="d-flex flex-row">
+                                        <a href="#" class="post-creator p-1"
+                                            style="font-size: 15px; color: #644c42;">Username</a>
+                                        <div class="post-creation-date p-1" style="font-size: 15px; color: #644c42;">
+                                            01.01.2023
+                                        </div>
+                                        <div class="post-replies p-1" style="font-size: 15px; color: #644c42;">replies:
+                                            10
+                                        </div>
+                                        <div class="post-views p-1 " style="font-size: 15px; color: #644c42;">views: 10
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="post-img" style="width: 200px; height: auto;">
+                                    <img src="static/images/coffee-img.jpg" alt="cup-of-coffee" width="200px"
+                                        height="auto" style="border-radius: 3px;">
+                                </div>
+                            </div>
+                            <div style="width: 100%;">
+                                <button id="load-more-btn" class="btn btn-light mb-3 mx-2"
+                                    style="width: calc(100% - 16px);">Load more</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div></div>
+                </div>
+                <!-- Footer -->
+
+                <footer>
+                    <hr class="border-outline border-h px-0 pt-0" style="padding-bottom: 3px;">
+                    <p class="py-3 px-4 my-4" style="width: 100%; text-align: center;">Developed by Anton and
+                        Margarita, 2023
+                    </p>
+                </footer>
+            </div>
+        </div>
     </div>
 
     <!-- Clone templates script-->
@@ -435,6 +524,7 @@
         document.getElementById("user-list").onclick = openList
         document.getElementById("user-template").onclick = openChat
         document.getElementById("home-nav").onclick = openDefaultPage
+        document.getElementById("main-header").onclick = openDefaultPage
         document.getElementById("create-post-nav").onclick = openCreatePostArea
 
         function openList() {
@@ -458,14 +548,20 @@
         }
 
         function openDefaultPage() {
-            // document.getElementById("userlist-scroll-area").classList.add("d-none")
-            // document.getElementById("chat-scroll-area").classList.add("d-none")
             document.getElementById("create-post-area").classList.add("d-none")
+            document.getElementById("view-profile-area").classList.add("d-none")
             document.getElementById("view-post-area").classList.remove("d-none")
+        }
+
+        function openProfilePage() {
+            document.getElementById("create-post-area").classList.add("d-none")
+            document.getElementById("view-post-area").classList.add("d-none")
+            document.getElementById("view-profile-area").classList.remove("d-none")
         }
 
         function openCreatePostArea() {
             document.getElementById("view-post-area").classList.add("d-none")
+            document.getElementById("view-profile-area").classList.add("d-none")
             document.getElementById("create-post-area").classList.remove("d-none")
         }
 
@@ -487,6 +583,12 @@
                     break;
             }
             document.getElementById("titleCategory").innerHTML = item.innerHTML;
+        }
+
+        function signOut() {
+            document.getElementById("main-header").classList.add("d-none")
+            document.getElementById("main-container").classList.add("d-none")
+            document.getElementById("log-in-box").classList.remove("d-none")
         }
 
         function clone(div, x) {
