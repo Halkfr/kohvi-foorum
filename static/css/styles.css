@@ -36,12 +36,13 @@ body {
 
 }
 
-#log-in-box-header {
+#sign-in-box-header {
     display: flex;
     height: 150px;
 }
 
-header {
+#main-header {
+    height: 242px;
     display: flex;
     width: 100vw;
     background-color: #ecdac4;
@@ -55,9 +56,45 @@ header {
     user-select: none;
 }
 
+#header-text-primarily {
+    color: #ba9780;
+    font-family: "Capriola";
+    text-shadow: 2px 2px #644c42;
+    z-index: 1;
+}
+
+#header-text-secondary {
+    color: #644c42;
+    font-family: "Sacramento";
+    z-index: 0;
+    font-weight: bold;
+    transform: translate(-20px, 30px);
+}
+
+#header-coffee-fact {
+    text-align: center;
+    font-size: 25px;
+    max-width: 600px;
+}
+
 .info-text {
     font-size: 25px;
     text-align: center;
+}
+
+#sign-in-text-primarily {
+    color: #ba9780;
+    font-family: "Capriola";
+    text-shadow: 2px 2px #644c42;
+    z-index: 1;
+}
+
+#sign-in-text-secondary {
+    color: #644c42;
+    font-family: "Sacramento";
+    z-index: 0;
+    font-weight: bold;
+    transform: translate(-20px, 30px);
 }
 
 .font-capriola {
@@ -73,20 +110,6 @@ header {
 .font-dosis {
     color: #644c42;
     font-family: "Dosis";
-}
-
-#header-text-primarily {
-    color: #ba9780;
-    font-family: "Capriola";
-    text-shadow: 2px 2px #644c42;
-    z-index: 1;
-}
-
-#header-text-secondary {
-    color: #644c42;
-    font-family: "Sacramento";
-    z-index: 0;
-    font-weight: bold;
 }
 
 #img-header {
@@ -110,6 +133,7 @@ header {
     padding-left: 0;
 }
 
+/* check if still relevant */
 .gj-icon {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -122,6 +146,7 @@ div.gj-datepicker {
 #datepicker {
     user-select: none;
 }
+/*  */
 
 .border-v {
     border-left: 3px solid #8f7b72;
@@ -146,16 +171,31 @@ div.gj-datepicker {
 
 #post-scroll-area {
     overflow-y: scroll;
+    width: 100%;
+    height: fit-content;
 }
 
 #userlist-scroll-area {
     overflow-y: scroll;
+    width: 400px;
+    height: 100%;
 }
 
-#message-scroll-area {
+.userlist-object {
+    width: 100%;
+    min-width: 240px;
+}
+
+#chat-area {
+    width: 400px;
+    min-height: 100%;
+    background-color: #ffffff;
+}
+
+#chat-scroll-area {
     overflow-y: scroll;
 }
 
-#notification-scroll-area{
+#notification-scroll-area {
     overflow-y: scroll;
 }
