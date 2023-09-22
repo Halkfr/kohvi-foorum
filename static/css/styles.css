@@ -41,7 +41,7 @@ body {
     height: 150px;
 }
 
-#main-header {
+#main-header-content {
     height: 242px;
     display: flex;
     width: 100vw;

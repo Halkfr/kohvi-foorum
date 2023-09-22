@@ -93,26 +93,30 @@
 
 <body>
     <!-- Header -->
-    <div id="main-header" class="px-4 py-5 align-items-center d-flex justify-content-between">
-        <div class="d-flex" style="min-width: 403px;">
-            <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
-            <h1 class="header-text" id="header-text-secondary">Forum</h1>
+    <div id="main-header">
+        <div id="main-header-content" class="px-4 py-5 align-items-center d-flex justify-content-between">
+            <div class="d-flex" style="min-width: 403px;">
+                <h1 class="header-text" id="header-text-primarily">Cup Of Coffee</h1>
+                <h1 class="header-text" id="header-text-secondary">Forum</h1>
+            </div>
+            <h1 id="header-coffee-fact"
+                class="header-text position-absolute start-50 translate-middle-x font-dosis align-items-center m-0 d-none d-xxl-block">
+                Coffee
+                is the
+                second most valuable commodity being traded today - second only to petroleum</h1>
+            <img id="img-header" src="static/images/cup-transparent.png" alt="cup-of-coffee">
         </div>
-        <h1 id="header-coffee-fact"
-            class="header-text position-absolute start-50 translate-middle-x font-dosis align-items-center m-0">Coffee
-            is the
-            second most valuable commodity being traded today - second only to petroleum</h1>
-        <img id="img-header" src="static/images/cup-transparent.png" alt="cup-of-coffee">
+        <hr class="border-outline border-h p-0 m-0">
+        </hr>
     </div>
-    <hr class="border-outline border-h p-0 m-0">
-    </hr>
 
     <div id="main-container" class="d-flex flex-row d-n one">
         <!-- Sidepanel -->
         <div id="sidepanel" class="d-flex flex-column py-3 d-n one">
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a id="home-nav" class="nav-link p-3" href="home" data-toggle="tooltip" data-placement="right" title="Home">
+                    <a id="home-nav" class="nav-link p-3" href="home" data-toggle="tooltip" data-placement="right"
+                        title="Home">
                         <svg class="bi pe-none" width="40" height="40" color="#644c42;">
                             <use xlink:href="#home" />
                         </svg>
@@ -129,8 +133,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a id="create-post-nav" class="nav-link p-3" href="create-post" data-toggle="tooltip" data-placement="right"
-                        title="Post">
+                    <a id="create-post-nav" class="nav-link p-3" href="create-post" data-toggle="tooltip"
+                        data-placement="right" title="Post">
                         <svg class="bi pe-none" width="40" height="40">
                             <use xlink:href="#pencil-square" />
                         </svg>
@@ -198,7 +202,7 @@
                     sunt iure.</div>
             </div>
             <hr class="border-outline border-h m-0">
-
+            
             <div class="d-flex justify-content-center align-items-center" style="width:100%; min-width: 240px;">
                 <div class="d-flex flex-row align-items-center m-4 p-1">
                     <button class="btn btn-warning">
@@ -358,9 +362,8 @@
                     </div>
                 </div>
                 <!-- Footer -->
-
                 <footer>
-                    <hr class="border-outline border-h px-0 pt-0" style="padding-bottom: 3px;">
+                    <hr class="border-outline border-h p-0 m-0">
                     <p class="py-3 px-4 my-4" style="width: 100%; text-align: center;">Developed by Anton and
                         Margarita, 2023
                     </p>
