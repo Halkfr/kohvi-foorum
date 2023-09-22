@@ -219,15 +219,17 @@
                 </div>
             </div>
         </div>
+
+        <div id="content-container" style="width:100%;"></div>
     </div>
 
     <!-- Clone templates script-->
     <script>
         document.getElementById("user-list").onclick = openList
         document.getElementById("user-template").onclick = openChat
-        document.getElementById("home-nav").onclick = openDefaultPage
-        document.getElementById("main-header").onclick = openDefaultPage
-        document.getElementById("create-post-nav").onclick = openCreatePostArea
+        // document.getElementById("home-nav").onclick = openDefaultPage
+        // document.getElementById("main-header").onclick = openDefaultPage
+        // document.getElementById("create-post-nav").onclick = openCreatePostArea
 
         function openList() {
             let userlist = document.getElementById("userlist-scroll-area")
@@ -249,23 +251,23 @@
             }
         }
 
-        function openDefaultPage() {
-            document.getElementById("create-post-area").classList.add("d-none")
-            document.getElementById("view-profile-area").classList.add("d-none")
-            document.getElementById("view-post-area").classList.remove("d-none")
-        }
+        // function openDefaultPage() {
+        //     document.getElementById("create-post-area").classList.add("d-none")
+        //     document.getElementById("view-profile-area").classList.add("d-none")
+        //     document.getElementById("view-post-area").classList.remove("d-none")
+        // }
 
-        function openProfilePage() {
-            document.getElementById("create-post-area").classList.add("d-none")
-            document.getElementById("view-post-area").classList.add("d-none")
-            document.getElementById("view-profile-area").classList.remove("d-none")
-        }
+        // function openProfilePage() {
+        //     document.getElementById("create-post-area").classList.add("d-none")
+        //     document.getElementById("view-post-area").classList.add("d-none")
+        //     document.getElementById("view-profile-area").classList.remove("d-none")
+        // }
 
-        function openCreatePostArea() {
-            document.getElementById("view-post-area").classList.add("d-none")
-            document.getElementById("view-profile-area").classList.add("d-none")
-            document.getElementById("create-post-area").classList.remove("d-none")
-        }
+        // function openCreatePostArea() {
+        //     document.getElementById("view-post-area").classList.add("d-none")
+        //     document.getElementById("view-profile-area").classList.add("d-none")
+        //     document.getElementById("create-post-area").classList.remove("d-none")
+        // }
 
         function changeDropdownText(item) {
             let element = document.getElementById("titleCategory").classList
@@ -297,9 +299,9 @@
             var i = 1;
             while (i < x) {
                 var element = document.getElementById(div);
-                var clone = element.cloneNode(true);
+                // var clone = element.cloneNode(true);
                 clone.id = "div" + i;
-                element.after(clone);
+                // element.after(clone);
                 i = i + 1;
             }
         }

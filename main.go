@@ -1,13 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"time"
-	"html/template"
 	"os"
-	"database/sql"
+	"time"
 )
 
 func main() {
@@ -38,7 +38,7 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	tmpl, _ := template.ParseFiles("static/template/index.html")
+	tmpl, _ := template.ParseFiles("static/templates/index.html")
 	tmpl.Execute(w, nil)
 }
 
