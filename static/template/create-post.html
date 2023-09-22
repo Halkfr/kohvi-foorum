@@ -1,0 +1,77 @@
+<!-- Create post -->
+<div id="create-post-area" class="d-flex flex-row d-none" style="width:100%; height: 100%;">
+    <div class="d-flex flex-column justify-content-between" style="width:100%;">
+        <!-- Create post container -->
+        <div class="row p-5">
+
+            <!-- Main input box -->
+            <div style="max-width:1500px;margin: 0 auto;">
+                <!-- Header -->
+                <div>
+                    <h1 class="my-2 font-dosis">Create post</h1>
+                    <hr class="border-outline border-h">
+                </div>
+
+                <!-- Title row -->
+                <div class="row my-3">
+                    <div class="col-4 d-flex align-items-center">
+                        <h2 class="font-dosis h1">Title:</h2>
+                    </div>
+
+                    <div class="col-8 d-flex align-items-center">
+                        <div class="dropdown pe-2">
+                            <button id="titleCategory" class="btn btn-default dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Category
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" type="button"
+                                        onclick="changeDropdownText(this)">Question</a></li>
+                                <li><a class="dropdown-item" type="button"
+                                        onclick="changeDropdownText(this)">Buy/Sell</a></li>
+                                <li><a class="dropdown-item" type="button" onclick="changeDropdownText(this)">Help!</a>
+                                </li>
+                                <li><a class="dropdown-item" type="button"
+                                        onclick="changeDropdownText(this)">Discussion</a></li>
+                            </ul>
+                        </div>
+                        <textarea class="form-control d-flex align-items-center" type="text" id="TitleInput"
+                            name="title" placeholder="Write a Title..." required="" minlength="3" maxlength="50"
+                            rows="1" wrap="soft"></textarea>
+                    </div>
+                </div>
+
+                <!-- Upload img row -->
+                <div class="row my-3">
+                    <div class="col-4 d-flex align-items-center">
+                        <h2 class="font-dosis h1">Upload img:</h2>
+                    </div>
+                    <div class="col-8 d-flex align-items-center">
+                        <input class="form-control" type="file" name="image" accept="image/*"></input>
+                    </div>
+                </div>
+
+                <!-- Textarea row -->
+                <div class="row my-3">
+                    <div class="col-4 d-flex align-items-center">
+                        <h2 class="font-dosis h1">Content:</h2>
+                    </div>
+                    <div class="col-8 d-flex align-items-center"><textarea class="form-control form-control-lg"
+                            name="content" placeholder="Please type your text here..." rows="3" wrap="soft"
+                            minlength="3" maxlength="500" required=""></textarea></div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer>
+            <hr class="border-outline border-h p-0 m-0">
+            <p class="py-3 px-4 my-4" style="width: 100%; text-align: center;">Developed by Anton and
+                Margarita, 2023
+            </p>
+        </footer>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<!-- Sign up box -->
+
+<!-- Add header -->
+
+<div id="sign-up-box" class="d-flex align-items-center d-none">
+    <main class="w-25 m-auto position-absolute top-50 start-50 translate-middle" style="min-width: 425px;">
+        <form class="sign-up mb-5">
+            <h1 class="mb-3 font-dosis" style="text-align: center; font-size: 35px; font-weight: bold;">
+                Sign-up</h1>
+            <div id="name-form">
+                <p class="info-text my-1 font-dosis" style="text-align: center;">
+                    Write your first and last name
+                </p>
+
+                <div class="d-flex flex-column">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="sign-up-fname" placeholder=" ">
+                        <label for="sign-up-fname">First Name</label>
+                    </div>
+                    <div class="form-floating my-1">
+                        <input type="text" class="form-control" id="sign-up-lname" placeholder=" ">
+                        <label for="sign-up-lname">Last Name</label>
+                    </div>
+                    <div class="d-flex flex-row">
+                        <button class="btn btn-secondary w-50 my-3 me-1 py-2" type="button"
+                            onclick=hide1()>Back</button>
+                        <button class="btn btn-primary w-50 my-3 py-2" type="button" onclick=load1()>Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="age-gender-form" class="d-none">
+                <p class="info-text my-1 font-dosis" style="text-align: center;">
+                    Enter your date of birth and gender
+                </p>
+
+                <input type="date" id="sign-up-dbirth" class="form-control" style="height: 58px;" />
+
+                <div class="form-floating my-1">
+                    <select id="sign-up-gender" class="form-select py-3" name="gender"
+                        aria-label="Default select example">
+                        <option selected>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="d-flex flex-row">
+                    <button class="btn btn-secondary w-50 my-3 py-2 me-1" onclick=hide2() type="button">Back</button>
+                    <button class="btn btn-primary w-50 my-3 py-2" onclick=load2() type="button">Next</button>
+                </div>
+            </div>
+
+            <div id="sign-in-data-form" class="d-none">
+                <p class="info-text my-1 font-dosis" style="text-align: center;">
+                    Just the last step left...
+                </p>
+
+                <div class="form-floating my-1">
+                    <input type="text" id="sign-up-nick" class="form-control" placeholder=" ">
+                    <label for="sign-up-nick">Nickname</label>
+                </div>
+                <div class="row g-0 my-1">
+                    <div class="form-floating col pe-1">
+                        <input type="email" id="sign-up-email" class="form-control" placeholder=" ">
+                        <label for="sign-up-email">Email address</label>
+                    </div>
+                    <div class="form-floating col">
+                        <input type="password" id="sign-up-pass" class="form-control" placeholder=" ">
+                        <label for="sign-up-pass">Password</label>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <button class="btn btn-secondary w-50 my-3 py-2 me-1" onclick="hide3()" type="button">Back</button>
+                    <button class="btn btn-primary w-50 my-3 py-2" type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </main>
+    <!-- Get form values -->
+    <script>
+        function hide1() {
+            document.getElementById("name-form").classList.add("d-none")
+            document.getElementById("sign-up-box").classList.add("d-none")
+            document.getElementById("main-header").classList.add("d-none")
+            document.getElementById("sign-in-box").classList.remove("d-none")
+        }
+
+        function load1() {
+            document.getElementById("name-form").classList.add("d-none")
+            document.getElementById("age-gender-form").classList.remove("d-none")
+        }
+
+        function hide2() {
+            document.getElementById("age-gender-form").classList.add("d-none")
+            document.getElementById("name-form").classList.remove("d-none")
+        }
+
+        function load2() {
+            document.getElementById("age-gender-form").classList.add("d-none")
+            document.getElementById("sign-in-data-form").classList.remove("d-none")
+        }
+
+        function hide3() {
+            document.getElementById("sign-in-data-form").classList.add("d-none")
+            document.getElementById("age-gender-form").classList.remove("d-none")
+        }
+
+        document.getElementById("register-link").onclick = load3
+        document.getElementById("remember-me").onclick = changeValue
+
+        function changeValue() {
+            let value = document.getElementById("remember-me").value
+            console.log(value)
+            if (value === "off") {
+                document.getElementById("remember-me").value = "on"
+            } else {
+                document.getElementById("remember-me").value = "off"
+            }
+        }
+
+        function load3() {
+            document.getElementById("sign-in-box").classList.add("d-none")
+            document.getElementById("name-form").classList.remove("d-none")
+            document.getElementById("sign-up-box").classList.remove("d-none")
+            document.getElementById("main-header").classList.remove("d-none")
+        }
+
+        document.querySelector('form.sign-up').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let x = document.querySelector('form.sign-up').elements;
+            console.log("First Name: ", x['sign-up-fname'].value);
+            console.log("Last name: ", x['sign-up-lname'].value);
+            console.log("Birth date: ", x['sign-up-dbirth'].value);
+            console.log("Gender: ", x['sign-up-gender'].value);
+            console.log("Nickname: ", x['sign-up-nick'].value);
+            console.log("Email: ", x['sign-up-email'].value);
+            console.log("Password: ", x['sign-up-pass'].value);
+        });
+
+        document.querySelector('form.sign-in').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let x = document.querySelector('form.sign-in').elements;
+            console.log("Nickname or Email: ", x['sign-in-nick-or-email'].value);
+            console.log("Password: ", x['sign-in-pass'].value);
+            console.log("Remember me?: ", x['remember-me'].value);
+        });
+    </script>
+</div>
