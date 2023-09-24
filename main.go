@@ -56,9 +56,9 @@ func setDB() {
 	createThreadsTable(database)
 	createPostsTable(database)
 	createCommentsTable(database)
-	createCommentsReactionsTable(database)
-	createPostsReactionsTable(database)
 	createNotificationsTable(database)
+	// createCommentsReactionsTable(database)
+	// createPostsReactionsTable(database)
 
 	// p, _ := hashPassword("1234")
 	// addUser(database, "test", "test@gmail.com", p)
