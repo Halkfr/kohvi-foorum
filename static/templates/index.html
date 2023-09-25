@@ -14,15 +14,11 @@
 </head>
 
 <body>
-    <!-- Get sign-up form values -->
     <script>
-        function hide1() {
-            // document.getElementById("name-form").classList.add("d-none")
-            // document.getElementById("sign-up-box").classList.add("d-none")
-            // document.getElementById("main-header").classList.add("d-none")
-            // document.getElementById("sign-in-box").classList.remove("d-none")
+        /* Sign-up function */
 
-            /* TODO: Go to page /sign-in */
+        function hide1() {
+            // TODO: Go to page / sign -in
         }
 
         function load1() {
@@ -45,26 +41,6 @@
             document.getElementById("age-gender-form").classList.remove("d-none")
         }
 
-        // document.getElementById("register-link").onclick = load3
-        // document.getElementById("remember-me").onclick = changeValue
-
-        function changeValue() {
-            let value = document.getElementById("remember-me").value
-            console.log(value)
-            if (value === "off") {
-                document.getElementById("remember-me").value = "on"
-            } else {
-                document.getElementById("remember-me").value = "off"
-            }
-        }
-
-        // function load3() {
-        //     document.getElementById("sign-in-box").classList.add("d-none")
-        //     document.getElementById("name-form").classList.remove("d-none")
-        //     document.getElementById("sign-up-box").classList.remove("d-none")
-        //     document.getElementById("main-header").classList.remove("d-none")
-        // }
-
         // document.querySelector('form.sign-up').addEventListener('submit', function (e) {
         //     e.preventDefault();
         //     let x = document.querySelector('form.sign-up').elements;
@@ -77,6 +53,20 @@
         //     console.log("Password: ", x['sign-up-pass'].value);
         // });
 
+
+        /* Sign in function */
+
+        // document.getElementById("remember-me").onclick = changeValue
+        // function changeValue() {
+        //     let value = document.getElementById("remember-me").value
+        //     console.log(value)
+        //     if (value === "off") {
+        //         document.getElementById("remember-me").value = "on"
+        //     } else {
+        //         document.getElementById("remember-me").value = "off"
+        //     }
+        // }
+
         // document.querySelector('form.sign-in').addEventListener('submit', function (e) {
         //     e.preventDefault();
         //     let x = document.querySelector('form.sign-in').elements;
@@ -84,53 +74,9 @@
         //     console.log("Password: ", x['sign-in-pass'].value);
         //     console.log("Remember me?: ", x['remember-me'].value);
         // });
-    </script>
 
-    <!-- Clone templates script-->
-    <!-- <script>
-        document.getElementById("user-list").onclick = openList
-        document.getElementById("user-template").onclick = openChat
-        // document.getElementById("home-nav").onclick = openDefaultPage
-        // document.getElementById("main-header").onclick = openDefaultPage
-        // document.getElementById("create-post-nav").onclick = openCreatePostArea
 
-        function openList() {
-            let userlist = document.getElementById("userlist-scroll-area")
-            if (userlist.classList.contains("d-none")) {
-                document.getElementById("userlist-scroll-area").classList.remove("d-none")
-            } else {
-                document.getElementById("userlist-scroll-area").classList.add("d-none")
-                document.getElementById("chat-scroll-area").classList.add("d-none")
-            }
-        }
-
-        function openChat() {
-            let chat = document.getElementById("chat-scroll-area")
-
-            if (chat.classList.contains("d-none")) {
-                document.getElementById("chat-scroll-area").classList.remove("d-none")
-            } else {
-                document.getElementById("chat-scroll-area").classList.add("d-none")
-            }
-        }
-
-        // function openDefaultPage() {
-        //     document.getElementById("create-post-area").classList.add("d-none")
-        //     document.getElementById("view-profile-area").classList.add("d-none")
-        //     document.getElementById("view-post-area").classList.remove("d-none")
-        // }
-
-        // function openProfilePage() {
-        //     document.getElementById("create-post-area").classList.add("d-none")
-        //     document.getElementById("view-post-area").classList.add("d-none")
-        //     document.getElementById("view-profile-area").classList.remove("d-none")
-        // }
-
-        // function openCreatePostArea() {
-        //     document.getElementById("view-post-area").classList.add("d-none")
-        //     document.getElementById("view-profile-area").classList.add("d-none")
-        //     document.getElementById("create-post-area").classList.remove("d-none")
-        // }
+        // Create post function
 
         function changeDropdownText(item) {
             let element = document.getElementById("titleCategory").classList
@@ -152,29 +98,8 @@
             document.getElementById("titleCategory").innerHTML = item.innerHTML;
         }
 
-        function signOut() {
-            document.getElementById("main-header").classList.add("d-none")
-            document.getElementById("main-container").classList.add("d-none")
-            document.getElementById("sign-in-box").classList.remove("d-none")
-        }
+        /* Enable tooltips */
 
-        function clone(div, x) {
-            var i = 1;
-            while (i < x) {
-                var element = document.getElementById(div);
-                // var clone = element.cloneNode(true);
-                clone.id = "div" + i;
-                // element.after(clone);
-                i = i + 1;
-            }
-        }
-        clone("user-template", 20)
-        clone("post-template", 10)
-        clone("chat-filler", 10)
-    </script> -->
-
-    <!-- Enable tooltips -->
-    <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
