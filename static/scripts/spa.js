@@ -5,9 +5,9 @@ document.addEventListener('click', e => {
     if (activeElements.includes(e.target.id)) {
         route(e);
     }
-    if (activeElements.includes(e.target.parentElement.id)) {
-        route(e.parentElement);
-    }
+    // if (activeElements.includes(e.target.parentElement.id)) {
+    //     route(e.parentElement);
+    // }
     e.preventDefault();
 });
 
@@ -29,7 +29,6 @@ const handleLocation = async () => {
     const html = await fetch('./static/templates/' + routers[path]).then((data) => data.text()).catch(error => {
         console.error('Error:', error);
     });
-    console.log(path)
     if (path === "/sign-in") {
         document.body.innerHTML = html;
     } else {
