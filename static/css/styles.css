@@ -30,10 +30,15 @@
 
 body {
     height: 100vh;
-    /* background-color: #f6ede5; */
-    background-color: #ecdac4;
+    background-color: #f6ede5;
     overflow: hidden;
 
+}
+
+#sign-in-box {
+    height: 100vh;
+    width: 100vw;
+    background-color: #ecdac4;
 }
 
 #sign-in-box-header {
@@ -146,6 +151,7 @@ div.gj-datepicker {
 #datepicker {
     user-select: none;
 }
+
 /*  */
 
 .border-v {
