@@ -19,6 +19,7 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("/", index)
+	mux.HandleFunc("/sign-up/data", signup)
 
 	// Create a custom server with a timeout
 	server := &http.Server{

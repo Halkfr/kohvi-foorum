@@ -41,17 +41,29 @@
             document.getElementById("age-gender-form").classList.remove("d-none")
         }
 
-        // document.querySelector('form.sign-up').addEventListener('submit', function (e) {
-        //     e.preventDefault();
-        //     let x = document.querySelector('form.sign-up').elements;
-        //     console.log("First Name: ", x['sign-up-fname'].value);
-        //     console.log("Last name: ", x['sign-up-lname'].value);
-        //     console.log("Birth date: ", x['sign-up-dbirth'].value);
-        //     console.log("Gender: ", x['sign-up-gender'].value);
-        //     console.log("Nickname: ", x['sign-up-nick'].value);
-        //     console.log("Email: ", x['sign-up-email'].value);
-        //     console.log("Password: ", x['sign-up-pass'].value);
-        // });
+        document.addEventListener('click', function (e) {
+            console.log('click')
+            if (e.target.matches('#sign-up-submit-button')) {
+                e.preventDefault();
+                let x = document.querySelector('form.sign-up').elements;
+                console.log("First Name: ", x['sign-up-fname'].value);
+                console.log("Last name: ", x['sign-up-lname'].value);
+                console.log("Birth date: ", x['sign-up-dbirth'].value);
+                console.log("Gender: ", x['sign-up-gender'].value);
+                console.log("Nickname: ", x['sign-up-nick'].value);
+                console.log("Email: ", x['sign-up-email'].value);
+                console.log("Password: ", x['sign-up-pass'].value);
+
+                fetch('http://127.0.0.1:8080/sign-up/data', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "first_name": x['sign-up-fname'].value })
+                }).then(response => window.location.href = '/home')
+            }
+        });
 
 
         /* Sign in function */
