@@ -57,7 +57,7 @@
                                 "last_name": x['sign-up-lname'].value,
                                 "birthdate": x['sign-up-dbirth'].value,
                                 "gender": x['sign-up-gender'].value,
-                                "username": x['sign-up-nick'].value,
+                                "username": x['sign-up-username'].value,
                                 "email": x['sign-up-email'].value,
                                 "password": x['sign-up-pass'].value
                             },
@@ -92,7 +92,7 @@
                         },
                         body: JSON.stringify(
                             {
-                                "username": x['sign-in-nick-or-email'].value,
+                                "username": x['sign-in-username-or-email'].value,
                                 "password": x['sign-in-pass'].value
                             },
                         )
