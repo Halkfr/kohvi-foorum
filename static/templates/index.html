@@ -15,29 +15,29 @@
 
 <body>
     <script>
-            function hide1() {
-                window.location.href = "http://127.0.0.1:8080/sign-in"
-            }
+        function hide1() {
+            window.location.href = "http://127.0.0.1:8080/sign-in"
+        }
 
-            function load1() {
-                document.getElementById("name-form").classList.add("d-none")
-                document.getElementById("age-gender-form").classList.remove("d-none")
-            }
+        function load1() {
+            document.getElementById("name-form").classList.add("d-none")
+            document.getElementById("age-gender-form").classList.remove("d-none")
+        }
 
-            function hide2() {
-                document.getElementById("age-gender-form").classList.add("d-none")
-                document.getElementById("name-form").classList.remove("d-none")
-            }
+        function hide2() {
+            document.getElementById("age-gender-form").classList.add("d-none")
+            document.getElementById("name-form").classList.remove("d-none")
+        }
 
-            function load2() {
-                document.getElementById("age-gender-form").classList.add("d-none")
-                document.getElementById("sign-in-data-form").classList.remove("d-none")
-            }
+        function load2() {
+            document.getElementById("age-gender-form").classList.add("d-none")
+            document.getElementById("sign-in-data-form").classList.remove("d-none")
+        }
 
-            function hide3() {
-                document.getElementById("sign-in-data-form").classList.add("d-none")
-                document.getElementById("age-gender-form").classList.remove("d-none")
-            }
+        function hide3() {
+            document.getElementById("sign-in-data-form").classList.add("d-none")
+            document.getElementById("age-gender-form").classList.remove("d-none")
+        }
 
         document.addEventListener('click', function (e) {
             if (location.pathname === "/sign-up") {
@@ -67,7 +67,6 @@
             }
 
             if (location.pathname === "/sign-in") {
-
                 document.getElementById("remember-me").onclick = changeValue
                 function changeValue() {
                     let value = document.getElementById("remember-me").value
@@ -102,26 +101,24 @@
         });
 
         // Create post function
-        if (location.pathname === "/create-post") {
-            function changeDropdownText(item) {
-                let element = document.getElementById("titleCategory").classList
-                element.remove("btn-default", "btn-primary", "btn-warning", "btn-danger", "btn-success")
-                switch (item.innerHTML) {
-                    case "Question":
-                        document.getElementById("titleCategory").classList.add("btn-primary")
-                        break;
-                    case "Buy/Sell":
-                        document.getElementById("titleCategory").classList.add("btn-warning")
-                        break;
-                    case "Help!":
-                        document.getElementById("titleCategory").classList.add("btn-danger")
-                        break;
-                    case "Discussion":
-                        document.getElementById("titleCategory").classList.add("btn-success")
-                        break;
-                }
-                document.getElementById("titleCategory").innerHTML = item.innerHTML;
+        function changeDropdownText(item) {
+            let element = document.getElementById("titleCategory").classList
+            element.remove("btn-default", "btn-primary", "btn-warning", "btn-danger", "btn-success")
+            switch (item.innerHTML) {
+                case "Question":
+                    document.getElementById("titleCategory").classList.add("btn-primary")
+                    break;
+                case "Buy/Sell":
+                    document.getElementById("titleCategory").classList.add("btn-warning")
+                    break;
+                case "Help!":
+                    document.getElementById("titleCategory").classList.add("btn-danger")
+                    break;
+                case "Discussion":
+                    document.getElementById("titleCategory").classList.add("btn-success")
+                    break;
             }
+            document.getElementById("titleCategory").innerHTML = item.innerHTML;
         }
 
         /* Enable tooltips */
