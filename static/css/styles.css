@@ -193,12 +193,12 @@ div.gj-datepicker {
 }
 
 #chat-area {
-    width: 400px;
     min-height: 100%;
     background-color: #ffffff;
 }
 
 #chat-scroll-area {
+    width: 400px;
     overflow-y: scroll;
 }
 

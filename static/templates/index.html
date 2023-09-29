@@ -63,7 +63,7 @@
                             },
                         )
                     }).then(response => {
-                        if (response.ok) { window.location.href = '/sign-in' } else { /*display error*/ }
+                        if (response.ok) { window.location.href = '/sign-in' } else { /*write error*/ }
                     })
                 }
             }
@@ -97,10 +97,21 @@
                                 "password": x['sign-in-pass'].value
                             },
                         )
-                    }).then(response => {
-                        if (response.ok) { window.location.href = '/home' }
-                        else { /*display error*/ }
-                    })
+                    }).then(response => { if (response.ok) { window.location.href = '/home' }
+                    else { /*display error*/ }
+                })
+                }
+            }
+
+            if (e.target.id === "user-list") {
+                openUserList()
+            }
+
+            function openUserList() {
+                if (document.getElementById("userlist-holder").classList.contains("d-none")) {
+                    document.getElementById("userlist-holder").classList.remove("d-none")
+                } else {
+                    document.getElementById("userlist-holder").classList.add("d-none")
                 }
             }
         });
