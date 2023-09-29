@@ -62,8 +62,9 @@
                                 "password": x['sign-up-pass'].value
                             },
                         )
-                    }).then(response => { 
-                        if (response.ok) { window.location.href = '/sign-in' } else { /*write error*/} })
+                    }).then(response => {
+                        if (response.ok) { window.location.href = '/sign-in' } else { /*display error*/ }
+                    })
                 }
             }
 
@@ -96,7 +97,10 @@
                                 "password": x['sign-in-pass'].value
                             },
                         )
-                    }).then(response => { if (response.ok) { window.location.href = '/home' }})
+                    }).then(response => {
+                        if (response.ok) { window.location.href = '/home' }
+                        else { /*display error*/ }
+                    })
                 }
             }
         });
