@@ -15,99 +15,113 @@
 
 <body>
     <script>
-        /* Sign-up function */
+            function hide1() {
+                window.location.href = "http://127.0.0.1:8080/sign-in"
+            }
 
-        function hide1() {
-            // TODO: Go to page / sign -in
-        }
+            function load1() {
+                document.getElementById("name-form").classList.add("d-none")
+                document.getElementById("age-gender-form").classList.remove("d-none")
+            }
 
-        function load1() {
-            document.getElementById("name-form").classList.add("d-none")
-            document.getElementById("age-gender-form").classList.remove("d-none")
-        }
+            function hide2() {
+                document.getElementById("age-gender-form").classList.add("d-none")
+                document.getElementById("name-form").classList.remove("d-none")
+            }
 
-        function hide2() {
-            document.getElementById("age-gender-form").classList.add("d-none")
-            document.getElementById("name-form").classList.remove("d-none")
-        }
+            function load2() {
+                document.getElementById("age-gender-form").classList.add("d-none")
+                document.getElementById("sign-in-data-form").classList.remove("d-none")
+            }
 
-        function load2() {
-            document.getElementById("age-gender-form").classList.add("d-none")
-            document.getElementById("sign-in-data-form").classList.remove("d-none")
-        }
-
-        function hide3() {
-            document.getElementById("sign-in-data-form").classList.add("d-none")
-            document.getElementById("age-gender-form").classList.remove("d-none")
-        }
+            function hide3() {
+                document.getElementById("sign-in-data-form").classList.add("d-none")
+                document.getElementById("age-gender-form").classList.remove("d-none")
+            }
 
         document.addEventListener('click', function (e) {
-            console.log('click')
-            if (e.target.matches('#sign-up-submit-button')) {
-                e.preventDefault();
-                let x = document.querySelector('form.sign-up').elements;
-                console.log("First Name: ", x['sign-up-fname'].value);
-                console.log("Last name: ", x['sign-up-lname'].value);
-                console.log("Birth date: ", x['sign-up-dbirth'].value);
-                console.log("Gender: ", x['sign-up-gender'].value);
-                console.log("Nickname: ", x['sign-up-nick'].value);
-                console.log("Email: ", x['sign-up-email'].value);
-                console.log("Password: ", x['sign-up-pass'].value);
+            if (location.pathname === "/sign-up") {
+                if (e.target.matches('#sign-up-submit-button')) {
+                    e.preventDefault();
+                    let x = document.querySelector('form.sign-up').elements;
 
-                fetch('http://127.0.0.1:8080/sign-up/data', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ "first_name": x['sign-up-fname'].value })
-                }).then(response => window.location.href = '/home')
+                    fetch('http://127.0.0.1:8080/sign-up/data', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(
+                            {
+                                "first_name": x['sign-up-fname'].value,
+                                "last_name": x['sign-up-lname'].value,
+                                "birthdate": x['sign-up-dbirth'].value,
+                                "gender": x['sign-up-gender'].value,
+                                "nickname": x['sign-up-nick'].value,
+                                "email": x['sign-up-email'].value,
+                                "password": x['sign-up-pass'].value
+                            },
+                        )
+                    }).then(response => window.location.href = '/home')
+                }
+            }
+
+            if (location.pathname === "/sign-in") {
+
+                document.getElementById("remember-me").onclick = changeValue
+                function changeValue() {
+                    let value = document.getElementById("remember-me").value
+                    console.log(value)
+                    if (value === "off") {
+                        document.getElementById("remember-me").value = "on"
+                    } else {
+                        document.getElementById("remember-me").value = "off"
+                    }
+                }
+
+                if (e.target.matches('#sign-in-submit-button')) {
+                    e.preventDefault();
+                    let x = document.querySelector('form.sign-in').elements;
+                    // console.log("Remember me?: ", x['remember-me'].value);
+
+                    fetch('http://127.0.0.1:8080/sign-in/data', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(
+                            {
+                                "nickname": x['sign-in-nick-or-email'].value,
+                                "password": x['sign-in-pass'].value
+                            },
+                        )
+                    }).then(response => window.location.href = '/home')
+                }
             }
         });
 
-
-        /* Sign in function */
-
-        // document.getElementById("remember-me").onclick = changeValue
-        // function changeValue() {
-        //     let value = document.getElementById("remember-me").value
-        //     console.log(value)
-        //     if (value === "off") {
-        //         document.getElementById("remember-me").value = "on"
-        //     } else {
-        //         document.getElementById("remember-me").value = "off"
-        //     }
-        // }
-
-        // document.querySelector('form.sign-in').addEventListener('submit', function (e) {
-        //     e.preventDefault();
-        //     let x = document.querySelector('form.sign-in').elements;
-        //     console.log("Nickname or Email: ", x['sign-in-nick-or-email'].value);
-        //     console.log("Password: ", x['sign-in-pass'].value);
-        //     console.log("Remember me?: ", x['remember-me'].value);
-        // });
-
-
         // Create post function
-
-        function changeDropdownText(item) {
-            let element = document.getElementById("titleCategory").classList
-            element.remove("btn-default", "btn-primary", "btn-warning", "btn-danger", "btn-success")
-            switch (item.innerHTML) {
-                case "Question":
-                    document.getElementById("titleCategory").classList.add("btn-primary")
-                    break;
-                case "Buy/Sell":
-                    document.getElementById("titleCategory").classList.add("btn-warning")
-                    break;
-                case "Help!":
-                    document.getElementById("titleCategory").classList.add("btn-danger")
-                    break;
-                case "Discussion":
-                    document.getElementById("titleCategory").classList.add("btn-success")
-                    break;
+        if (location.pathname === "/create-post") {
+            function changeDropdownText(item) {
+                let element = document.getElementById("titleCategory").classList
+                element.remove("btn-default", "btn-primary", "btn-warning", "btn-danger", "btn-success")
+                switch (item.innerHTML) {
+                    case "Question":
+                        document.getElementById("titleCategory").classList.add("btn-primary")
+                        break;
+                    case "Buy/Sell":
+                        document.getElementById("titleCategory").classList.add("btn-warning")
+                        break;
+                    case "Help!":
+                        document.getElementById("titleCategory").classList.add("btn-danger")
+                        break;
+                    case "Discussion":
+                        document.getElementById("titleCategory").classList.add("btn-success")
+                        break;
+                }
+                document.getElementById("titleCategory").innerHTML = item.innerHTML;
             }
-            document.getElementById("titleCategory").innerHTML = item.innerHTML;
         }
 
         /* Enable tooltips */

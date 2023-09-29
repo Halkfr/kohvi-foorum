@@ -34,7 +34,8 @@
                     Enter your date of birth and gender
                 </p>
 
-                <input type="date" name="birthdate" id="sign-up-dbirth" class="form-control" style="height: 58px;" />
+                <input type="date" name="birthdate" id="sign-up-dbirth" class="form-control" min="1950-01-01"
+                    max="2005-01-01" style="height: 58px;" />
 
                 <div class="form-floating my-1">
                     <select id="sign-up-gender" class="form-select py-3" name="gender"
@@ -71,7 +72,8 @@
                 </div>
                 <div class="d-flex flex-row">
                     <button class="btn btn-secondary w-50 my-3 py-2 me-1" onclick="hide3()" type="button">Back</button>
-                    <button class="btn btn-primary w-50 my-3 py-2" type="submit" id="sign-up-submit-button">Submit</button>
+                    <button class="btn btn-primary w-50 my-3 py-2" type="submit"
+                        id="sign-up-submit-button">Submit</button>
                 </div>
             </div>
         </form>

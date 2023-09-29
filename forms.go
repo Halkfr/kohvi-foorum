@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	"fmt"
 	"net/http"
 	// "html/template"
@@ -19,22 +18,20 @@ type user struct {
 }
 
 func signup(w http.ResponseWriter, r *http.Request) {
-	// fmt.Println("bla")
-	// if r.Method == "POST" {
-	// 	r.ParseForm()
-	// 	fmt.Println("bla")
-	// 	// logic part of log in
-	// 	fmt.Println("First name:", r.Form["first-name"])
-	// 	fmt.Println("Last name:", r.Form["last-name"])
-	// 	fmt.Println("Date of birth:", r.Form["birthdate"])
-	// 	fmt.Println("Gender:", r.Form["gender"])
-	// 	fmt.Println("Nickname:", r.Form["nickname"])
-	// 	fmt.Println("Email:", r.Form["email"])
-	// 	fmt.Println("Password:", r.Form["password"])
+	decoder := json.NewDecoder(r.Body)
+	var u user
+	err := decoder.Decode(&u)
+	if err != nil {
+		panic(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	// Set the status code to 200
+	w.WriteHeader(http.StatusOK)
 
-	// 	http.Redirect(w, r, "/home", http.StatusSeeOther)
-	// }
+	fmt.Println(u)
+}
 
+func signin(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var u user
 	err := decoder.Decode(&u)

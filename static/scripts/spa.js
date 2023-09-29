@@ -1,14 +1,14 @@
-if(window.location.pathname === '/') window.location.href = '/home';
+if (window.location.pathname === '/') window.location.href = '/home';
 
 document.addEventListener('click', e => {
     const activeElements = ["title", "home-nav", "create-post-nav", "profile-nav", "sign-out-nav", "register-link"];
     if (activeElements.includes(e.target.id)) {
+        e.preventDefault();
         route(e);
     }
     // if (activeElements.includes(e.target.parentElement.id)) {
     //     route(e.parentElement);
     // }
-    e.preventDefault();
 });
 
 const route = (e) => {
