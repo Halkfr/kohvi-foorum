@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	// setDB()
+	setDB()
 
 	mux := http.NewServeMux()
 

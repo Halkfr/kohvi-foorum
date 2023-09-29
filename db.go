@@ -12,13 +12,13 @@ import (
 
 type User struct {
 	Id        int
-	Email     string
-	Username  string
-	Password  string
-	Birthdate int
-	Gender    string
-	Surname   string
-	Lastname  string
+	Email     string `email`
+	Username  string `username`
+	Password  string `password`
+	Birthdate string `birthdate`
+	Gender    string `gender`
+	Firstname   string `first_name`
+	Lastname  string `last_name`
 	Timestamp string
 }
 
@@ -66,9 +66,9 @@ func createUsersTable(db *sql.DB) {
         "Username" TEXT UNIQUE,
         "Email" TEXT UNIQUE,
         "Password" TEXT,
-		"Birthdate" DATE(TEXT),
+		"Birthdate" TEXT,
         "Gender" TEXT,
-        "Surname" TEXT,
+        "Firstname" TEXT,
 		"Lastname" TEXT,
         timestamp TEXT DEFAULT(strftime('%Y.%m.%d %H:%M', 'now')));`
 	query, err := db.Prepare(users_table)
@@ -79,33 +79,34 @@ func createUsersTable(db *sql.DB) {
 	fmt.Println("Table for users created successfully!")
 }
 
-func addUser(db *sql.DB, Username string, Email string, Password string, Birthdate string, Gender string, Surname string, Lastname string) {
-	records := `INSERT INTO users(Username, Email, Password, Birthdate, Gender, Surname, Lastname) VALUES (?, ?, ?, ?, ?, ?, ?)`
+func addUser(db *sql.DB, Username string, Email string, Password string, Birthdate string, Gender string, Firstname string, Lastname string) error {
+	records := `INSERT INTO users(Username, Email, Password, Birthdate, Gender, Firstname, Lastname) VALUES (?, ?, ?, ?, ?, ?, ?)`
 	query, err := db.Prepare(records)
 	if err != nil {
-		log.Print(err)
+		return err
 	}
-	_, err = query.Exec(Username, Email, Password, Birthdate, Gender, Surname, Lastname)
+	_, err = query.Exec(Username, Email, Password, Birthdate, Gender, Firstname, Lastname)
 	if err != nil {
-		log.Print(err)
+		return err
 	}
+	return nil
 }
 
 func fetchUserByEmail(db *sql.DB, email string) User {
 	var user User
-	db.QueryRow("SELECT * FROM users WHERE email=?", email).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Surname, &user.Lastname, &user.Timestamp)
+	db.QueryRow("SELECT * FROM users WHERE email=?", email).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
 	return user
 }
 
 func fetchUserByUsername(db *sql.DB, username string) User {
 	var user User
-	db.QueryRow("SELECT * FROM users WHERE username=?", username).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Surname, &user.Lastname, &user.Timestamp)
+	db.QueryRow("SELECT * FROM users WHERE username=?", username).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
 	return user
 }
 
 func fetchUserById(db *sql.DB, id int) User {
 	var user User
-	db.QueryRow("SELECT * FROM users WHERE id=?", id).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Surname, &user.Lastname, &user.Timestamp)
+	db.QueryRow("SELECT * FROM users WHERE id=?", id).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
 	return user
 }
 

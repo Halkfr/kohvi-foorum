@@ -57,12 +57,13 @@
                                 "last_name": x['sign-up-lname'].value,
                                 "birthdate": x['sign-up-dbirth'].value,
                                 "gender": x['sign-up-gender'].value,
-                                "nickname": x['sign-up-nick'].value,
+                                "username": x['sign-up-nick'].value,
                                 "email": x['sign-up-email'].value,
                                 "password": x['sign-up-pass'].value
                             },
                         )
-                    }).then(response => window.location.href = '/home')
+                    }).then(response => { 
+                        if (response.ok) { window.location.href = '/sign-in' } else { /*write error*/} })
                 }
             }
 
@@ -91,11 +92,11 @@
                         },
                         body: JSON.stringify(
                             {
-                                "nickname": x['sign-in-nick-or-email'].value,
+                                "username": x['sign-in-nick-or-email'].value,
                                 "password": x['sign-in-pass'].value
                             },
                         )
-                    }).then(response => window.location.href = '/home')
+                    }).then(response => { if (response.ok) { window.location.href = '/home' }})
                 }
             }
         });
