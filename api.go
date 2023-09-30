@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	// "html/template"
+	"strconv"
 	"encoding/json"
 )
 
@@ -48,5 +49,26 @@ func signin(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
+	}
+}
+
+func users(w http.ResponseWriter, r *http.Request) {
+	first, _ := strconv.Atoi(r.URL.Query().Get("first"))
+	last, _ := strconv.Atoi(r.URL.Query().Get("last"))
+
+	w.Header().Set("Content-Type", "application/json")
+
+	users := fetchAllUsers(database)
+
+	/* TODO: Sort by last message & A-Z */
+	batch := users[first:last]
+	json, err := json.Marshal(batch)
+
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		w.Write(json)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
 	}
 }

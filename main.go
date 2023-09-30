@@ -21,6 +21,7 @@ func main() {
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/sign-up/data", signup)	
 	mux.HandleFunc("/sign-in/data", signin)
+	mux.HandleFunc("/user", users)
 
 	// Create a custom server with a timeout
 	server := &http.Server{

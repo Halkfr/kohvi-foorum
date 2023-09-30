@@ -110,7 +110,7 @@ func fetchUserById(db *sql.DB, id int) User {
 	return user
 }
 
-func fetchUsers(db *sql.DB) []User{
+func fetchAllUsers(db *sql.DB) []User{
 	var allUsers []User
 	record, err := db.Query("SELECT * FROM users")
 	if err != nil {
