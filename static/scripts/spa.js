@@ -36,9 +36,11 @@ const handleLocation = async () => {
             const header = await fetch('./static/templates/header.html').then((data) => data.text());
             document.body.innerHTML = header + html;
         } else {
-            const header = await fetch('./static/templates/header.html').then((data) => data.text());
-            const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
-            document.body.innerHTML = header + sidepanel;
+            if (document.body.querySelector('#main-container') === null) {
+                const header = await fetch('./static/templates/header.html').then((data) => data.text());
+                const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
+                document.body.innerHTML = header + sidepanel;
+            }
             document.querySelector('#content-container').innerHTML = html;
         }
     }
