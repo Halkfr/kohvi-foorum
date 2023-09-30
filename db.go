@@ -17,7 +17,7 @@ type User struct {
 	Password  string `password`
 	Birthdate string `birthdate`
 	Gender    string `gender`
-	Firstname   string `first_name`
+	Firstname string `first_name`
 	Lastname  string `last_name`
 	Timestamp string
 }
@@ -108,6 +108,25 @@ func fetchUserById(db *sql.DB, id int) User {
 	var user User
 	db.QueryRow("SELECT * FROM users WHERE id=?", id).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
 	return user
+}
+
+func fetchUsers(db *sql.DB) []User{
+	var allUsers []User
+	record, err := db.Query("SELECT * FROM users")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer record.Close()
+	for record.Next() {
+		user := User{}
+        err := record.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
+
+		if err != nil {
+            log.Fatal(err)
+        }
+		allUsers = append(allUsers,user)
+    }
+	return allUsers
 }
 
 // threads (categories)
