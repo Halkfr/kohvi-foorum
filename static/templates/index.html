@@ -104,6 +104,18 @@
                 }
             }
 
+            function addUser(id, username, status) {
+                let template = document.getElementById('user-template')
+                let newUser = template.cloneNode(true)
+                newUser.classList.remove("d-none")
+
+                newUser.querySelector(".chat-with").innerHTML = username
+                newUser.querySelector(".user-status").innerHTML = status
+                newUser.id = id
+
+                document.getElementById("userlist-scroll-area").appendChild(newUser)
+            }
+
             if (e.target.id === "user-list") {
                 fetch('http://127.0.0.1:8080/user?first=0&last=10', {
                     method: 'POST',
@@ -112,7 +124,13 @@
                         'Content-Type': 'application/json'
                     }
                 }).then(response => {
-                    if (response.ok) { response.json().then((data) => console.log(data)) }
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            for (let i = 0; i < Object.keys(data).length; i++) {
+                                addUser(Object.values(data[i])[0], Object.values(data[i])[2], "Offline")
+                            }
+                        })
+                    }
                     else { /*display error*/ }
                     openUserList()
                 })
