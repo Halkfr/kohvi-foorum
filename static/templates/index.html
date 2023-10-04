@@ -112,7 +112,7 @@
                         'Content-Type': 'application/json'
                     }
                 }).then(response => {
-                    if (response.ok) { console.log(response.json()) }
+                    if (response.ok) { response.json().then((data) => console.log(data)) }
                     else { /*display error*/ }
                     openUserList()
                 })
