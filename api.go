@@ -17,7 +17,12 @@ func signup(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	// Set the status code to 200
-	err = addUser(database, u.Username, u.Email, u.Password, u.Birthdate, u.Gender, u.Firstname, u.Lastname)
+	hashedPassword, err := hashPassword(u.Password)
+	if(err != nil) {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	err = addUser(database, u.Username, u.Email, hashedPassword, u.Birthdate, u.Gender, u.Firstname, u.Lastname)
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
 	} else {
@@ -45,7 +50,7 @@ func signin(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	if potentionalUser.Password == u.Password {
+	if checkPassword(u.Password, potentionalUser.Password) {
 		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
