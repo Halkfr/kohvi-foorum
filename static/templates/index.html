@@ -111,6 +111,7 @@
 
                 newUser.querySelector(".chat-with").innerHTML = username
                 newUser.querySelector(".user-status").innerHTML = status
+                newUser.classList.add("chat-with-user")
                 newUser.id = id
 
                 document.getElementById("userlist-scroll-area").appendChild(newUser)
@@ -126,9 +127,10 @@
                 }).then(response => {
                     if (response.ok) {
                         response.json().then((data) => {
-                            for (let i = 0; i < Object.keys(data).length; i++) {
-                                addUser(Object.values(data[i])[0], Object.values(data[i])[2], "Offline")
-                            }
+                            if (!document.querySelector(".chat-with-user"))
+                                for (let i = 0; i < Object.keys(data).length; i++) {
+                                    addUser(Object.values(data[i])[0], Object.values(data[i])[2], "Offline")
+                                }
                         })
                     }
                     else { /*display error*/ }
