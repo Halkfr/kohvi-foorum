@@ -45,7 +45,7 @@
                     e.preventDefault();
                     let x = document.querySelector('form.sign-up').elements;
 
-                    fetch('http://127.0.0.1:8080/sign-up/data', {
+                    fetch('http://127.0.0.1:8080/api/sign-up', {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
@@ -85,7 +85,7 @@
                     let x = document.querySelector('form.sign-in').elements;
                     // console.log("Remember me?: ", x['remember-me'].value);
 
-                    fetch('http://127.0.0.1:8080/sign-in/data', {
+                    fetch('http://127.0.0.1:8080/api/sign-in', {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
@@ -118,8 +118,8 @@
             }
 
             if (e.target.id === "user-list") {
-                fetch('http://127.0.0.1:8080/user?first=0&last=10', {
-                    method: 'POST',
+                fetch('http://127.0.0.1:8080/api/user?first=0&last=10', {
+                    method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'

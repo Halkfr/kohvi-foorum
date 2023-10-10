@@ -1,11 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	// "html/template"
 	"strconv"
-	"encoding/json"
 )
 
 func signup(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +17,7 @@ func signup(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// Set the status code to 200
 	hashedPassword, err := hashPassword(u.Password)
-	if(err != nil) {
+	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -51,6 +50,7 @@ func signin(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if checkPassword(u.Password, potentionalUser.Password) {
+		setSessionCookie(w, potentionalUser)
 		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
