@@ -2,6 +2,7 @@ package main
 
 import (
 	"golang.org/x/crypto/bcrypt"
+	"fmt"
 )
 
 func isUnique(p Post, posts []Post) bool {
@@ -15,6 +16,7 @@ func isUnique(p Post, posts []Post) bool {
 
 func hashPassword(password string) (string, error) {
     bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	fmt.Println(string(bytes))
     return string(bytes), err
 }
 
