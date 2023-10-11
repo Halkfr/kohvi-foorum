@@ -17,8 +17,8 @@ type User struct {
 	Password  string `password`
 	Birthdate string `birthdate`
 	Gender    string `gender`
-	Firstname string `first_name`
-	Lastname  string `last_name`
+	Firstname string `firstName`
+	Lastname  string `lastName`
 	Timestamp string
 }
 

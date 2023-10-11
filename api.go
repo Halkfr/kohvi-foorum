@@ -76,11 +76,11 @@ func signout(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func sessionStatus(w http.ResponseWriter, r *http.Request){
+func sessionStatus(w http.ResponseWriter, r *http.Request) {
 	sessionCookie, err := r.Cookie("session_token")
-	if err == nil{
+	if err == nil {
 		token := sessionCookie.Value
-		if sessions[token] > 0{
+		if sessions[token] > 0 {
 			fmt.Println("welcome user-id", sessions[token])
 			w.WriteHeader(http.StatusOK)
 		} else {
