@@ -6,9 +6,6 @@ document.addEventListener('click', e => {
         e.preventDefault();
         route(e);
     }
-    // if (activeElements.includes(e.target.parentElement.id)) {
-    //     route(e.parentElement);
-    // }
 });
 
 const route = (e) => {
@@ -25,23 +22,39 @@ const routers = {
 }
 
 const handleLocation = async () => {
+    const result = await checkActiveSession()
+
     const path = window.location.pathname;
     const html = await fetch('./static/templates/' + routers[path]).then((data) => data.text()).catch(error => {
         console.error('Error:', error);
     });
-    if (path === "/sign-in") {
-        document.body.innerHTML = html;
+
+    if (result === true) {
+        if (path === "/sign-in" || path === "/sign-up") {
+            fetch('/api/sign-out', {
+                method: 'POST',
+                credentials: 'include',
+            }).then(response => {
+                if (response.ok) { console.log("sign-out successfully") }
+            })
+            window.location.href = '/sign-in'
+            return
+        }
+        if (document.body.querySelector('#main-container') === null) {
+            const header = await fetch('./static/templates/header.html').then((data) => data.text());
+            const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
+            document.body.innerHTML = header + sidepanel;
+        }
+        document.querySelector('#content-container').innerHTML = html
     } else {
-        if (path === "/sign-up") {
+        if (path === "/sign-in") {
+            document.body.innerHTML = html;
+        } else if (path === "/sign-up") {
             const header = await fetch('./static/templates/header.html').then((data) => data.text());
             document.body.innerHTML = header + html;
         } else {
-            if (document.body.querySelector('#main-container') === null) {
-                const header = await fetch('./static/templates/header.html').then((data) => data.text());
-                const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
-                document.body.innerHTML = header + sidepanel;
-            }
-            document.querySelector('#content-container').innerHTML = html;
+            window.location.href = '/sign-in'
+            return
         }
     }
 }
@@ -49,3 +62,14 @@ const handleLocation = async () => {
 window.onpopstate = handleLocation;
 window.route = route;
 handleLocation();
+
+async function checkActiveSession() {
+    const response = await fetch('/api/session-status', {
+        method: 'POST',
+        credentials: 'include',
+    });
+    if (response.ok) {
+        return true
+    }
+    return false
+}

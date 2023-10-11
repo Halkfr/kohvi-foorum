@@ -22,6 +22,7 @@ func main() {
 	mux.HandleFunc("/api/sign-up", signup)	
 	mux.HandleFunc("/api/sign-in", signin)
 	mux.HandleFunc("/api/sign-out", signout)
+	mux.HandleFunc("/api/session-status", sessionStatus)
 	mux.HandleFunc("/api/user", users)
 
 	// Create a custom server with a timeout

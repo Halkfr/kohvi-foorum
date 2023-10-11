@@ -76,6 +76,22 @@ func signout(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func sessionStatus(w http.ResponseWriter, r *http.Request){
+	sessionCookie, err := r.Cookie("session_token")
+	if err == nil{
+		token := sessionCookie.Value
+		if sessions[token] > 0{
+			fmt.Println("welcome user-id", sessions[token])
+			w.WriteHeader(http.StatusOK)
+		} else {
+			fmt.Println("invalid token", sessions[token])
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+}
+
 func users(w http.ResponseWriter, r *http.Request) {
 	first, _ := strconv.Atoi(r.URL.Query().Get("first"))
 	last, _ := strconv.Atoi(r.URL.Query().Get("last"))
