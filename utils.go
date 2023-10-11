@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/gofrs/uuid/v5"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
+	"github.com/gofrs/uuid/v5"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func isUnique(p Post, posts []Post) bool {
@@ -26,18 +26,19 @@ func checkPassword(password, hash string) bool {
 	return err == nil
 }
 
-var sessions = map[string]User{}
+var sessions = map[string]int{}
 
 func setSessionCookie(w http.ResponseWriter, user User) {
 	uuid, _ := uuid.NewV4()
 	sessionToken := (uuid).String()
 
-	sessions[sessionToken] = user
+	sessions[sessionToken] = user.Id
 
 	http.SetCookie(w, &http.Cookie{
-		Name:    "session_token",
-		Value:   sessionToken,
-		Path:    "/",
-		Expires: time.Now().Add(15 * 60 * time.Second),
+		Name:     "session_token",
+		Value:    sessionToken,
+		Path:     "/",
+		Expires:  time.Now().Add(15 * 60 * time.Second),
+		HttpOnly: true,
 	})
 }

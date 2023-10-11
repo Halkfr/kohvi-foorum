@@ -57,6 +57,25 @@ func signin(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func signout(w http.ResponseWriter, r *http.Request) {
+	sessionCookie, err := r.Cookie("session_token")
+	// add error handler to check if sessionCookie is nil
+	token := sessionCookie.Value
+	http.SetCookie(w, &http.Cookie{
+		Name:     "session_token",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
+		HttpOnly: true,
+	})
+	if err == nil {
+		delete(sessions, token)
+		w.WriteHeader(http.StatusOK)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+}
+
 func users(w http.ResponseWriter, r *http.Request) {
 	first, _ := strconv.Atoi(r.URL.Query().Get("first"))
 	last, _ := strconv.Atoi(r.URL.Query().Get("last"))

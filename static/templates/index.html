@@ -39,6 +39,15 @@
             document.getElementById("age-gender-form").classList.remove("d-none")
         }
 
+        function signOut() {
+            fetch('/api/sign-out', {
+                method: 'POST',
+                credentials: 'include',
+            }).then(response => {
+                if (response.ok) { window.location.href = '/sign-in' }
+            })
+        }
+
         document.addEventListener('click', function (e) {
             if (location.pathname === "/sign-up") {
                 if (e.target.matches('#sign-up-submit-button')) {
