@@ -31,13 +31,7 @@ const handleLocation = async () => {
 
     if (result === true) {
         if (path === "/sign-in" || path === "/sign-up") {
-            fetch('/api/sign-out', {
-                method: 'POST',
-                credentials: 'include',
-            }).then(response => {
-                if (response.ok) { console.log("sign-out successfully") }
-            })
-            window.history.replaceState({}, '', 'http://127.0.0.1:8080/sign-in',)
+            window.history.replaceState({}, '', 'http://127.0.0.1:8080/home',)
             handleLocation()
         } else {
             if (document.body.querySelector('#main-container') === null) {
