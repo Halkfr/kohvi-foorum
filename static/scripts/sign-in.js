@@ -1,15 +1,5 @@
 document.addEventListener('click', function (e) {
     if (location.pathname === "/sign-in") {
-        document.getElementById("remember-me").onclick = changeValue
-        function changeValue() {
-            let value = document.getElementById("remember-me").value
-            if (value === "off") {
-                document.getElementById("remember-me").value = "on"
-            } else {
-                document.getElementById("remember-me").value = "off"
-            }
-        }
-
         if (e.target.matches('#sign-in-submit-button')) {
             e.preventDefault();
             let x = document.querySelector('form.sign-in').elements;
