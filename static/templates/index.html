@@ -16,7 +16,8 @@
 <body>
     <script>
         function hide1() {
-            window.location.href = "http://127.0.0.1:8080/sign-in"
+            window.history.replaceState({}, '', 'http://127.0.0.1:8080/sign-in')
+            window.location.href = '/sign-in'
         }
 
         function load1() {
@@ -72,7 +73,7 @@
                             },
                         )
                     }).then(response => {
-                        if (response.ok) { window.location.href = '/sign-in' } else { /*write error*/ }
+                        if (response.ok) { window.history.replaceState({}, '', 'http://127.0.0.1:8080/sign-in'), window.location.href = '/sign-in' } else { /*write error*/ }
                     })
                 }
             }
@@ -107,7 +108,7 @@
                             },
                         )
                     }).then(response => {
-                        if (response.ok) { window.location.href = '/home' }
+                        if (response.ok) { window.history.replaceState({}, '', 'http://127.0.0.1:8080/home'), window.location.href = '/home' }
                         else { /*display error*/ }
                     })
                 }

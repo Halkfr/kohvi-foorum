@@ -37,15 +37,16 @@ const handleLocation = async () => {
             }).then(response => {
                 if (response.ok) { console.log("sign-out successfully") }
             })
-            window.location.href = '/sign-in'
-            return
+            window.history.replaceState({}, '', 'http://127.0.0.1:8080/sign-in',)
+            handleLocation()
+        } else {
+            if (document.body.querySelector('#main-container') === null) {
+                const header = await fetch('./static/templates/header.html').then((data) => data.text());
+                const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
+                document.body.innerHTML = header + sidepanel;
+            }
+            document.querySelector('#content-container').innerHTML = html
         }
-        if (document.body.querySelector('#main-container') === null) {
-            const header = await fetch('./static/templates/header.html').then((data) => data.text());
-            const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
-            document.body.innerHTML = header + sidepanel;
-        }
-        document.querySelector('#content-container').innerHTML = html
     } else {
         if (path === "/sign-in") {
             document.body.innerHTML = html;
@@ -53,11 +54,23 @@ const handleLocation = async () => {
             const header = await fetch('./static/templates/header.html').then((data) => data.text());
             document.body.innerHTML = header + html;
         } else {
-            window.location.href = '/sign-in'
-            return
+            window.history.replaceState({}, '', 'http://127.0.0.1:8080/sign-in',)
+            handleLocation()
         }
     }
 }
+
+window.addEventListener(onpopstate, async function () {
+    let path = window.location.pathname
+    if (path === "/sign-in" || path === "/sign-in") {
+        await fetch('/api/sign-out', {
+            method: 'POST',
+            credentials: 'include',
+        }).then(response => {
+            if (response.ok) { console.log("sign-out successfully") }
+        })
+    }
+})
 
 window.onpopstate = handleLocation;
 window.route = route;
