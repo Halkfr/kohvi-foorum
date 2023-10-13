@@ -112,3 +112,15 @@ func users(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
 	}
 }
+
+func user(w http.ResponseWriter, r *http.Request) {
+	sessionCookie, err := r.Cookie("session_token")
+	if err == nil {
+		token := sessionCookie.Value
+		user := fetchUserById(database, sessions[token])
+		json, _ := json.Marshal(user)
+		w.Write(json)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+}

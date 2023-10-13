@@ -23,7 +23,8 @@ func main() {
 	mux.HandleFunc("/api/sign-in", signin)
 	mux.HandleFunc("/api/sign-out", signout)
 	mux.HandleFunc("/api/session-status", sessionStatus)
-	mux.HandleFunc("/api/user", users)
+	mux.HandleFunc("/api/users", users)
+	mux.HandleFunc("/api/user", user)
 
 	// Create a custom server with a timeout
 	server := &http.Server{

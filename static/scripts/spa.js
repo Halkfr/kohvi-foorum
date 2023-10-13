@@ -22,14 +22,14 @@ const routers = {
 }
 
 const handleLocation = async () => {
-    const result = await checkActiveSession()
+    const isAuthorizated = await checkActiveSession()
 
     const path = window.location.pathname;
     const html = await fetch('./static/templates/' + routers[path]).then((data) => data.text()).catch(error => {
         console.error('Error:', error);
     });
 
-    if (result === true) {
+    if (isAuthorizated === true) {
         if (path === "/sign-in" || path === "/sign-up") {
             window.history.replaceState({}, '', 'http://127.0.0.1:8080/home',)
             handleLocation()

@@ -39,7 +39,7 @@
             }
 
             if (e.target.id === "user-list") {
-                fetch('http://127.0.0.1:8080/api/user?first=0&last=10', {
+                fetch('http://127.0.0.1:8080/api/users?first=0&last=10', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -80,6 +80,7 @@
     <script src="./static/scripts/sign-up.js" type="text/javascript"></script>
     <script src="./static/scripts/sign-in.js" type="text/javascript"></script>
     <script src="./static/scripts/create-post.js" type="text/javascript"></script>
+    <script src="./static/scripts/profile.js" type="text/javascript"></script>
 </body>
 
 </html>
