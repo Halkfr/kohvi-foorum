@@ -4,6 +4,7 @@ function hide1() {
 }
 
 function load1() {
+    // allow if first and last names are filled
     document.getElementById("name-form").classList.add("d-none")
     document.getElementById("age-gender-form").classList.remove("d-none")
 }
@@ -14,6 +15,7 @@ function hide2() {
 }
 
 function load2() {
+    // allow if date of birth is selected
     document.getElementById("age-gender-form").classList.add("d-none")
     document.getElementById("sign-in-data-form").classList.remove("d-none")
 }

@@ -112,7 +112,7 @@ func fetchUserById(db *sql.DB, id int) User {
 
 func fetchAllUsers(db *sql.DB) []User{
 	var allUsers []User
-	record, err := db.Query("SELECT * FROM users ORDER BY Username ASC")
+	record, err := db.Query("SELECT * FROM users ORDER BY Username COLLATE NOCASE ASC")
 	if err != nil {
 		log.Fatal(err)
 	}
