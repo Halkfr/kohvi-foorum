@@ -60,6 +60,21 @@ type Notification struct {
 // users
 // -------------------------------------------------------------------------------------
 
+func createMessagesTable(db *sql.DB) {
+	users_table := `CREATE TABLE messages (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        "Sender_id" INTEGER,
+        "Recipient_id" INTEGER,
+		"Content" TEXT,
+        timestamp TEXT DEFAULT(strftime('%Y.%m.%d %H:%M', 'now')));`
+	query, err := db.Prepare(users_table)
+	if err != nil {
+		log.Fatal(err)
+	}
+	query.Exec()
+	fmt.Println("Table for messages created successfully!")
+}
+
 func createUsersTable(db *sql.DB) {
 	users_table := `CREATE TABLE users (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,

@@ -58,6 +58,7 @@ func setDB() {
 	}
 	file.Close()
 	database, _ = sql.Open("sqlite3", "database.db")
+	createMessagesTable(database)
 	createUsersTable(database)
 	createThreadsTable(database)
 	createPostsTable(database)
