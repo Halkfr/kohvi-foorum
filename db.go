@@ -168,6 +168,18 @@ func createThreadsTable(db *sql.DB) {
 	fmt.Println("Table for threads created successfully!")
 }
 
+func addThread(db *sql.DB, Subject string) {
+	records := `INSERT INTO threads(Subject) VALUES (?)`
+	query, err := db.Prepare(records)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = query.Exec(Subject)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func fetchAllThreads(db *sql.DB) []string {
 	record, err := db.Query("SELECT Subject FROM threads")
 	if err != nil {

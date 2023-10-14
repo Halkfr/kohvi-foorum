@@ -125,3 +125,26 @@ func user(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
+
+
+func posts(w http.ResponseWriter, r *http.Request) {
+	// first, _ := strconv.Atoi(r.URL.Query().Get("first"))
+	// last, _ := strconv.Atoi(r.URL.Query().Get("last"))
+
+	w.Header().Set("Content-Type", "application/json")
+
+	posts := fetchAllPosts(database)
+
+	/* TODO: Sort by last message & A-Z */
+	// batch := users[first:last]
+	// json, err := json.Marshal(batch)
+	json, err := json.Marshal(posts)
+	
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		w.Write(json)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+	}
+}

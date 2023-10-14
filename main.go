@@ -25,6 +25,7 @@ func main() {
 	mux.HandleFunc("/api/session-status", sessionStatus)
 	mux.HandleFunc("/api/users", users)
 	mux.HandleFunc("/api/user", user)
+	mux.HandleFunc("/api/posts", posts)
 
 	// Create a custom server with a timeout
 	server := &http.Server{
@@ -86,13 +87,13 @@ func setDB() {
 	// p, _ = hashPassword("BaristaBond007")
 	addUser(database, "BaristaBuddy", "BaristaBuddy@coffeeclubhouse.com", "$2a$14$MmJQI8GG.g.egGytFKBGB.inlTfWoDvyjHeCrRq.BNiIx8BTKfv.a", "1995-05-07", "male", "Oscar", "Nguyen", "Offline")
 
-	// addThread(database, "Ranch", 1)
-	// addThread(database, "Dogs", 1)
-	// addThread(database, "Other", 1)
+	addThread(database, "Ranch")
+	addThread(database, "Dogs")
+	addThread(database, "Other")
 
-	// addPost(database, title1, image1, post1, threads1, 2, 2, 1)
-	// addPost(database, title2, image2, post2, threads2, 2, 3, 2)
-	// addPost(database, title3, image3, post3, threads3, 3, 2, 4)
+	addPost(database, title1, image1, post1, threads1, 1)
+	addPost(database, title2, image2, post2, threads2, 2)
+	addPost(database, title3, image3, post3, threads3, 1)
 	// addPost(database, title4, image4, post4, threads4, 4, 7, 1)
 
 	// addComment(database, comment1_1, 1, 3, 1, 0)
