@@ -11,14 +11,16 @@ import (
 )
 
 type User struct {
-	Id        int
-	Email     string `email`
-	Username  string `username`
-	Password  string `password`
-	Birthdate string `birthdate`
-	Gender    string `gender`
-	Firstname string `firstName`
-	Lastname  string `lastName`
+	Id            int
+	Email         string `email`
+	Username      string `username`
+	Password      string `password`
+	Birthdate     string `birthdate`
+	Gender        string `gender`
+	Firstname     string `firstName`
+	Lastname      string `lastName`
+	SessionStatus string `sessionStatus`
+
 	Timestamp string
 }
 
@@ -85,6 +87,7 @@ func createUsersTable(db *sql.DB) {
         "Gender" TEXT,
         "Firstname" TEXT,
 		"Lastname" TEXT,
+		"SessionStatus" TEXT DEFAULT 'Offline',
         timestamp TEXT DEFAULT(strftime('%Y.%m.%d %H:%M', 'now')));`
 	query, err := db.Prepare(users_table)
 	if err != nil {
@@ -94,13 +97,13 @@ func createUsersTable(db *sql.DB) {
 	fmt.Println("Table for users created successfully!")
 }
 
-func addUser(db *sql.DB, Username string, Email string, Password string, Birthdate string, Gender string, Firstname string, Lastname string) error {
-	records := `INSERT INTO users(Username, Email, Password, Birthdate, Gender, Firstname, Lastname) VALUES (?, ?, ?, ?, ?, ?, ?)`
+func addUser(db *sql.DB, Username string, Email string, Password string, Birthdate string, Gender string, Firstname string, Lastname string, SessionStatus string) error {
+	records := `INSERT INTO users(Username, Email, Password, Birthdate, Gender, Firstname, Lastname, SessionStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
 	query, err := db.Prepare(records)
 	if err != nil {
 		return err
 	}
-	_, err = query.Exec(Username, Email, Password, Birthdate, Gender, Firstname, Lastname)
+	_, err = query.Exec(Username, Email, Password, Birthdate, Gender, Firstname, Lastname, SessionStatus)
 	if err != nil {
 		return err
 	}
@@ -109,23 +112,23 @@ func addUser(db *sql.DB, Username string, Email string, Password string, Birthda
 
 func fetchUserByEmail(db *sql.DB, email string) User {
 	var user User
-	db.QueryRow("SELECT * FROM users WHERE email=?", email).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
+	db.QueryRow("SELECT * FROM users WHERE email=?", email).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp)
 	return user
 }
 
 func fetchUserByUsername(db *sql.DB, username string) User {
 	var user User
-	db.QueryRow("SELECT * FROM users WHERE username=?", username).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
+	db.QueryRow("SELECT * FROM users WHERE username=?", username).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp)
 	return user
 }
 
 func fetchUserById(db *sql.DB, id int) User {
 	var user User
-	db.QueryRow("SELECT * FROM users WHERE id=?", id).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
+	db.QueryRow("SELECT * FROM users WHERE id=?", id).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp)
 	return user
 }
 
-func fetchAllUsers(db *sql.DB) []User{
+func fetchAllUsers(db *sql.DB) []User {
 	var allUsers []User
 	record, err := db.Query("SELECT * FROM users ORDER BY Username COLLATE NOCASE ASC")
 	if err != nil {
@@ -134,14 +137,19 @@ func fetchAllUsers(db *sql.DB) []User{
 	defer record.Close()
 	for record.Next() {
 		user := User{}
-        err := record.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.Timestamp)
+		err := record.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp)
 
 		if err != nil {
-            log.Fatal(err)
-        }
-		allUsers = append(allUsers,user)
-    }
+			log.Fatal(err)
+		}
+		allUsers = append(allUsers, user)
+	}
 	return allUsers
+}
+
+func updateUserStatusById(db *sql.DB, newStatus string, id int) error {
+	_, err := db.Exec("UPDATE users SET SessionStatus=? WHERE id=?", newStatus, id)
+	return err
 }
 
 // threads (categories)

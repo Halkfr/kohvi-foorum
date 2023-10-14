@@ -21,7 +21,7 @@ func signup(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	err = addUser(database, u.Username, u.Email, hashedPassword, u.Birthdate, u.Gender, u.Firstname, u.Lastname)
+	err = addUser(database, u.Username, u.Email, hashedPassword, u.Birthdate, u.Gender, u.Firstname, u.Lastname, u.SessionStatus)
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
 	} else {
@@ -69,6 +69,7 @@ func signout(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 	})
 	if err == nil {
+		updateUserStatusById(database, "Offline", sessions[token])
 		delete(sessions, token)
 		w.WriteHeader(http.StatusOK)
 	} else {

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gofrs/uuid/v5"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
@@ -33,6 +32,7 @@ func setSessionCookie(w http.ResponseWriter, user User) {
 	uuid, _ := uuid.NewV4()
 	sessionToken := (uuid).String()
 
+	updateUserStatusById(database, "Online", user.Id)
 	sessions[sessionToken] = user.Id
 
 	http.SetCookie(w, &http.Cookie{
@@ -42,13 +42,4 @@ func setSessionCookie(w http.ResponseWriter, user User) {
 		Expires:  time.Now().Add(15 * 60 * time.Second),
 		HttpOnly: true,
 	})
-}
-
-func usersOnline(sessions map[string]int) []int {
-	var userOnline []int
-	for _, v := range sessions {
-		userOnline = append(userOnline, v)
-	}
-	fmt.Println("user online", userOnline)
-	return userOnline
 }

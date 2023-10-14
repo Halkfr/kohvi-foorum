@@ -45,7 +45,8 @@ document.addEventListener('click', function (e) {
                         "gender": x['sign-up-gender'].value,
                         "username": x['sign-up-username'].value,
                         "email": x['sign-up-email'].value,
-                        "password": x['sign-up-pass'].value
+                        "password": x['sign-up-pass'].value,
+                        "sessionStatus": "Offline"
                     },
                 )
             }).then(response => {
