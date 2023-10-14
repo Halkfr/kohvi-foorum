@@ -26,6 +26,8 @@ func main() {
 	mux.HandleFunc("/api/users", users)
 	mux.HandleFunc("/api/user", user)
 	mux.HandleFunc("/api/posts", posts)
+	mux.HandleFunc("/api/load-chat", loadChat)
+	mux.HandleFunc("/api/send-message", sendMessage)
 
 	// Create a custom server with a timeout
 	server := &http.Server{
@@ -90,6 +92,13 @@ func setDB() {
 	addThread(database, "Ranch")
 	addThread(database, "Dogs")
 	addThread(database, "Other")
+	addMessage(database, 1, 2 , "Hello")
+	addMessage(database, 1, 2 , "How are you")
+	addMessage(database, 2, 1 , "Hi, I am fine!")
+
+	// addThread(database, "Ranch", 1)
+	// addThread(database, "Dogs", 1)
+	// addThread(database, "Other", 1)
 
 	addPost(database, title1, image1, post1, threads1, 1)
 	addPost(database, title2, image2, post2, threads2, 2)

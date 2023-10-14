@@ -126,25 +126,71 @@ func user(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
 func posts(w http.ResponseWriter, r *http.Request) {
-	// first, _ := strconv.Atoi(r.URL.Query().Get("first"))
-	// last, _ := strconv.Atoi(r.URL.Query().Get("last"))
 
 	w.Header().Set("Content-Type", "application/json")
 
 	posts := fetchAllPosts(database)
-
-	/* TODO: Sort by last message & A-Z */
-	// batch := users[first:last]
-	// json, err := json.Marshal(batch)
 	json, err := json.Marshal(posts)
-	
+
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
 		w.Write(json)
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+	}
+}
+
+func loadChat(w http.ResponseWriter, r *http.Request) {
+	sessionCookie, err := r.Cookie("session_token")
+	if err == nil {
+		senderId, _ := strconv.Atoi(r.URL.Query().Get("senderId"))
+		recipientId := sessions[sessionCookie.Value]
+
+		w.Header().Set("Content-Type", "application/json")
+		messages := fetchChatMessages(database, senderId, recipientId)
+
+		json, err := json.Marshal(messages)
+
+		if err == nil {
+			w.WriteHeader(http.StatusOK)
+			w.Write(json)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+		}
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot access cookie\"}"))
+	}
+}
+
+func sendMessage(w http.ResponseWriter, r *http.Request) {
+	sessionCookie, err := r.Cookie("session_token")
+	if err == nil {
+		recipientUsername := r.URL.Query().Get("recipient-username")
+
+		recipientId := fetchIdByUsername(database, recipientUsername)
+		senderId := sessions[sessionCookie.Value]
+
+		fmt.Println(recipientId, senderId)
+		var requestBody map[string]string
+
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(&requestBody)
+		if err != nil {
+			http.Error(w, "Invalid request body", http.StatusBadRequest)
+			return
+		}
+
+		message := requestBody["message"]
+
+		addMessage(database, senderId, recipientId, message)
+		w.Header().Set("Content-Type", "application/json")
+
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot access cookie\"}"))
 	}
 }

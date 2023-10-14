@@ -205,3 +205,36 @@ div.gj-datepicker {
 #notification-scroll-area {
     overflow-y: scroll;
 }
+
+.sender{
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #292b2c;
+    box-sizing: inherit;
+    background-color: #dbc1ac;
+    margin-bottom: 10px;
+    padding: 15px;
+    margin-right: 100px;
+    border-radius: 12px;
+    align-items: right;
+}
+
+.recipient{
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #292b2c;
+    box-sizing: inherit;
+    background-color: #ba9780 !important;
+    margin-bottom: 10px;
+    margin-left: 100px;
+    padding: 15px;
+    border-radius: 12px;
+}

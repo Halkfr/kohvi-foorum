@@ -161,35 +161,35 @@
                 <svg class="bi pe-none m-2" width="50" height="50">
                     <use xlink:href="#people-circle" />
                 </svg>
-                <div class="chat-username">
-                    
+                <div id="chat-username">
+
                 </div>
-                <small class="chat-user-status">
-                    
+                <small id="chat-user-status">
+
                 </small>
             </div>
         </div>
         <hr class="border-outline border-h m-0">
         <div id="chat-scroll-area" class="p-3" style="height:80%">
-            <div id="chat-filler" class="p-3">
-                
-            </div>
+
         </div>
         <hr class="border-outline border-h m-0">
 
         <div class="d-flex justify-content-center align-items-center" style="width:100%; min-width: 240px;">
             <div class="d-flex flex-row align-items-center m-4 p-1">
-                <button class="btn btn-warning">
-                    <svg class="bi pe-none" width="25" height="25">
-                        <use xlink:href="#emoji-smile" />
-                    </svg>
-                </button>
-                <input type="text" class="m-1 form-control">
-                <button class="btn btn-primary">
-                    <svg class="bi pe-none" width="25" height="25">
-                        <use xlink:href="#chat-dots-black" />
-                    </svg>
-                </button>
+                <form class="chat-form">
+                    <button class="btn btn-warning">
+                        <svg class="bi pe-none" width="25" height="25">
+                            <use xlink:href="#emoji-smile" />
+                        </svg>
+                    </button>
+                    <input id="message-text" type="text" class="m-1 form-control">
+                    <button id="send-message" class="btn btn-primary" type="submit">
+                        <svg class="bi pe-none" width="25" height="25">
+                            <use xlink:href="#chat-dots-black" />
+                        </svg>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

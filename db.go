@@ -45,6 +45,14 @@ type Comment struct {
 	User      User
 }
 
+type Messages struct {
+	Id          int
+	SenderId    int
+	RecipientId int
+	Content     string
+	Timestamp   string
+}
+
 type Notification struct {
 	Id       int
 	Active   bool
@@ -65,8 +73,8 @@ type Notification struct {
 func createMessagesTable(db *sql.DB) {
 	users_table := `CREATE TABLE messages (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        "Sender_id" INTEGER,
-        "Recipient_id" INTEGER,
+        "SenderId" INTEGER,
+        "RecipientId" INTEGER,
 		"Content" TEXT,
         timestamp TEXT DEFAULT(strftime('%Y.%m.%d %H:%M', 'now')));`
 	query, err := db.Prepare(users_table)
@@ -75,6 +83,38 @@ func createMessagesTable(db *sql.DB) {
 	}
 	query.Exec()
 	fmt.Println("Table for messages created successfully!")
+}
+
+func addMessage(db *sql.DB, SenderId int, RecipientId int, Content string) error {
+	records := `INSERT INTO messages (SenderId, RecipientId, Content) VALUES (?, ?, ?)`
+	query, err := db.Prepare(records)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = query.Exec(SenderId, RecipientId, Content)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return nil
+}
+
+func fetchChatMessages(db *sql.DB, SenderId int, RecipientId int) []Messages {
+	var allMessages []Messages
+	record, err := db.Query("SELECT * FROM messages WHERE (SenderId = ? OR SenderId = ?) AND (RecipientId = ? OR RecipientId = ?)AND SenderId != RecipientId;", SenderId, RecipientId, SenderId, RecipientId)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer record.Close()
+	for record.Next() {
+		message := Messages{}
+		err := record.Scan(&message.Id, &message.SenderId, &message.RecipientId, &message.Content, &message.Timestamp)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		allMessages = append(allMessages, message)
+	}
+	return allMessages
 }
 
 func createUsersTable(db *sql.DB) {
@@ -126,6 +166,12 @@ func fetchUserById(db *sql.DB, id int) User {
 	var user User
 	db.QueryRow("SELECT * FROM users WHERE id=?", id).Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp)
 	return user
+}
+
+func fetchIdByUsername(db *sql.DB, username string) int {
+	var id int
+	db.QueryRow("SELECT id FROM users WHERE username=?", username).Scan(&id)
+	return id
 }
 
 func fetchAllUsers(db *sql.DB) []User {
