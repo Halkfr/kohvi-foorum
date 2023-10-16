@@ -24,6 +24,8 @@
             })
         }
 
+        let offset = 0
+
         document.addEventListener('click', function (e) {
             function addUser(id, username, status) {
                 let template = document.getElementById('user-template')
@@ -86,7 +88,7 @@
                     let x = document.querySelector('form.chat-form').elements;
                     if (x['message-text'].value !== "") {
                         let username = document.getElementById("chat-username").innerHTML
-                        console.log(username,x['message-text'].value)
+                        console.log(username, x['message-text'].value)
                         fetch('http://127.0.0.1:8080/api/send-message?recipient-username=' + username, {
                             method: 'POST',
                             headers: {
@@ -107,29 +109,26 @@
             }
 
             if (e.target.id === "user-list") {
-                fetch('http://127.0.0.1:8080/api/users?first=0&last=2', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                        //exclude myself by credentials
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        response.json().then((data) => {
-                            if (!document.querySelector(".chat-with-user"))
+                if (document.getElementById("userlist-holder").classList.contains("d-none")) {
+                    fetch('http://127.0.0.1:8080/api/users?offset=' + offset, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'credentials': 'include',
+                            //exclude myself by credentials
+                        }
+                    }).then(response => {
+                        if (response.status === 200) {
+                            response.json().then((data) => {
                                 for (let i = 0; i < Object.keys(data).length; i++) {
                                     addUser(Object.values(data[i])[0], Object.values(data[i])[2], Object.values(data[i])[8])
                                 }
-                        })
-                    }
-                    else { /*display error*/ }
-                    openUserList()
-                })
-                document.getElementById("chat-area").classList.add("d-none")
-            }
-            function openUserList() {
-                if (document.getElementById("userlist-holder").classList.contains("d-none")) {
+                            })
+                            offset += 15
+                        }
+                        else { /*display error*/ }
+                    })
                     document.getElementById("userlist-holder").classList.remove("d-none")
                 } else {
                     document.getElementById("userlist-holder").classList.add("d-none")

@@ -174,9 +174,9 @@ func fetchIdByUsername(db *sql.DB, username string) int {
 	return id
 }
 
-func fetchAllUsers(db *sql.DB) []User {
+func fetchUserlistOffsetExclude(db *sql.DB, excludeId, limit, offset int) []User {
 	var allUsers []User
-	record, err := db.Query("SELECT * FROM users ORDER BY Username COLLATE NOCASE ASC")
+	record, err := db.Query("SELECT * FROM users WHERE id <> ? ORDER BY Username COLLATE NOCASE ASC LIMIT ? OFFSET ?", excludeId, limit, offset)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -557,4 +557,16 @@ func disableNotificationByID(db *sql.DB, id int) error {
 		return err
 	}
 	return nil
+}
+
+func getRowCount(db *sql.DB, tableName string) (int, error) {
+	var count int
+	query := fmt.Sprintf("SELECT COUNT(*) FROM %s", tableName)
+
+	err := db.QueryRow(query).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
 }

@@ -93,24 +93,32 @@ func sessionStatus(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func users(w http.ResponseWriter, r *http.Request) {
-	first, _ := strconv.Atoi(r.URL.Query().Get("first"))
-	last, _ := strconv.Atoi(r.URL.Query().Get("last"))
+func userlist(w http.ResponseWriter, r *http.Request) {
+	userCount, _ := getRowCount(database, "USERS")
+	offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
 
-	w.Header().Set("Content-Type", "application/json")
+	if offset < userCount-1 {
+		limit := 15
 
-	users := fetchAllUsers(database)
+		sessionCookie, _ := r.Cookie("session_token")
+		token := sessionCookie.Value
+		excludeId := sessions[token]
+		
+		w.Header().Set("Content-Type", "application/json")
 
-	/* TODO: Sort by last message & A-Z */
-	batch := users[first:last]
-	json, err := json.Marshal(batch)
+		users := fetchUserlistOffsetExclude(database, excludeId, limit, offset)
 
-	if err == nil {
-		w.WriteHeader(http.StatusOK)
-		w.Write(json)
+		json, err := json.Marshal(users)
+
+		if err == nil {
+			w.WriteHeader(http.StatusOK)
+			w.Write(json)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+		}
 	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
 

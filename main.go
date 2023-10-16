@@ -23,7 +23,7 @@ func main() {
 	mux.HandleFunc("/api/sign-in", signin)
 	mux.HandleFunc("/api/sign-out", signout)
 	mux.HandleFunc("/api/session-status", sessionStatus)
-	mux.HandleFunc("/api/users", users)
+	mux.HandleFunc("/api/users", userlist)
 	mux.HandleFunc("/api/user", user)
 	mux.HandleFunc("/api/posts", posts)
 	mux.HandleFunc("/api/load-chat", loadChat)
