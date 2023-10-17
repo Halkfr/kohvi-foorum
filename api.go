@@ -96,14 +96,13 @@ func sessionStatus(w http.ResponseWriter, r *http.Request) {
 func userlist(w http.ResponseWriter, r *http.Request) {
 	userCount, _ := getRowCount(database, "USERS")
 	offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
+	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
 
 	if offset < userCount-1 {
-		limit := 15
-
 		sessionCookie, _ := r.Cookie("session_token")
 		token := sessionCookie.Value
 		excludeId := sessions[token]
-		
+
 		w.Header().Set("Content-Type", "application/json")
 
 		users := fetchUserlistOffsetExclude(database, excludeId, limit, offset)

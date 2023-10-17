@@ -15,6 +15,112 @@
 
 <body>
     <script>
+        let offset = 0
+        const limit = 10
+
+        function debounce(delay, fn) {
+            let timerId;
+            return function (...args) {
+                if (timerId) {
+                    clearTimeout(timerId);
+                }
+                timerId = setTimeout(() => {
+                    fn(...args);
+                    timerId = null;
+                }, delay);
+            };
+        }
+
+        function addUser(id, username, status) {
+            let template = document.getElementById('user-template')
+            let newUser = template.cloneNode(true)
+            newUser.classList.remove("d-none")
+
+            newUser.querySelector(".chat-with").innerHTML = username
+            newUser.querySelector(".user-status").innerHTML = status
+            newUser.classList.add("chat-with-user")
+            newUser.id = id
+            newUser.classList.add("chat-button")
+
+            newUser.addEventListener("click", async function loadChat() {
+                const messages = await fetch('http://127.0.0.1:8080/api/load-chat?senderId=' + id, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'credentials': 'include',
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            let chatArea = document.getElementById("chat-area").classList
+
+                            document.getElementById("chat-username").innerHTML = username
+                            document.getElementById("chat-user-status").innerHTML = status
+                            stylizeChat(data, id)
+
+                            if (document.getElementById(newUser.id).classList.contains("active")) {
+                                chatArea.add("d-none")
+                                newUser.classList.remove("active")
+                                document.getElementById("chat-scroll-area").innerHTML = ""
+
+                            } else {
+                                let elements = document.getElementsByClassName("chat-button");
+
+                                for (var i = 0; i < elements.length; i++) {
+                                    elements[i].classList.remove("active");
+                                }
+
+                                if (chatArea.contains("d-none")) {
+                                    newUser.classList.add("active")
+                                    document.getElementById("chat-area").classList.remove("d-none")
+                                } else if (!chatArea.contains("d-none")) {
+                                    newUser.classList.add("active")
+                                }
+                            }
+                        })
+                    }
+                    else { /*display error*/ }
+                })
+            })
+            document.getElementById("userlist-scroll-area").appendChild(newUser)
+        }
+
+        function fillUserlist() {
+            fetch('http://127.0.0.1:8080/api/users?offset=' + offset + '&limit=' + limit, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'credentials': 'include',
+                }
+            }).then(response => {
+                if (response.status === 200) {
+                    response.json().then((data) => {
+                        for (let i = 0; i < Object.keys(data).length; i++) {
+                            addUser(Object.values(data[i])[0], Object.values(data[i])[2], Object.values(data[i])[8])
+                        }
+                    })
+                    offset += 10
+                }
+                else { /*display error*/ }
+            })
+        }
+
+        function handleSidepanel() {
+            if (document.getElementById("userlist-holder").classList.contains("d-none")) {
+                document.getElementById("userlist-holder").classList.remove("d-none")
+            } else {
+                document.getElementById("chat-area").classList.add("d-none")
+                document.getElementById("userlist-holder").classList.add("d-none")
+                let elements = document.getElementsByClassName("chat-button");
+
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].classList.remove("active");
+                }
+            }
+        }
+
         function signOut() {
             fetch('/api/sign-out', {
                 method: 'POST',
@@ -24,64 +130,7 @@
             })
         }
 
-        let offset = 0
-
         document.addEventListener('click', function (e) {
-            function addUser(id, username, status) {
-                let template = document.getElementById('user-template')
-                let newUser = template.cloneNode(true)
-                newUser.classList.remove("d-none")
-
-                newUser.querySelector(".chat-with").innerHTML = username
-                newUser.querySelector(".user-status").innerHTML = status
-                newUser.classList.add("chat-with-user")
-                newUser.id = id
-                newUser.classList.add("chat-button")
-
-                newUser.addEventListener("click", async function loadChat() {
-                    const messages = await fetch('http://127.0.0.1:8080/api/load-chat?senderId=' + id, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'credentials': 'include',
-                        }
-                    }).then(response => {
-                        if (response.ok) {
-                            response.json().then((data) => {
-                                let chatArea = document.getElementById("chat-area").classList
-
-                                document.getElementById("chat-username").innerHTML = username
-                                document.getElementById("chat-user-status").innerHTML = status
-                                stylizeChat(data, id)
-
-                                if (document.getElementById(newUser.id).classList.contains("active")) {
-                                    chatArea.add("d-none")
-                                    newUser.classList.remove("active")
-                                    document.getElementById("chat-scroll-area").innerHTML = ""
-
-                                } else {
-                                    let elements = document.getElementsByClassName("chat-button");
-
-                                    for (var i = 0; i < elements.length; i++) {
-                                        elements[i].classList.remove("active");
-                                    }
-
-                                    if (chatArea.contains("d-none")) {
-                                        newUser.classList.add("active")
-                                        document.getElementById("chat-area").classList.remove("d-none")
-                                    } else if (!chatArea.contains("d-none")) {
-                                        newUser.classList.add("active")
-                                    }
-                                }
-                            })
-                        }
-                        else { /*display error*/ }
-                    })
-                })
-                document.getElementById("userlist-scroll-area").appendChild(newUser)
-            }
-
             if (e.target.id === "send-message") {
                 e.preventDefault()
                 if (e.target.matches('#send-message')) {
@@ -109,35 +158,18 @@
             }
 
             if (e.target.id === "user-list") {
-                if (document.getElementById("userlist-holder").classList.contains("d-none")) {
-                    fetch('http://127.0.0.1:8080/api/users?offset=' + offset, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'credentials': 'include',
-                            //exclude myself by credentials
-                        }
-                    }).then(response => {
-                        if (response.status === 200) {
-                            response.json().then((data) => {
-                                for (let i = 0; i < Object.keys(data).length; i++) {
-                                    addUser(Object.values(data[i])[0], Object.values(data[i])[2], Object.values(data[i])[8])
-                                }
-                            })
-                            offset += 15
-                        }
-                        else { /*display error*/ }
-                    })
-                    document.getElementById("userlist-holder").classList.remove("d-none")
-                } else {
-                    document.getElementById("userlist-holder").classList.add("d-none")
-                    let elements = document.getElementsByClassName("chat-button");
-
-                    for (var i = 0; i < elements.length; i++) {
-                        elements[i].classList.remove("active");
-                    }
+                if (document.getElementById("userlist-scroll-area").classList.contains("initial")) {
+                    fillUserlist()
+                    document.getElementById("userlist-scroll-area").classList.remove("initial")
                 }
+
+                document.getElementById("userlist-scroll-area").addEventListener('scroll', event => {
+                    const e = event.target;
+                    if (e.scrollHeight - e.scrollTop === e.clientHeight) {
+                        debounce(100, fillUserlist())
+                    }
+                });
+                handleSidepanel()
             }
         });
 
