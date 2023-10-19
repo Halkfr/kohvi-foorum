@@ -155,6 +155,31 @@ func posts(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func addNewPost(w http.ResponseWriter, r *http.Request) {
+	sessionCookie, err := r.Cookie("session_token")
+	if err == nil {
+		senderId := sessions[sessionCookie.Value]
+		decoder := json.NewDecoder(r.Body)
+		var p Post
+		err := decoder.Decode(&p)
+		if err != nil {
+			panic(err)
+		}
+		w.Header().Set("Content-Type", "application/json")
+
+		if err == nil {
+			w.WriteHeader(http.StatusOK)
+			addPost(database, p.Title, p.Image, p.Content, []string{p.Thread}, senderId)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+		}
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot access cookie\"}"))
+	}
+}
+
 func loadChat(w http.ResponseWriter, r *http.Request) {
 	sessionCookie, err := r.Cookie("session_token")
 	if err == nil {
@@ -205,5 +230,29 @@ func sendMessage(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("{\"error\":\"Cannot access cookie\"}"))
+	}
+}
+
+func getUsername(w http.ResponseWriter, r *http.Request){
+	senderId, _ := strconv.Atoi(r.URL.Query().Get("id"))
+	json, err := json.Marshal(fetchUserById(database, senderId).Username)
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		w.Write(json)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+	}
+}
+
+func getPostCreationDate(w http.ResponseWriter, r *http.Request){
+	postId, _ := strconv.Atoi(r.URL.Query().Get("id"))
+	json, err := json.Marshal(fetchPostByID(database, postId).Timestamp)
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		w.Write(json)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
 	}
 }

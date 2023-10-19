@@ -1,9 +1,10 @@
 TODO: 
 
-Most important: 
+Most important:
+<!-- Save picture from users device -->
+Disable option to have empty/default fields in all form
 Sort userlist by active conversation + exclude them from basic sort Acs
 Make total of 20 default users and 10 default posts
-Make create post page active
 Fetch posts by category
 Fix bugs with loading messages 
 Сделать чат и websocket

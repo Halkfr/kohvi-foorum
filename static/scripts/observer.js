@@ -12,7 +12,7 @@ const observer = new MutationObserver((mutations) => {
 
             window.postOffset = 0;
             window.postLimit = 5;
-            
+
             fetch('http://127.0.0.1:8080/api/posts?offset=' + window.postOffset + '&limit=' + window.postLimit, {
                 method: 'GET',
                 headers: {
@@ -29,6 +29,14 @@ const observer = new MutationObserver((mutations) => {
                                     div.innerHTML = postTemplateText;
                                     div.querySelector('.post-thread').innerHTML = post.Thread;
                                     div.querySelector('.post-title').innerHTML = post.Title;
+                                    getUsername(post.UserId).then(username => {
+                                        div.querySelector('.post-creator').innerHTML = username;
+                                    });
+
+                                    getPostCreationDate(post.Id).then(date => {
+                                        div.querySelector('.post-creation-date').innerHTML = date
+                                    });
+
                                     div.querySelector('img').src = post.Image;
 
                                     switch (post.Thread) {
@@ -82,5 +90,50 @@ const observer = new MutationObserver((mutations) => {
         }
     });
 });
+
+
+async function getUsername(id) {
+    return fetch('http://127.0.0.1:8080/api/username?id=' + id, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Error fetching username');
+        }
+    }).then(data => {
+        console.log(String(data));
+        return String(data);
+    }).catch(error => {
+        console.error(error);
+        return ''
+    });
+}
+
+async function getPostCreationDate(id){
+    return fetch('http://127.0.0.1:8080/api/post-creation-date?id=' + id, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Error fetching username');
+        }
+    }).then(data => {
+        console.log(String(data));
+        return String(data);
+    }).catch(error => {
+        console.error(error);
+        return ''
+    });
+}
 
 observer.observe(document.body, { childList: true, subtree: true });

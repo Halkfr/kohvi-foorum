@@ -19,15 +19,18 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("/", index)
-	mux.HandleFunc("/api/sign-up", signup)	
+	mux.HandleFunc("/api/sign-up", signup)
 	mux.HandleFunc("/api/sign-in", signin)
 	mux.HandleFunc("/api/sign-out", signout)
 	mux.HandleFunc("/api/session-status", sessionStatus)
 	mux.HandleFunc("/api/users", userlist)
 	mux.HandleFunc("/api/user", user)
 	mux.HandleFunc("/api/posts", posts)
+	mux.HandleFunc("/api/add-post", addNewPost)
 	mux.HandleFunc("/api/load-chat", loadChat)
 	mux.HandleFunc("/api/send-message", sendMessage)
+	mux.HandleFunc("/api/username", getUsername)
+	mux.HandleFunc("/api/post-creation-date", getPostCreationDate)
 
 	// Create a custom server with a timeout
 	server := &http.Server{
@@ -92,17 +95,17 @@ func setDB() {
 	addThread(database, "Ranch")
 	addThread(database, "Dogs")
 	addThread(database, "Other")
-	addMessage(database, 1, 2 , "Hello")
-	addMessage(database, 1, 2 , "How are you")
-	addMessage(database, 2, 1 , "Hi, I am fine!")
+	addMessage(database, 1, 2, "Hello")
+	addMessage(database, 1, 2, "How are you")
+	addMessage(database, 2, 1, "Hi, I am fine!")
 
 	// addThread(database, "Ranch", 1)
 	// addThread(database, "Dogs", 1)
 	// addThread(database, "Other", 1)
 
-	addPost(database, title1, image1, post1, threads1, 1)
-	addPost(database, title2, image2, post2, threads2, 2)
 	addPost(database, title3, image3, post3, threads3, 1)
+	addPost(database, title2, image2, post2, threads2, 2)
+	addPost(database, title1, image1, post1, threads1, 1)
 	// addPost(database, title4, image4, post4, threads4, 4, 7, 1)
 
 	// addComment(database, comment1_1, 1, 3, 1, 0)

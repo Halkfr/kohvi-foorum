@@ -26,10 +26,10 @@ type User struct {
 
 type Post struct {
 	Id        int
-	Title     string
-	Content   string
-	Image     string
-	Thread    string
+	Title     string `title`
+	Content   string `content`
+	Image     string `image`
+	Thread    string `thread`
 	UserId    int
 	Timestamp string
 	Comments  []Comment
@@ -283,7 +283,7 @@ func addPost(db *sql.DB, Title string, Image string, Content string, Subject []s
 // }
 
 func fetchPostsOffset(db *sql.DB, limit, offset int) []Post {
-	record, err := db.Query("SELECT * FROM posts LIMIT ? OFFSET ?", limit, offset)
+	record, err := db.Query("SELECT * FROM posts ORDER BY id DESC LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		log.Fatal(err)
 	}
