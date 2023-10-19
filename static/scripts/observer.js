@@ -12,9 +12,7 @@ const observer = new MutationObserver((mutations) => {
 
             window.postOffset = 0;
             window.postLimit = 5;
-            window.sidepanelOffset = 0
-            window.sidepanelLimit = 15
-
+            
             fetch('http://127.0.0.1:8080/api/posts?offset=' + window.postOffset + '&limit=' + window.postLimit, {
                 method: 'GET',
                 headers: {
