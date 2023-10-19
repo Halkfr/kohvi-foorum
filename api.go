@@ -134,18 +134,24 @@ func user(w http.ResponseWriter, r *http.Request) {
 }
 
 func posts(w http.ResponseWriter, r *http.Request) {
+	postCount, _ := getRowCount(database, "POSTS")
+	offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
+	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
 
 	w.Header().Set("Content-Type", "application/json")
+	if offset < postCount {
+		posts := fetchPostsOffset(database, limit, offset)
+		json, err := json.Marshal(posts)
 
-	posts := fetchAllPosts(database)
-	json, err := json.Marshal(posts)
-
-	if err == nil {
-		w.WriteHeader(http.StatusOK)
-		w.Write(json)
+		if err == nil {
+			w.WriteHeader(http.StatusOK)
+			w.Write(json)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+		}
 	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
 

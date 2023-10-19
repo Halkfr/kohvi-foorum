@@ -282,8 +282,8 @@ func addPost(db *sql.DB, Title string, Image string, Content string, Subject []s
 // 	db.Exec("UPDATE posts SET title = ?, content = ?, subject = ? WHERE id = ?", Title, Content, Subject, id)
 // }
 
-func fetchAllPosts(db *sql.DB) []Post {
-	record, err := db.Query("SELECT * FROM posts")
+func fetchPostsOffset(db *sql.DB, limit, offset int) []Post {
+	record, err := db.Query("SELECT * FROM posts LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		log.Fatal(err)
 	}

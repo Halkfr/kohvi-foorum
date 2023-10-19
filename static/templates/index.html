@@ -15,9 +15,6 @@
 
 <body>
     <script>
-        let offset = 0
-        const limit = 10
-
         function debounce(delay, fn) {
             let timerId;
             return function (...args) {
@@ -87,7 +84,7 @@
         }
 
         function fillUserlist() {
-            fetch('http://127.0.0.1:8080/api/users?offset=' + offset + '&limit=' + limit, {
+            fetch('http://127.0.0.1:8080/api/users?offset=' + window.sidepanelOffset + '&limit=' + window.sidepanelLimit, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -101,7 +98,7 @@
                             addUser(Object.values(data[i])[0], Object.values(data[i])[2], Object.values(data[i])[8])
                         }
                     })
-                    offset += 10
+                    window.sidepanelOffset += window.sidepanelLimit
                 }
                 else { /*display error*/ }
             })
@@ -170,6 +167,57 @@
                     }
                 });
                 handleSidepanel()
+            }
+
+            if (e.target.id === "load-more-btn") {
+                const posts = document.body.querySelector('#post-scroll-area')
+                fetch('http://127.0.0.1:8080/api/posts?offset=' + window.postOffset + '&limit=' + window.postLimit, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.status === 200) {
+                        response.json().then((data) => {
+                            fetch('./static/templates/post.html').then(postTemplate => postTemplate.text())
+                                .then(postTemplateText => {
+                                    data.forEach(post => {
+                                        let div = document.createElement('div');
+                                        div.innerHTML = postTemplateText;
+                                        div.querySelector('.post-thread').innerHTML = post.Thread;
+                                        div.querySelector('.post-title').innerHTML = post.Title;
+                                        div.querySelector('img').src = post.Image;
+
+                                        switch (post.Thread) {
+                                            case "Question":
+                                                div.querySelector('.post-thread').classList.add("btn-primary")
+                                                break;
+                                            case "Buy/Sell":
+                                                div.querySelector('.post-thread').classList.add("btn-warning")
+                                                break;
+                                            case "Help!":
+                                                div.querySelector('.post-thread').classList.add("btn-danger")
+                                                break;
+                                            case "Discussion":
+                                                div.querySelector('.post-thread').classList.add("btn-success")
+                                                break;
+                                        }
+
+                                        posts.insertBefore(div, document.body.querySelector('#load-more'));
+                                    });
+                                    window.postOffset += window.postLimit
+                                }).catch(error => {
+                                    console.error('Error:', error);
+                                });
+                            console.log(data);
+                            posts.classList.remove("initial")
+                        })
+                    } else if (response.status === 204) {
+                        document.getElementById("load-more-btn").classList.add("disabled")
+                        document.getElementById("load-more-btn").innerHTML = "No more posts available"
+                    }
+                });
             }
         });
 

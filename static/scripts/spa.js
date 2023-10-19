@@ -39,8 +39,12 @@ const handleLocation = async () => {
                 const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
                 document.body.innerHTML = header + sidepanel;
             }
-            document.body.querySelector('#content-container').innerHTML = html
-
+            let div = document.body.querySelector('#content-container')
+            if (div.innerHTML === "" || !div.classList.contains(path)) {
+                div.classList.remove(...div.classList)
+                div.classList.add(path)
+                div.innerHTML = html
+            }
         }
     } else {
         if (path === "/sign-in") {
