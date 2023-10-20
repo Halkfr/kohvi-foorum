@@ -24,23 +24,21 @@ document.addEventListener('click', function (e) {
             e.preventDefault();
             let x = document.querySelector('form.create-post').elements;
 
+            let formData = new FormData();
+            formData.append('thread', document.querySelector('form.create-post')['titleCategory'].innerHTML);
+            formData.append('title', document.querySelector('form.create-post #create-post-title').value);
+            formData.append('image', document.querySelector('form.create-post #create-post-img').files[0]);
+            formData.append('image-name', document.querySelector('form.create-post #create-post-img').value.split(/(\\|\/)/g).pop());
+            formData.append('content', document.querySelector('form.create-post #create-post-content').value);
+
             fetch('http://127.0.0.1:8080/api/add-post', {
                 method: 'POST',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
                     'credentials': 'include',
                 },
-                body: JSON.stringify(
-                    {
-                        thread: x['titleCategory'].innerHTML,
-                        title: x['create-post-title'].value,
-                        image: x['create-post-img'].value,
-                        content: x['create-post-content'].value
-                    },
-                )
+                body: formData
             }).then(response => {
-                if (response.ok) { window.location.href = '/home' } else { /*write error*/ }
+                if (response.ok) { window.location.href = '/home' } else { /*display error*/ }
             })
         }
     }

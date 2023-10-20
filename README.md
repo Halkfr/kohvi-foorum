@@ -1,7 +1,7 @@
 TODO: 
 
 Most important:
-<!-- Save picture from users device -->
+If image field == "" delete post img container
 Disable option to have empty/default fields in all form
 Sort userlist by active conversation + exclude them from basic sort Acs
 Make total of 20 default users and 10 default posts

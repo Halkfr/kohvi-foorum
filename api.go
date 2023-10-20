@@ -3,7 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gofrs/uuid"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -157,27 +160,34 @@ func posts(w http.ResponseWriter, r *http.Request) {
 
 func addNewPost(w http.ResponseWriter, r *http.Request) {
 	sessionCookie, err := r.Cookie("session_token")
-	if err == nil {
-		senderId := sessions[sessionCookie.Value]
-		decoder := json.NewDecoder(r.Body)
-		var p Post
-		err := decoder.Decode(&p)
-		if err != nil {
-			panic(err)
-		}
-		w.Header().Set("Content-Type", "application/json")
-
-		if err == nil {
-			w.WriteHeader(http.StatusOK)
-			addPost(database, p.Title, p.Image, p.Content, []string{p.Thread}, senderId)
-		} else {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
-		}
-	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("{\"error\":\"Cannot access cookie\"}"))
+	if err != nil {
+		http.Error(w, "Failed to get session cookie", http.StatusUnauthorized)
+		return
 	}
+	senderId := sessions[sessionCookie.Value]
+	imagePath := ""
+	if r.FormValue("image-name") != "" {
+		file, _, err := r.FormFile("image")
+		if err != nil {
+			http.Error(w, "Failed to get the image", http.StatusBadRequest)
+			return
+		}
+		defer file.Close()
+
+		u, _ := uuid.NewV4()
+		imagePath = "static/images/" + u.String() + r.FormValue("image-name")
+
+		f, err := os.Create(imagePath)
+		if err != nil {
+			http.Error(w, "Failed to create image file", http.StatusInternalServerError)
+			return
+		}
+		defer f.Close()
+		io.Copy(f, file)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	addPost(database, r.FormValue("title"), imagePath, r.FormValue("content"), []string{r.FormValue("thread")}, senderId)
 }
 
 func loadChat(w http.ResponseWriter, r *http.Request) {
@@ -233,7 +243,7 @@ func sendMessage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getUsername(w http.ResponseWriter, r *http.Request){
+func getUsername(w http.ResponseWriter, r *http.Request) {
 	senderId, _ := strconv.Atoi(r.URL.Query().Get("id"))
 	json, err := json.Marshal(fetchUserById(database, senderId).Username)
 	if err == nil {
@@ -245,7 +255,7 @@ func getUsername(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-func getPostCreationDate(w http.ResponseWriter, r *http.Request){
+func getPostCreationDate(w http.ResponseWriter, r *http.Request) {
 	postId, _ := strconv.Atoi(r.URL.Query().Get("id"))
 	json, err := json.Marshal(fetchPostByID(database, postId).Timestamp)
 	if err == nil {
