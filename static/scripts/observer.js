@@ -37,7 +37,11 @@ const observer = new MutationObserver((mutations) => {
                                         div.querySelector('.post-creation-date').innerHTML = date
                                     });
 
-                                    div.querySelector('img').src = post.Image;
+                                    if (post.Image !== "") {
+                                        div.querySelector('img').src = post.Image;
+                                    } else {
+                                        div.querySelector('.post-img').remove()
+                                    }
 
                                     switch (post.Thread) {
                                         case "Question":
@@ -114,7 +118,7 @@ async function getUsername(id) {
     });
 }
 
-async function getPostCreationDate(id){
+async function getPostCreationDate(id) {
     return fetch('http://127.0.0.1:8080/api/post-creation-date?id=' + id, {
         method: 'GET',
         headers: {

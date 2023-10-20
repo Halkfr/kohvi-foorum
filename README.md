@@ -1,15 +1,15 @@
 TODO: 
 
 Most important:
-If image field == "" delete post img container
+Fetch posts by category
 Disable option to have empty/default fields in all form
 Sort userlist by active conversation + exclude them from basic sort Acs
 Make total of 20 default users and 10 default posts
-Fetch posts by category
 Fix bugs with loading messages 
 Сделать чат и websocket
 Create post view page with comments and etc
 Create error page
+Make notifications for messages
 
 
 Small stuff:
