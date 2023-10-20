@@ -1,14 +1,13 @@
 TODO: 
 
 Most important:
-Fetch posts by category
-Disable option to have empty/default fields in all form
-Sort userlist by active conversation + exclude them from basic sort Acs
 Make total of 20 default users and 10 default posts
 Fix bugs with loading messages 
-Сделать чат и websocket
 Create post view page with comments and etc
 Create error page
+Disable option to have empty/default fields in all form
+Sort userlist by active conversation + exclude them from basic sort Acs
+Сделать чат и websocket
 Make notifications for messages
 
 
