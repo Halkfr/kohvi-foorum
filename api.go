@@ -137,13 +137,25 @@ func user(w http.ResponseWriter, r *http.Request) {
 }
 
 func posts(w http.ResponseWriter, r *http.Request) {
-	postCount, _ := getRowCount(database, "POSTS")
+	var posts []Post
+	var postCount int
+
 	offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
 	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	thread := r.URL.Query().Get("thread")
 
+	if thread == "Viewall" {
+		postCount, _ = getRowCount(database, "POSTS")
+	} else {
+		postCount, _ = getThreadRowCount(database, "POSTS", thread)
+	}
 	w.Header().Set("Content-Type", "application/json")
 	if offset < postCount {
-		posts := fetchPostsOffset(database, limit, offset)
+		if thread == "Viewall" {
+			posts = fetchAllPostsOffset(database, limit, offset)
+		} else {
+			posts = fetchThreadPostsOffset(database, limit, offset, thread)
+		}
 		json, err := json.Marshal(posts)
 
 		if err == nil {

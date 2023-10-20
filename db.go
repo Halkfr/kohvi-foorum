@@ -282,8 +282,27 @@ func addPost(db *sql.DB, Title string, Image string, Content string, Subject []s
 // 	db.Exec("UPDATE posts SET title = ?, content = ?, subject = ? WHERE id = ?", Title, Content, Subject, id)
 // }
 
-func fetchPostsOffset(db *sql.DB, limit, offset int) []Post {
+func fetchAllPostsOffset(db *sql.DB, limit, offset int) []Post {
 	record, err := db.Query("SELECT * FROM posts ORDER BY id DESC LIMIT ? OFFSET ?", limit, offset)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer record.Close()
+
+	var posts []Post
+	for record.Next() {
+		var post Post
+		err = record.Scan(&post.Id, &post.Title, &post.Content, &post.Thread, &post.UserId, &post.Image, &post.Timestamp)
+		if err != nil {
+			log.Println(err)
+		}
+		posts = append(posts, post)
+	}
+	return posts
+}
+
+func fetchThreadPostsOffset(db *sql.DB, limit, offset int, thread string) []Post {
+	record, err := db.Query("SELECT * FROM posts WHERE Subject = ? ORDER BY id DESC LIMIT ? OFFSET ?", thread, limit, offset)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -569,4 +588,16 @@ func getRowCount(db *sql.DB, tableName string) (int, error) {
 	}
 
 	return count, nil
+}
+
+func getThreadRowCount(db *sql.DB, tableName, thread string) (int, error) {
+    var count int
+    query := fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE Subject = '%s'", tableName, thread)
+
+    err := db.QueryRow(query).Scan(&count)
+    if err != nil {
+        return 0, err
+    }
+
+    return count, nil
 }
