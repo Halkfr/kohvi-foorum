@@ -28,7 +28,23 @@ func signup(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
 	} else {
-		w.WriteHeader(http.StatusInternalServerError)
+		var usernameExist int
+		var emailExist int
+		var errorMessage string
+		database.QueryRow("SELECT COUNT(*) FROM users WHERE Username = ?", u.Username).Scan(&usernameExist)
+		database.QueryRow("SELECT COUNT(*) FROM users WHERE Email = ?", u.Email).Scan(&emailExist)
+		
+		if usernameExist > 0 {
+			errorMessage += "usernameExist"
+		}
+		if emailExist > 0 {
+			errorMessage += "emailExist"
+		}
+		if errorMessage != "" {
+			w.WriteHeader(http.StatusForbidden)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
 	}
 	fmt.Println(u)
 }
