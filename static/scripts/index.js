@@ -111,7 +111,7 @@ document.addEventListener('click', function (e) {
 
         let posts = document.getElementsByClassName("post-container")
         while (posts[0]) {
-            document.getElementById("post-scroll-area").removeChild(posts[0])
+            document.getElementById("post-area").removeChild(posts[0])
         }
     
         document.getElementById("view-posts").innerHTML = e.target.innerHTML.replace(/\s/g, '')
@@ -173,7 +173,7 @@ document.addEventListener('click', function (e) {
     }
 
     if (e.target.id === "load-more-btn") {
-        const posts = document.body.querySelector('#post-scroll-area')
+        const posts = document.body.querySelector('#post-area')
         let thread = document.getElementById("view-posts").innerHTML
         console.log(thread)
         fetch('http://127.0.0.1:8080/api/posts?offset=' + window.postOffset + '&limit=' + window.postLimit + '&thread=' + thread, {
@@ -297,7 +297,7 @@ async function loadPost(thread = "Viewall") {
                                     div.querySelector('.post-thread').classList.add("btn-success")
                                     break;
                             }
-                            document.body.querySelector('#post-scroll-area').insertBefore(div, document.body.querySelector('#load-more'));
+                            document.body.querySelector('#post-area').insertBefore(div, document.body.querySelector('#load-more'));
                         });
                         window.postOffset += window.postLimit
                     }).catch(error => {

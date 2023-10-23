@@ -175,7 +175,7 @@ div.gj-datepicker {
     font-size: 18px;
 }
 
-#post-scroll-area {
+#home-scroll-container {
     overflow-y: scroll;
     width: 100%;
     height: fit-content;

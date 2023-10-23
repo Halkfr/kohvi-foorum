@@ -1,9 +1,9 @@
 const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
-        const posts = document.body.querySelector('#post-scroll-area')
+        const posts = document.body.querySelector('#post-area')
         const profile = document.body.querySelector('#view-profile-area')
 
-        if (posts && document.body.querySelector('#post-scroll-area').classList.contains("initial")) {
+        if (posts && document.body.querySelector('#post-area').classList.contains("initial")) {
             document.getElementById("view-posts").innerHTML = "Viewall"
             window.postOffset = 0;
             window.postLimit = 5;
