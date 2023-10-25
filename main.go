@@ -19,6 +19,7 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("/", index)
+	mux.HandleFunc("/ws", WsEndPoint)
 	mux.HandleFunc("/api/sign-up", signup)
 	mux.HandleFunc("/api/sign-in", signin)
 	mux.HandleFunc("/api/sign-out", signout)

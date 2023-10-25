@@ -40,7 +40,9 @@ function addUser(id, username, status) {
 
                     document.getElementById("chat-username").innerHTML = username
                     document.getElementById("chat-user-status").innerHTML = status
-                    stylizeChat(data, id)
+                    if (data !== null) {
+                        stylizeChat(data, id)
+                    }
 
                     if (document.getElementById(newUser.id).classList.contains("active")) {
                         chatArea.add("d-none")
@@ -113,7 +115,7 @@ document.addEventListener('click', function (e) {
         while (posts[0]) {
             document.getElementById("post-area").removeChild(posts[0])
         }
-    
+
         document.getElementById("view-posts").innerHTML = e.target.innerHTML.replace(/\s/g, '')
 
         loadPost(e.target.innerHTML)
@@ -135,24 +137,12 @@ document.addEventListener('click', function (e) {
         e.preventDefault()
         if (e.target.matches('#send-message')) {
             let x = document.querySelector('form.chat-form').elements;
-            if (x['message-text'].value !== "") {
-                let username = document.getElementById("chat-username").innerHTML
-                console.log(username, x['message-text'].value)
-                fetch('http://127.0.0.1:8080/api/send-message?recipient-username=' + username, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'credentials': 'include',
-                    },
-                    body: JSON.stringify(
-                        {
-                            "message": x['message-text'].value,
-                        },
-                    )
-                })
-            } else {
-                alert("field should be filled")
+            let obj = {}
+            obj.content = x['message-text'].value
+            obj.recipientUsername = document.getElementById("chat-username").innerHTML
+
+            if (obj.content !== "") {
+                ws.send(JSON.stringify(obj))
             }
         }
     }
@@ -231,22 +221,17 @@ document.addEventListener('click', function (e) {
 
 function stylizeChat(data, senderId) {
     let chatFiller = document.getElementById("chat-scroll-area")
+    for (let i = 0; i < Object.entries(data).length; i++) {
+        let message = document.createElement("div")
+        let messageContent = document.createTextNode(data[i]['Content'])
+        message.appendChild(messageContent)
 
-    if (data === null) {
-        return chatFiller.innerHTML = ""
-    } else {
-        for (let i = 0; i < Object.entries(data).length; i++) {
-            let message = document.createElement("div")
-            let messageContent = document.createTextNode(data[i]['Content'])
-            message.appendChild(messageContent)
-
-            if (data[i]['SenderId'] == senderId) {
-                message.classList.add("sender")
-            } else {
-                message.classList.add("recipient")
-            }
-            chatFiller.appendChild(message)
+        if (data[i]['SenderId'] == senderId) {
+            message.classList.add("sender")
+        } else {
+            message.classList.add("recipient")
         }
+        chatFiller.appendChild(message)
     }
 }
 

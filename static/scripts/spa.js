@@ -34,6 +34,9 @@ const handleLocation = async () => {
             window.history.replaceState({}, '', 'http://127.0.0.1:8080/home',)
             handleLocation()
         } else {
+            if (typeof ws === 'undefined' || ws.readyState === WebSocket.CLOSED) {
+                startWS()
+            };
             if (document.body.querySelector('#main-container') === null) {
                 const header = await fetch('./static/templates/header.html').then((data) => data.text());
                 const sidepanel = await fetch('./static/templates/sidepanel.html').then((data) => data.text());
@@ -84,4 +87,18 @@ async function checkActiveSession() {
         return true
     }
     return false
+}
+
+function startWS() {
+    ws = new WebSocket('ws://127.0.0.1:8080/ws')
+    ws.onmessage = (event) => {
+        console.log("Got message!", event.data)
+
+        data = JSON.parse(event.data)
+        let message = document.createElement("div")
+        let messageContent = document.createTextNode(data["Content"])
+        message.appendChild(messageContent)
+        message.classList.add("recipient")
+        document.getElementById("chat-scroll-area").appendChild(message)
+    }
 }

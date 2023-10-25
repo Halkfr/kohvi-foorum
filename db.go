@@ -117,6 +117,19 @@ func fetchChatMessages(db *sql.DB, SenderId int, RecipientId int) []Messages {
 	return allMessages
 }
 
+func fetchChatLastMessage(db *sql.DB, SenderId, RecipientId int) (Messages) {
+    query := "SELECT * FROM messages WHERE (SenderId = ? AND RecipientId = ?) OR (SenderId = ? AND RecipientId = ?) ORDER BY id DESC LIMIT 1"
+    
+    row := db.QueryRow(query, SenderId, RecipientId, RecipientId, SenderId)
+
+    message := Messages{}
+    err := row.Scan(&message.Id, &message.SenderId, &message.RecipientId, &message.Content, &message.Timestamp)
+    if err != nil {
+        return Messages{}
+    }
+    return message
+}
+
 func createUsersTable(db *sql.DB) {
 	users_table := `CREATE TABLE users (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -591,13 +604,13 @@ func getRowCount(db *sql.DB, tableName string) (int, error) {
 }
 
 func getThreadRowCount(db *sql.DB, tableName, thread string) (int, error) {
-    var count int
-    query := fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE Subject = '%s'", tableName, thread)
+	var count int
+	query := fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE Subject = '%s'", tableName, thread)
 
-    err := db.QueryRow(query).Scan(&count)
-    if err != nil {
-        return 0, err
-    }
+	err := db.QueryRow(query).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
 
-    return count, nil
+	return count, nil
 }
