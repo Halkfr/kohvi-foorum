@@ -1,11 +1,9 @@
 TODO: 
 
 Most important:
-Make userlist fetching on reopening to have most actual data
 Create fetch with offset and limit to get old messages
 Fix bugs with loading messages 
-Create post view page with comments and etc
-Create error page
+Create post view page with comments and etc and error page
 Sort userlist by active conversation + exclude them from basic sort Acs
 Make notifications for messages
 

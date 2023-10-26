@@ -14,18 +14,9 @@ function debounce(delay, fn) {
     };
 }
 
-function addUser(id, username, status) {
-    let template = document.getElementById('user-template')
-    let newUser = template.cloneNode(true)
-    newUser.classList.remove("d-none")
-
-    newUser.querySelector(".chat-with").innerHTML = username
-    newUser.querySelector(".user-status").innerHTML = status
-    newUser.classList.add("chat-with-user")
-    newUser.id = id
-    newUser.classList.add("chat-button")
-
-    newUser.addEventListener("click", async function loadChat() {
+function createUserlistElement(id, username, status) {
+    let chatButton = createChatButton(id, username, status)
+    chatButton.addEventListener("click", async function loadChat() {
         await fetch('http://127.0.0.1:8080/api/load-chat?senderId=' + id, {
             method: 'GET',
             headers: {
@@ -36,39 +27,59 @@ function addUser(id, username, status) {
         }).then(response => {
             if (response.ok) {
                 response.json().then((data) => {
-                    let chatArea = document.getElementById("chat-area").classList
 
                     document.getElementById("chat-username").innerHTML = username
                     document.getElementById("chat-user-status").innerHTML = status
                     if (Object.values(data)[0] !== null) {
                         stylizeChat(data, id)
                     }
+                    handleChat(chatButton)
 
-                    if (document.getElementById(newUser.id).classList.contains("active")) {
-                        chatArea.add("d-none")
-                        newUser.classList.remove("active")
-                        document.getElementById("chat-scroll-area").innerHTML = ""
-
-                    } else {
-                        let elements = document.getElementsByClassName("chat-button");
-
-                        for (var i = 0; i < elements.length; i++) {
-                            elements[i].classList.remove("active");
-                        }
-
-                        if (chatArea.contains("d-none")) {
-                            newUser.classList.add("active")
-                            document.getElementById("chat-area").classList.remove("d-none")
-                        } else if (!chatArea.contains("d-none")) {
-                            newUser.classList.add("active")
-                        }
-                    }
                 })
             }
             else { /*display error*/ }
         })
     })
-    document.getElementById("userlist-scroll-area").appendChild(newUser)
+}
+
+function createChatButton(id, username, status) {
+    let template = document.getElementById('user-template')
+    let userChatBtn = template.cloneNode(true)
+    userChatBtn.classList.remove("d-none")
+
+    userChatBtn.querySelector(".chat-with").innerHTML = username
+    userChatBtn.querySelector(".user-status").innerHTML = status
+    userChatBtn.classList.add("chat-with-user")
+    userChatBtn.id = id
+    userChatBtn.classList.add("chat-button")
+
+    document.getElementById("userlist-scroll-area").appendChild(userChatBtn)
+    return userChatBtn
+}
+
+function handleChat(userChatBtn) {
+    console.log(userChatBtn)
+    let chatArea = document.getElementById("chat-area").classList
+
+    if (document.getElementById(userChatBtn.id).classList.contains("active")) {
+        chatArea.add("d-none")
+        userChatBtn.classList.remove("active")
+        document.getElementById("chat-scroll-area").innerHTML = ""
+
+    } else {
+        let elements = document.getElementsByClassName("chat-button");
+
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.remove("active");
+        }
+
+        if (chatArea.contains("d-none")) {
+            userChatBtn.classList.add("active")
+            document.getElementById("chat-area").classList.remove("d-none")
+        } else if (!chatArea.contains("d-none")) {
+            userChatBtn.classList.add("active")
+        }
+    }
 }
 
 function fillUserlist() {
@@ -83,7 +94,7 @@ function fillUserlist() {
         if (response.status === 200) {
             response.json().then((data) => {
                 for (let i = 0; i < Object.keys(data).length; i++) {
-                    addUser(Object.values(data[i])[0], Object.values(data[i])[2], Object.values(data[i])[8])
+                    createUserlistElement(Object.values(data[i])[0], Object.values(data[i])[2], Object.values(data[i])[8])
                 }
             })
             window.sidepanelOffset += window.sidepanelLimit
@@ -150,17 +161,19 @@ document.addEventListener('click', function (e) {
 
     if (e.target.id === "user-list") {
         if (document.getElementById("userlist-scroll-area").classList.contains("initial")) {
-            fillUserlist()
+            document.getElementById("userlist-scroll-area").addEventListener('scroll', handleScrollEvent);
             document.getElementById("userlist-scroll-area").classList.remove("initial")
         }
-
-        document.getElementById("userlist-scroll-area").addEventListener('scroll', event => {
-            const e = event.target;
-            if (e.scrollHeight - e.scrollTop === e.clientHeight) {
-                debounce(100, fillUserlist())
-            }
-        });
-        handleSidepanel()
+        window.sidepanelOffset = 0
+        console.log(window.sidepanelOffset)
+        if (document.getElementById("userlist-holder").classList.contains("d-none")) {
+            clearUserlist()
+            fillUserlist()
+            handleSidepanel()
+        } else {
+            clearUserlist()
+            handleSidepanel()
+        }
     }
 
     if (e.target.id === "load-more-btn") {
@@ -220,12 +233,30 @@ document.addEventListener('click', function (e) {
     }
 });
 
+function handleScrollEvent(event) {
+    const e = event.target;
+    if (e.scrollHeight - e.scrollTop === e.clientHeight) {
+        debounce(100, fillUserlist());
+    }
+}
+
+function clearUserlist() {
+    let div = document.getElementById("userlist-scroll-area");
+    div.scrollTo(0, 0)
+    var children = div.children;
+    for (let i = children.length - 1; i >= 0; i--) {
+        let child = children[i];
+        if (!child.classList.contains("d-none")) {
+            div.removeChild(child);
+        }
+    }
+}
+
 function stylizeChat(data, senderId) {
     let chatFiller = document.getElementById("chat-scroll-area")
     let messages = Object.values(data)[0]
     for (let i = 0; i < messages.length; i++) {
         let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
-        
         let senderName = document.createTextNode(Object.values(data)[1][i])
         let messageContent = document.createTextNode(messages[i]['Content'])
         let dateContent = document.createTextNode(messages[i]['Timestamp'])

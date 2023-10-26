@@ -93,6 +93,17 @@ func setDB() {
 	// p, _ = hashPassword("BaristaBond007")
 	addUser(database, "BaristaBuddy", "BaristaBuddy@coffeeclubhouse.com", "$2a$14$MmJQI8GG.g.egGytFKBGB.inlTfWoDvyjHeCrRq.BNiIx8BTKfv.a", "1995-05-07", "male", "Oscar", "Nguyen", "Offline")
 
+	addUser(database, "CoffeeLover1", "CoffeeLover1@gmail.com", "$2a$14$HashedPassword1", "1990-01-15", "female", "Emily", "Johnson", "Offline")
+	addUser(database, "EspressoAddict2", "EspressoAddict2@yahoo.com", "$2a$14$HashedPassword2", "1985-07-20", "male", "Daniel", "Smith", "Offline")
+	addUser(database, "BrewingPro3", "BrewingPro3@outlook.com", "$2a$14$HashedPassword3", "1989-03-05", "female", "Sophia", "Brown", "Offline")
+	addUser(database, "CaffeineExpert4", "CaffeineExpert4@coffeeforum.com", "$2a$14$HashedPassword4", "1982-12-10", "male", "William", "Davis", "Offline")
+	addUser(database, "MugEnthusiast5", "MugEnthusiast5@hotmail.com", "$2a$14$HashedPassword5", "1993-05-25", "female", "Ella", "Williams", "Offline")
+	addUser(database, "AromaMaster6", "AromaMaster6@coffeeaddict.net", "$2a$14$HashedPassword6", "1987-09-12", "male", "Grace", "Roberts", "Offline")
+	addUser(database, "CaffeineExplorer7", "CaffeineExplorer7@brewersguild.org", "$2a$14$HashedPassword7", "1995-04-08", "female", "Liam", "Martinez", "Offline")
+	addUser(database, "BaristaExtraordinaire8", "BaristaExtraordinaire8@coffeelovers.com", "$2a$14$HashedPassword8", "1991-08-02", "male", "Ava", "Turner", "Offline")
+	addUser(database, "BeanToCupAficionado9", "BeanToCupAficionado9@beanbuzzers.net", "$2a$14$HashedPassword9", "1986-02-15", "female", "Mason", "Harris", "Offline")
+	addUser(database, "LatteLover10", "LatteLover10@coffeeclubhouse.com", "$2a$14$HashedPassword10", "1994-06-23", "male", "Olivia", "Nguyen", "Offline")
+
 	addThread(database, "Ranch")
 	addThread(database, "Dogs")
 	addThread(database, "Other")
