@@ -19,7 +19,6 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("/", index)
-	mux.HandleFunc("/ws", WsEndPoint)
 	mux.HandleFunc("/api/sign-up", signup)
 	mux.HandleFunc("/api/sign-in", signin)
 	mux.HandleFunc("/api/sign-out", signout)
@@ -32,6 +31,8 @@ func main() {
 	mux.HandleFunc("/api/send-message", sendMessage)
 	mux.HandleFunc("/api/username", getUsername)
 	mux.HandleFunc("/api/post-creation-date", getPostCreationDate)
+
+	mux.HandleFunc("/ws", websocketHandler)
 
 	// Create a custom server with a timeout
 	server := &http.Server{

@@ -15,7 +15,7 @@ var (
 	clients = make(map[int]*websocket.Conn)
 )
 
-func WsEndPoint(w http.ResponseWriter, r *http.Request) {
+func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	sessionCookie, err := r.Cookie("session_token")
 	if err != nil {
 		fmt.Println("Cannot access cookie")
