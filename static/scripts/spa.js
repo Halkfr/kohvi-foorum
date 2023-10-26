@@ -93,12 +93,30 @@ function startWS() {
     ws = new WebSocket('ws://127.0.0.1:8080/ws')
     ws.onmessage = (event) => {
         console.log("Got message!", event.data)
-
         data = JSON.parse(event.data)
-        let message = document.createElement("div")
-        let messageContent = document.createTextNode(data["Content"])
+        let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
+
+        let senderName = document.createTextNode(data["SenderName"])
+        let messageContent = document.createTextNode(data["Messages"]["Content"])
+        let dateContent = document.createTextNode(data["Messages"]["Timestamp"])
+
+        if (data["Sender"]) {
+            sender.classList.add("sender-name")
+            message.classList.add("sender")
+            date.classList.add("sender-date")
+
+        } else {
+            sender.classList.add("recipient-name")
+            message.classList.add("recipient")
+            date.classList.add("recipient-date")
+
+        }
+        sender.appendChild(senderName)
         message.appendChild(messageContent)
-        message.classList.add("recipient")
+        date.appendChild(dateContent)
+        
+        document.getElementById("chat-scroll-area").appendChild(sender)
         document.getElementById("chat-scroll-area").appendChild(message)
+        document.getElementById("chat-scroll-area").appendChild(date)
     }
 }

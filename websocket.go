@@ -37,12 +37,19 @@ func WsEndPoint(w http.ResponseWriter, r *http.Request) {
 		Content           string `content`
 	}
 
+	type returnMessage struct {
+		Messages   Messages
+		SenderName string
+		Sender     bool
+	}
+
 	senderId := sessions[sessionCookie.Value]
 
 	clients[senderId] = wsConn
 
 	for {
 		var msg wsMessage
+		var newMsg returnMessage
 		err := wsConn.ReadJSON(&msg)
 		if err != nil {
 			fmt.Println(err)
@@ -52,13 +59,18 @@ func WsEndPoint(w http.ResponseWriter, r *http.Request) {
 		if recipientId != 0 {
 			addMessage(database, senderId, recipientId, msg.Content)
 
-			err1 := clients[senderId].WriteJSON(fetchChatLastMessage(database, senderId, recipientId))
+			newMsg.Messages = fetchChatLastMessage(database, senderId, recipientId)
+			newMsg.Sender = true
+			newMsg.SenderName = fetchUserById(database, senderId).Username
+
+			err1 := clients[senderId].WriteJSON(newMsg)
 			if err1 != nil {
 				fmt.Println("Cant send to first client", err1)
 				break
 			}
 			if clients[recipientId] != nil {
-				err2 := clients[recipientId].WriteJSON(fetchChatLastMessage(database, senderId, recipientId))
+				newMsg.Sender = false
+				err2 := clients[recipientId].WriteJSON(newMsg)
 				if err2 != nil {
 					fmt.Println("Cant send to second client", err2)
 					break

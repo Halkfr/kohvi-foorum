@@ -1,7 +1,7 @@
 TODO: 
 
 Most important:
-Make message styling according to task
+Make userlist fetching on reopening to have most actual data
 Create fetch with offset and limit to get old messages
 Fix bugs with loading messages 
 Create post view page with comments and etc

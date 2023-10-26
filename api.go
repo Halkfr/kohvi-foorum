@@ -28,12 +28,11 @@ func signup(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
 	} else {
-		var usernameExist int
-		var emailExist int
+		var usernameExist, emailExist int
 		var errorMessage string
 		database.QueryRow("SELECT COUNT(*) FROM users WHERE Username = ?", u.Username).Scan(&usernameExist)
 		database.QueryRow("SELECT COUNT(*) FROM users WHERE Email = ?", u.Email).Scan(&emailExist)
-		
+
 		if usernameExist > 0 {
 			errorMessage += "usernameExist"
 		}
@@ -219,15 +218,22 @@ func addNewPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadChat(w http.ResponseWriter, r *http.Request) {
+	var returnMsgs struct{
+		Messages []Messages
+		MsgUsernames []string
+	}
 	sessionCookie, err := r.Cookie("session_token")
 	if err == nil {
 		senderId, _ := strconv.Atoi(r.URL.Query().Get("senderId"))
 		recipientId := sessions[sessionCookie.Value]
 
 		w.Header().Set("Content-Type", "application/json")
-		messages := fetchChatMessages(database, senderId, recipientId)
+		returnMsgs.Messages = fetchChatMessages(database, senderId, recipientId)
+		for i := 0; i < len(returnMsgs.Messages); i++{
+			returnMsgs.MsgUsernames = append(returnMsgs.MsgUsernames, fetchUserById(database, returnMsgs.Messages[i].SenderId).Username)
+		}
 
-		json, err := json.Marshal(messages)
+		json, err := json.Marshal(returnMsgs)
 
 		if err == nil {
 			w.WriteHeader(http.StatusOK)

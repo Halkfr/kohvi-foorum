@@ -40,7 +40,7 @@ function addUser(id, username, status) {
 
                     document.getElementById("chat-username").innerHTML = username
                     document.getElementById("chat-user-status").innerHTML = status
-                    if (data !== null) {
+                    if (Object.values(data)[0] !== null) {
                         stylizeChat(data, id)
                     }
 
@@ -140,6 +140,7 @@ document.addEventListener('click', function (e) {
             let obj = {}
             obj.content = x['message-text'].value
             obj.recipientUsername = document.getElementById("chat-username").innerHTML
+            obj.senderAccount = true
 
             if (obj.content !== "") {
                 ws.send(JSON.stringify(obj))
@@ -221,17 +222,30 @@ document.addEventListener('click', function (e) {
 
 function stylizeChat(data, senderId) {
     let chatFiller = document.getElementById("chat-scroll-area")
-    for (let i = 0; i < Object.entries(data).length; i++) {
-        let message = document.createElement("div")
-        let messageContent = document.createTextNode(data[i]['Content'])
-        message.appendChild(messageContent)
+    let messages = Object.values(data)[0]
+    for (let i = 0; i < messages.length; i++) {
+        let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
+        
+        let senderName = document.createTextNode(Object.values(data)[1][i])
+        let messageContent = document.createTextNode(messages[i]['Content'])
+        let dateContent = document.createTextNode(messages[i]['Timestamp'])
 
-        if (data[i]['SenderId'] == senderId) {
-            message.classList.add("sender")
-        } else {
+        sender.appendChild(senderName)
+        message.appendChild(messageContent)
+        date.appendChild(dateContent)
+
+        if (messages[i]['SenderId'] == senderId) {
+            sender.classList.add("recipient-name")
             message.classList.add("recipient")
+            date.classList.add("recipient-date")
+        } else {
+            sender.classList.add("sender-name")
+            message.classList.add("sender")
+            date.classList.add("sender-date")
         }
+        chatFiller.appendChild(sender)
         chatFiller.appendChild(message)
+        chatFiller.appendChild(date)
     }
 }
 

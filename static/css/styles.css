@@ -206,23 +206,6 @@ div.gj-datepicker {
     overflow-y: scroll;
 }
 
-.sender {
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #292b2c;
-    box-sizing: inherit;
-    background-color: #dbc1ac;
-    margin-bottom: 10px;
-    padding: 15px;
-    margin-right: 100px;
-    border-radius: 12px;
-    align-items: right;
-}
-
 .recipient {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -232,9 +215,48 @@ div.gj-datepicker {
     line-height: 1.5;
     color: #292b2c;
     box-sizing: inherit;
-    background-color: #ba9780 !important;
+    background-color: #dbc1ac;
+    padding: 15px;
+    margin-right: 100px;
+    border-radius: 12px;
+    align-items: right;
+}
+
+.recipient-date {
+    text-align: left;
+    font-size: 0.8rem;
     margin-bottom: 10px;
+}
+
+.recipient-name {
+    text-align: left;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.sender {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #292b2c;
+    box-sizing: inherit;
+    background-color: #ba9780 !important;
     margin-left: 100px;
     padding: 15px;
     border-radius: 12px;
+}
+
+.sender-date {
+    text-align: right;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+}
+
+.sender-name {
+    text-align: right;
+    font-size: 1rem;
+    margin-top: 10px;
 }
