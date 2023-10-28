@@ -98,9 +98,9 @@ func addMessage(db *sql.DB, SenderId int, RecipientId int, Content string) error
 	return nil
 }
 
-func fetchChatMessages(db *sql.DB, SenderId int, RecipientId int) []Messages {
+func fetchChatMessages(db *sql.DB, SenderId, RecipientId, limit, offset int) []Messages {
 	var allMessages []Messages
-	record, err := db.Query("SELECT * FROM messages WHERE (SenderId = ? OR SenderId = ?) AND (RecipientId = ? OR RecipientId = ?)AND SenderId != RecipientId;", SenderId, RecipientId, SenderId, RecipientId)
+	record, err := db.Query("SELECT * FROM messages WHERE (SenderId = ? OR SenderId = ?) AND (RecipientId = ? OR RecipientId = ?)AND SenderId != RecipientId ORDER BY id Desc LIMIT ? OFFSET ?;", SenderId, RecipientId, SenderId, RecipientId, limit, offset)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -117,17 +117,17 @@ func fetchChatMessages(db *sql.DB, SenderId int, RecipientId int) []Messages {
 	return allMessages
 }
 
-func fetchChatLastMessage(db *sql.DB, SenderId, RecipientId int) (Messages) {
-    query := "SELECT * FROM messages WHERE (SenderId = ? AND RecipientId = ?) OR (SenderId = ? AND RecipientId = ?) ORDER BY id DESC LIMIT 1"
-    
-    row := db.QueryRow(query, SenderId, RecipientId, RecipientId, SenderId)
+func fetchChatLastMessage(db *sql.DB, SenderId, RecipientId int) Messages {
+	query := "SELECT * FROM messages WHERE (SenderId = ? AND RecipientId = ?) OR (SenderId = ? AND RecipientId = ?) ORDER BY id DESC LIMIT 1"
 
-    message := Messages{}
-    err := row.Scan(&message.Id, &message.SenderId, &message.RecipientId, &message.Content, &message.Timestamp)
-    if err != nil {
-        return Messages{}
-    }
-    return message
+	row := db.QueryRow(query, SenderId, RecipientId, RecipientId, SenderId)
+
+	message := Messages{}
+	err := row.Scan(&message.Id, &message.SenderId, &message.RecipientId, &message.Content, &message.Timestamp)
+	if err != nil {
+		return Messages{}
+	}
+	return message
 }
 
 func createUsersTable(db *sql.DB) {

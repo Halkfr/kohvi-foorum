@@ -218,18 +218,20 @@ func addNewPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadChat(w http.ResponseWriter, r *http.Request) {
-	var returnMsgs struct{
-		Messages []Messages
+	var returnMsgs struct {
+		Messages     []Messages
 		MsgUsernames []string
 	}
+	offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
+	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
 	sessionCookie, err := r.Cookie("session_token")
 	if err == nil {
 		senderId, _ := strconv.Atoi(r.URL.Query().Get("senderId"))
 		recipientId := sessions[sessionCookie.Value]
 
 		w.Header().Set("Content-Type", "application/json")
-		returnMsgs.Messages = fetchChatMessages(database, senderId, recipientId)
-		for i := 0; i < len(returnMsgs.Messages); i++{
+		returnMsgs.Messages = fetchChatMessages(database, senderId, recipientId, limit, offset)
+		for i := 0; i < len(returnMsgs.Messages); i++ {
 			returnMsgs.MsgUsernames = append(returnMsgs.MsgUsernames, fetchUserById(database, returnMsgs.Messages[i].SenderId).Username)
 		}
 

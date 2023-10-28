@@ -118,5 +118,7 @@ function startWS() {
         document.getElementById("chat-scroll-area").appendChild(sender)
         document.getElementById("chat-scroll-area").appendChild(message)
         document.getElementById("chat-scroll-area").appendChild(date)
+        document.getElementById("chat-scroll-area").scrollTo(0, document.getElementById("chat-scroll-area").scrollHeight)
+        window.chatOffset += 1
     }
 }

@@ -1,5 +1,7 @@
 window.sidepanelOffset = 0
 window.sidepanelLimit = 15
+window.chatOffset = 0
+window.chatLimit = 10
 
 function debounce(delay, fn) {
     let timerId;
@@ -16,30 +18,73 @@ function debounce(delay, fn) {
 
 function createUserlistElement(id, username, status) {
     let chatButton = createChatButton(id, username, status)
-    chatButton.addEventListener("click", async function loadChat() {
-        await fetch('http://127.0.0.1:8080/api/load-chat?senderId=' + id, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'credentials': 'include',
-            }
-        }).then(response => {
-            if (response.ok) {
-                response.json().then((data) => {
 
-                    document.getElementById("chat-username").innerHTML = username
-                    document.getElementById("chat-user-status").innerHTML = status
-                    if (Object.values(data)[0] !== null) {
-                        stylizeChat(data, id)
-                    }
-                    handleChat(chatButton)
+    chatButton.addEventListener("click", () => handleChat(chatButton))
+    chatButton.addEventListener("click", () => loadChat(chatButton))
 
-                })
+    if (document.getElementById("chat-area").classList.contains("initial")) {
+        document.getElementById("chat-scroll-area").addEventListener('scroll', (event) => {
+            const e = event.target;
+            if (e.scrollTop === 0 && e.scrollHeight > e.clientHeight) {
+                debounce(1000, loadChat(document.getElementById("userlist-holder").getElementsByClassName("active")[0], "top"))
             }
-            else { /*display error*/ }
-        })
+        });
+        document.getElementById("chat-area").classList.remove("initial")
+    }
+}
+
+async function loadChat(chatButton, insert = "bottom") {
+    await fetch('http://127.0.0.1:8080/api/load-chat?senderId=' + chatButton.id + '&offset=' + window.chatOffset + '&limit=' + window.chatLimit, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'credentials': 'include',
+        }
+    }).then(response => {
+        if (response.ok) {
+            response.json().then((data) => {
+                if (Object.values(data)[0] !== null) {
+                    stylizeIncomingMessages(data, chatButton.id, insert)
+                    window.chatOffset += window.chatLimit
+                }
+            })
+        }
+        else { /*display error*/ }
     })
+}
+
+function stylizeIncomingMessages(data, senderId, insert) {
+    let chatFiller = document.getElementById("chat-scroll-area")
+    let messages = Object.values(data)[0]
+    for (let i = 0; i < messages.length; i++) {
+        let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
+        let senderName = document.createTextNode(Object.values(data)[1][i])
+        let messageContent = document.createTextNode(messages[i]['Content'])
+        let dateContent = document.createTextNode(messages[i]['Timestamp'])
+
+        sender.appendChild(senderName)
+        message.appendChild(messageContent)
+        date.appendChild(dateContent)
+
+        if (messages[i]['SenderId'] == senderId) {
+            sender.classList.add("recipient-name")
+            message.classList.add("recipient")
+            date.classList.add("recipient-date")
+        } else {
+            sender.classList.add("sender-name")
+            message.classList.add("sender")
+            date.classList.add("sender-date")
+        }
+        chatFiller.insertBefore(date, chatFiller.firstChild);
+        chatFiller.insertBefore(message, chatFiller.firstChild);
+        chatFiller.insertBefore(sender, chatFiller.firstChild);
+    }
+    if (insert == "bottom") {
+        chatFiller.scroll(0, chatFiller.scrollHeight)
+    } else {
+        // make smooth transition on loading old messages with scroll
+    }
 }
 
 function createChatButton(id, username, status) {
@@ -57,27 +102,36 @@ function createChatButton(id, username, status) {
     return userChatBtn
 }
 
-function handleChat(userChatBtn) {
-    console.log(userChatBtn)
+function removeActiveBtn() {
+    document.getElementById("chat-scroll-area").innerHTML = ""
+    let elements = document.getElementsByClassName("chat-button");
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.remove("active");
+    }
+}
+
+function handleChat(userChatBtn) { // use to open/close chat
     let chatArea = document.getElementById("chat-area").classList
 
-    if (document.getElementById(userChatBtn.id).classList.contains("active")) {
-        chatArea.add("d-none")
-        userChatBtn.classList.remove("active")
+    window.chatOffset = 0
+
+    if (chatArea.contains("d-none")) {
+        userChatBtn.classList.add("active")
         document.getElementById("chat-scroll-area").innerHTML = ""
-
+        document.getElementById("chat-username").innerHTML = userChatBtn.getElementsByClassName("chat-with")[0].innerHTML
+        document.getElementById("chat-user-status").innerHTML = userChatBtn.getElementsByClassName("user-status")[0].innerHTML
+        chatArea.remove("d-none")
     } else {
-        let elements = document.getElementsByClassName("chat-button");
-
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].classList.remove("active");
-        }
-
-        if (chatArea.contains("d-none")) {
+        if (document.getElementById("chat-username").innerHTML === userChatBtn.getElementsByClassName("chat-with")[0].innerHTML) {
+            chatArea.add("d-none")
+            document.getElementById("chat-scroll-area").innerHTML = ""
+            userChatBtn.classList.remove("active")
+        } else {
+            removeActiveBtn()
             userChatBtn.classList.add("active")
-            document.getElementById("chat-area").classList.remove("d-none")
-        } else if (!chatArea.contains("d-none")) {
-            userChatBtn.classList.add("active")
+            document.getElementById("chat-username").innerHTML = userChatBtn.getElementsByClassName("chat-with")[0].innerHTML
+            document.getElementById("chat-user-status").innerHTML = userChatBtn.getElementsByClassName("user-status")[0].innerHTML
         }
     }
 }
@@ -161,11 +215,15 @@ document.addEventListener('click', function (e) {
 
     if (e.target.id === "user-list") {
         if (document.getElementById("userlist-scroll-area").classList.contains("initial")) {
-            document.getElementById("userlist-scroll-area").addEventListener('scroll', handleScrollEvent);
+            document.getElementById("userlist-scroll-area").addEventListener('scroll', (event) => {
+                const e = event.target;
+                if (e.scrollHeight - e.scrollTop === e.clientHeight) {
+                    debounce(100, fillUserlist());
+                }
+            });
             document.getElementById("userlist-scroll-area").classList.remove("initial")
         }
         window.sidepanelOffset = 0
-        console.log(window.sidepanelOffset)
         if (document.getElementById("userlist-holder").classList.contains("d-none")) {
             clearUserlist()
             fillUserlist()
@@ -233,50 +291,15 @@ document.addEventListener('click', function (e) {
     }
 });
 
-function handleScrollEvent(event) {
-    const e = event.target;
-    if (e.scrollHeight - e.scrollTop === e.clientHeight) {
-        debounce(100, fillUserlist());
-    }
-}
-
 function clearUserlist() {
     let div = document.getElementById("userlist-scroll-area");
-    div.scrollTo(0, 0)
+    div.scrollTo(0, 0) // prevents scroll event by clicking userlist btn
     var children = div.children;
     for (let i = children.length - 1; i >= 0; i--) {
         let child = children[i];
         if (!child.classList.contains("d-none")) {
             div.removeChild(child);
         }
-    }
-}
-
-function stylizeChat(data, senderId) {
-    let chatFiller = document.getElementById("chat-scroll-area")
-    let messages = Object.values(data)[0]
-    for (let i = 0; i < messages.length; i++) {
-        let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
-        let senderName = document.createTextNode(Object.values(data)[1][i])
-        let messageContent = document.createTextNode(messages[i]['Content'])
-        let dateContent = document.createTextNode(messages[i]['Timestamp'])
-
-        sender.appendChild(senderName)
-        message.appendChild(messageContent)
-        date.appendChild(dateContent)
-
-        if (messages[i]['SenderId'] == senderId) {
-            sender.classList.add("recipient-name")
-            message.classList.add("recipient")
-            date.classList.add("recipient-date")
-        } else {
-            sender.classList.add("sender-name")
-            message.classList.add("sender")
-            date.classList.add("sender-date")
-        }
-        chatFiller.appendChild(sender)
-        chatFiller.appendChild(message)
-        chatFiller.appendChild(date)
     }
 }
 

@@ -1,14 +1,13 @@
 TODO: 
 
 Most important:
-Create fetch with offset and limit to get old messages
-Fix bugs with loading messages 
 Create post view page with comments and etc and error page
 Sort userlist by active conversation + exclude them from basic sort Acs
 Make notifications for messages
 
 
 Small stuff:
+Make smooth transition on loading old messages with scroll event
 Make total of 20 default users and 10 default posts
 Move active chat to the top in real time
 Handle errors
