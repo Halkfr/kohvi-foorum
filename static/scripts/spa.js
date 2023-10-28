@@ -1,8 +1,10 @@
 if (window.location.pathname === '/') window.location.href = '/home';
 
 document.addEventListener('click', e => {
-    const activeElements = ["title", "home-nav", "create-post-nav", "profile-nav", "sign-out-nav", "register-link"];
+    console.log(e.target)
+    const activeElements = ["title", "home-nav", "create-post-nav", "profile-nav", "sign-out-nav", "register-link", "post-submit-btn"];
     if (activeElements.includes(e.target.id)) {
+        console.log('hey')
         e.preventDefault();
         route(e);
     }
@@ -18,13 +20,14 @@ const routers = {
     '/create-post': 'create-post.html',
     '/view-profile': 'profile.html',
     '/sign-in': 'sign-in.html',
-    '/sign-up': 'sign-up.html'
+    '/sign-up': 'sign-up.html',
+    '/view-post': 'view-post.html'
 }
 
 const handleLocation = async () => {
     const isAuthorizated = await checkActiveSession()
 
-    const path = window.location.pathname;
+    const path = window.location.pathname
     const html = await fetch('./static/templates/' + routers[path]).then((data) => data.text()).catch(error => {
         console.error('Error:', error);
     });

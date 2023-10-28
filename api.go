@@ -185,6 +185,29 @@ func posts(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func post(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	postId, err := strconv.Atoi(r.URL.Query().Get("id"))
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot get id from query string\"}"))
+		return
+	}
+
+	post := fetchPostByID(database, postId)
+	json, err := json.Marshal(post)
+
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		w.Write(json)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot marshal to json\"}"))
+	}
+
+}
+
 func addNewPost(w http.ResponseWriter, r *http.Request) {
 	sessionCookie, err := r.Cookie("session_token")
 	if err != nil {

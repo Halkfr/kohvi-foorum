@@ -26,6 +26,7 @@ func main() {
 	mux.HandleFunc("/api/users", userlist)
 	mux.HandleFunc("/api/user", user)
 	mux.HandleFunc("/api/posts", posts)
+	mux.HandleFunc("/api/post", post)
 	mux.HandleFunc("/api/add-post", addNewPost)
 	mux.HandleFunc("/api/load-chat", loadChat)
 	mux.HandleFunc("/api/send-message", sendMessage)

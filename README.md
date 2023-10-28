@@ -5,6 +5,10 @@ Create post view page with comments and etc and error page
 Sort userlist by active conversation + exclude them from basic sort Acs
 Make notifications for messages
 
+Fix bugs:
+Can't go to view-post page for posts loaded with 'load more' button
+Добавить отправку сообщения на enter
+
 
 Small stuff:
 Make smooth transition on loading old messages with scroll event
@@ -20,3 +24,4 @@ Optional cool fetures:
 Генерировать кофейный ник
 Add animations
 Change to dark mode on chrome experimental mode enable
+Открытие чата с нужным пользователем при нажатии на username (например автора поста). Возможно предварительно открывать меню - view profile, send message

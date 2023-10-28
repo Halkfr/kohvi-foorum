@@ -322,6 +322,10 @@ async function loadPost(thread = "Viewall") {
                             div.innerHTML = postTemplateText;
                             div.querySelector('.post-thread').innerHTML = post.Thread;
                             div.querySelector('.post-title').innerHTML = post.Title;
+                            div.querySelector('.post-title').addEventListener('click', (e) => {
+                                window.history.pushState({}, '', 'view-post?id=' + post.Id);
+                                handleLocation();
+                            })
                             getUsername(post.UserId).then(username => {
                                 div.querySelector('.post-creator').innerHTML = username;
                             });
@@ -336,20 +340,7 @@ async function loadPost(thread = "Viewall") {
                                 div.querySelector('.post-img').remove()
                             }
 
-                            switch (post.Thread) {
-                                case "Question":
-                                    div.querySelector('.post-thread').classList.add("btn-primary")
-                                    break;
-                                case "Buy/Sell":
-                                    div.querySelector('.post-thread').classList.add("btn-warning")
-                                    break;
-                                case "Help!":
-                                    div.querySelector('.post-thread').classList.add("btn-danger")
-                                    break;
-                                case "Discussion":
-                                    div.querySelector('.post-thread').classList.add("btn-success")
-                                    break;
-                            }
+                            styleCategoryButton(div, post.Thread)
                             document.body.querySelector('#post-area').insertBefore(div, document.body.querySelector('#load-more'));
                         });
                         window.postOffset += window.postLimit
@@ -359,6 +350,23 @@ async function loadPost(thread = "Viewall") {
             })
         }
     });
+}
+
+function styleCategoryButton(element, category) {
+    switch (category) {
+        case "Question":
+            element.querySelector('.post-thread').classList.add("btn-primary")
+            break;
+        case "Buy/Sell":
+            element.querySelector('.post-thread').classList.add("btn-warning")
+            break;
+        case "Help!":
+            element.querySelector('.post-thread').classList.add("btn-danger")
+            break;
+        case "Discussion":
+            element.querySelector('.post-thread').classList.add("btn-success")
+            break;
+    }
 }
 
 async function getUsername(id) {

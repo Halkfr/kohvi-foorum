@@ -2,6 +2,7 @@ const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         const posts = document.body.querySelector('#post-area')
         const profile = document.body.querySelector('#view-profile-area')
+        const post = document.body.querySelector('#view-post-area')
 
         if (posts && document.body.querySelector('#post-area').classList.contains("initial")) {
             document.getElementById("view-posts").innerHTML = "Viewall"
@@ -32,6 +33,40 @@ const observer = new MutationObserver((mutations) => {
                     })
                 }
             })
+        }
+
+        if (post && !post.contains(mutation.target)) {
+            const params = new URLSearchParams(window.location.search);
+
+            if (params.has('id')) {
+                const id = params.get('id')
+
+                return fetch('http://127.0.0.1:8080/api/post?id=' + id, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            document.body.querySelector('#view-post-category').innerHTML = data.Thread
+                            document.body.querySelector('#view-post-title').innerHTML = data.Title
+                            document.body.querySelector('#view-post-image').src= data.Image
+                            document.body.querySelector('#view-post-content').innerHTML = data.Content
+                            console.log(data)
+
+                            styleCategoryButton(post, data.Thread)
+                        })
+                    } else {
+                        throw new Error('Error fetching post');
+                    }
+                })
+
+            } else { // no id in query parameters
+                window.history.pushState({}, '', 'home');
+                handleLocation();
+            }
         }
     });
 });

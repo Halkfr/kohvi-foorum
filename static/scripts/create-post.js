@@ -41,7 +41,7 @@ document.addEventListener('click', function (e) {
                     },
                     body: formData
                 }).then(response => {
-                    if (response.ok) { window.location.href = '/home' } else { /*display error*/ }
+                    if (response.ok) { window.history.pushState({}, '', 'home'); handleLocation(); } else { /*display error*/ }
                 })
             }
         }
