@@ -236,59 +236,7 @@ document.addEventListener('click', function (e) {
     }
 
     if (e.target.id === "load-more-btn") {
-        const posts = document.body.querySelector('#post-area')
-        let thread = document.getElementById("view-posts").innerHTML
-        console.log(thread)
-        fetch('http://127.0.0.1:8080/api/posts?offset=' + window.postOffset + '&limit=' + window.postLimit + '&thread=' + thread, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            if (response.status === 200) {
-                response.json().then((data) => {
-                    fetch('./static/templates/post.html').then(postTemplate => postTemplate.text())
-                        .then(postTemplateText => {
-                            data.forEach(post => {
-                                let div = document.createElement('div');
-                                div.innerHTML = postTemplateText;
-                                div.classList.add("post-container")
-                                div.querySelector('.post-thread').innerHTML = post.Thread;
-                                div.querySelector('.post-title').innerHTML = post.Title;
-                                if (post.Image !== "") {
-                                    div.querySelector('img').src = post.Image;
-                                } else {
-                                    div.querySelector('.post-img').remove()
-                                }
-
-                                switch (post.Thread) {
-                                    case "Question":
-                                        div.querySelector('.post-thread').classList.add("btn-primary")
-                                        break;
-                                    case "Buy/Sell":
-                                        div.querySelector('.post-thread').classList.add("btn-warning")
-                                        break;
-                                    case "Help!":
-                                        div.querySelector('.post-thread').classList.add("btn-danger")
-                                        break;
-                                    case "Discussion":
-                                        div.querySelector('.post-thread').classList.add("btn-success")
-                                        break;
-                                }
-
-                                posts.insertBefore(div, document.body.querySelector('#load-more'));
-                            });
-                            window.postOffset += window.postLimit
-                        }).catch(error => {
-                            console.error('Error:', error);
-                        });
-                })
-            } else if (response.status === 204) {
-                document.getElementById("load-more-btn").classList.add("disabled")
-                document.getElementById("load-more-btn").innerHTML = "No more posts available"
-            }
-        });
+        loadPost(document.getElementById("view-posts").innerHTML)
     }
 });
 
@@ -349,6 +297,10 @@ async function loadPost(thread = "Viewall") {
                         console.error('Error:', error);
                     });
             })
+        }
+        else if (response.status === 204) {
+            document.getElementById("load-more-btn").classList.add("disabled")
+            document.getElementById("load-more-btn").innerHTML = "No more posts available"
         }
     });
 }

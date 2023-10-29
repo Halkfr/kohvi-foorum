@@ -1,6 +1,6 @@
 function changeDropdownText(item) {
     let element = document.getElementById("titleCategory").classList
-    element.remove("btn-default", "btn-primary", "btn-warning", "btn-danger", "btn-success")
+    element.remove("btn-light", "btn-primary", "btn-warning", "btn-danger", "btn-success")
     switch (item.innerHTML) {
         case "Question":
             document.getElementById("titleCategory").classList.add("btn-primary")

@@ -2,13 +2,11 @@ TODO:
 
 Most important:
 Create post view page with comments and etc and error page
-Sort userlist by active conversation + exclude them from basic sort Acs
-Make notifications for messages
-Fix bug: Can't go to view-post page for posts loaded with 'load more' button
 Make notifications for messages and move latest incomming chatBtn's top with ws
 
 Small stuff:
 Make beautiful filler for empty chats
+Fetch real count of post replies or delete them
 Make smooth transition on loading old messages with scroll event
 Make total of 20 default users and 10 default posts
 Handle errors
