@@ -71,13 +71,13 @@ type Notification struct {
 // -------------------------------------------------------------------------------------
 
 func createMessagesTable(db *sql.DB) {
-	users_table := `CREATE TABLE messages (
+	message_table := `CREATE TABLE messages (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         "SenderId" INTEGER,
         "RecipientId" INTEGER,
 		"Content" TEXT,
         timestamp TEXT DEFAULT(strftime('%Y.%m.%d %H:%M', 'now')));`
-	query, err := db.Prepare(users_table)
+	query, err := db.Prepare(message_table)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -85,7 +85,7 @@ func createMessagesTable(db *sql.DB) {
 	fmt.Println("Table for messages created successfully!")
 }
 
-func addMessage(db *sql.DB, SenderId int, RecipientId int, Content string) error {
+func addMessage(db *sql.DB, SenderId, RecipientId int, Content string) error {
 	records := `INSERT INTO messages (SenderId, RecipientId, Content) VALUES (?, ?, ?)`
 	query, err := db.Prepare(records)
 	if err != nil {
@@ -100,7 +100,14 @@ func addMessage(db *sql.DB, SenderId int, RecipientId int, Content string) error
 
 func fetchChatMessages(db *sql.DB, SenderId, RecipientId, limit, offset int) []Messages {
 	var allMessages []Messages
-	record, err := db.Query("SELECT * FROM messages WHERE (SenderId = ? OR SenderId = ?) AND (RecipientId = ? OR RecipientId = ?)AND SenderId != RecipientId ORDER BY id Desc LIMIT ? OFFSET ?;", SenderId, RecipientId, SenderId, RecipientId, limit, offset)
+
+	query := `
+	SELECT * FROM messages
+	WHERE (SenderId, RecipientId) IN ((?, ?), (?, ?))
+	ORDER BY id DESC
+	LIMIT ? OFFSET ?;`
+
+	record, err := db.Query(query, SenderId, RecipientId, RecipientId, SenderId, limit, offset)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -118,7 +125,7 @@ func fetchChatMessages(db *sql.DB, SenderId, RecipientId, limit, offset int) []M
 }
 
 func fetchChatLastMessage(db *sql.DB, SenderId, RecipientId int) Messages {
-	query := "SELECT * FROM messages WHERE (SenderId = ? AND RecipientId = ?) OR (SenderId = ? AND RecipientId = ?) ORDER BY id DESC LIMIT 1"
+	query := "SELECT * FROM messages WHERE (SenderId, RecipientId) IN ((?, ?), (?, ?)) ORDER BY id DESC LIMIT 1"
 
 	row := db.QueryRow(query, SenderId, RecipientId, RecipientId, SenderId)
 
@@ -150,7 +157,7 @@ func createUsersTable(db *sql.DB) {
 	fmt.Println("Table for users created successfully!")
 }
 
-func addUser(db *sql.DB, Username string, Email string, Password string, Birthdate string, Gender string, Firstname string, Lastname string, SessionStatus string) error {
+func addUser(db *sql.DB, Username, Email, Password, Birthdate, Gender, Firstname, Lastname, SessionStatus string) error {
 	records := `INSERT INTO users(Username, Email, Password, Birthdate, Gender, Firstname, Lastname, SessionStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
 	query, err := db.Prepare(records)
 	if err != nil {
@@ -187,23 +194,55 @@ func fetchIdByUsername(db *sql.DB, username string) int {
 	return id
 }
 
-func fetchUserlistOffsetExclude(db *sql.DB, excludeId, limit, offset int) []User {
+func fetchUserlistOffsetExclude(db *sql.DB, signedInUserId, limit, offset int) []User {
 	var allUsers []User
-	record, err := db.Query("SELECT * FROM users WHERE id <> ? ORDER BY Username COLLATE NOCASE ASC LIMIT ? OFFSET ?", excludeId, limit, offset)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer record.Close()
-	for record.Next() {
-		user := User{}
-		err := record.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp)
 
-		if err != nil {
-			log.Fatal(err)
-		}
-		allUsers = append(allUsers, user)
-	}
-	return allUsers
+	query := `
+    SELECT u.*, MAX(m.id) AS max_message_id
+    FROM users u
+    LEFT JOIN (
+      SELECT DISTINCT SenderId AS user_id, MAX(id) AS id FROM messages WHERE RecipientId = ? 
+      GROUP BY SenderId
+      UNION ALL
+      SELECT DISTINCT RecipientId AS user_id, MAX(id) AS id FROM messages WHERE SenderId = ? 
+      GROUP BY RecipientId
+    ) m
+    ON u.id = m.user_id
+    WHERE u.id != ? AND m.id IS NOT NULL
+    GROUP BY u.id
+    UNION ALL
+    SELECT u.*, NULL AS max_message_id
+    FROM users u
+    WHERE u.id != ?
+    AND u.id NOT IN (
+      SELECT DISTINCT user_id FROM (
+        SELECT DISTINCT SenderId AS user_id FROM messages WHERE RecipientId = ? 
+        UNION ALL
+        SELECT DISTINCT RecipientId AS user_id FROM messages WHERE SenderId = ? 
+      ) temp
+    )
+    ORDER BY max_message_id DESC NULLS LAST, u.Username COLLATE NOCASE ASC
+    LIMIT ? OFFSET ?
+    `
+
+    record, err := db.Query(query, signedInUserId, signedInUserId, signedInUserId, signedInUserId, signedInUserId, signedInUserId, limit, offset)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer record.Close()
+    for record.Next() {
+        var user User
+        var maxMessageID sql.NullInt64
+
+        err := record.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp, &maxMessageID)
+
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        allUsers = append(allUsers, user)
+    }
+    return allUsers
 }
 
 func updateUserStatusById(db *sql.DB, newStatus string, id int) error {

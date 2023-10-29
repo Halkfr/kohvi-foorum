@@ -210,6 +210,7 @@ document.addEventListener('click', function (e) {
             if (obj.content !== "") {
                 ws.send(JSON.stringify(obj))
             }
+            document.getElementById('message-text').value = ''
         }
     }
 

@@ -53,6 +53,7 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 		err := wsConn.ReadJSON(&msg)
 		if err != nil {
 			fmt.Println(err)
+			delete(clients, senderId)
 			break
 		}
 		recipientId := fetchIdByUsername(database, msg.RecipientUsername)
