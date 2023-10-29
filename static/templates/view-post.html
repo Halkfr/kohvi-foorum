@@ -10,34 +10,97 @@
                 <div>
                     <div class="d-flex align-items-center">
                         <h1 class="my-2 font-dosis flex-left" id="view-post-title">Post Title</h1>
-                        <button class="post-thread btn btn-filter rounded-pill post-text post-category  px-3 py-1 flex-right" id="view-post-category" style="cursor:text;margin-left: auto;">Question</button>
+                        <button
+                            class="post-thread btn btn-filter rounded-pill post-text post-category  px-3 py-1 flex-right"
+                            id="view-post-category" style="cursor:text;margin-left: auto;">Question</button>
                     </div>
-                    
+
 
                     <hr class="border-outline border-h">
                 </div>
 
-                <!-- Category -->
-                <div class="row my-3">
-
-                </div>
-
                 <div class="row my-3">
                     <div class="col-12">
-                        <img id="view-post-image" src="path_to_image.jpg" alt="Post Image" style="width: 30vw; float: left; margin-right: 20px;">
+                        <img id="view-post-image" src="path_to_image.jpg" alt="Post Image"
+                            style="width: 30vw; float: left; margin-right: 20px;">
                         <pre id="view-post-content" style="white-space: pre-wrap;" style="width:40vw">Post Content</pre>
+                        <div class="d-flex flex-row justify-content-end px-5">
+                            <a class="post-creator p-1" style="font-size: 15px; color: #644c42;">Username</a>
+                            <div class="post-creation-date p-1" style="font-size: 15px; color: #644c42;">
+                                01.01.2023
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="d-flex flex-row">
+                <!-- <div class="d-flex flex-row">
                     <a class="post-creator p-1" style="font-size: 15px; color: #644c42;">Username</a>
                     <div class="post-creation-date p-1" style="font-size: 15px; color: #644c42;">
                         01.01.2023
                     </div>
                     <div class="post-replies p-1" style="font-size: 15px; color: #644c42;">replies: 10
                     </div>
+                </div> -->
+
+                <!-- Leave a comment -->
+                <form class="d-flex justify-content-between align-items-center mb-2 bg-none rounded">
+                    <div class="d-flex flex-row w-100">
+                        <textarea id="create-comment-content" class="form-control form-control-lg" name="content"
+                            placeholder="Please type your comment here..." rows="2" wrap="soft" minlength="3"
+                            maxlength="500" required
+                            style="border-radius: 5px 0 0 5px; border-color:white;font-size: medium;"></textarea>
+                        <button id="comment-submit-btn" class="btn btn-primary btn-lg btn-block" type="submit"
+                            style="width:100px; border-radius: 0 5px 5px 0;">Send</button>
+                    </div>
+                </form>
+
+
+                <!-- Comments -->
+                <div id="comment-template"
+                    class="d-flex justify-content-between align-items-center mb-2 bg-white rounded">
+                    <div class="d-flex flex-row">
+                        <svg class="bi pe-none m-3" width="50" height="50">
+                            <use xlink:href="#people-circle" />
+                        </svg>
+                        <div class="d-flex flex-column my-2" style="text-align: left;">
+                            <div class="commenter mb-1">Username</div>
+                            <pre class="m-0">I strongly recommend you to buy moka pot!</pre>
+                        </div>
+                    </div>
                 </div>
-                
+
+                <div id="comment-template"
+                class="d-flex justify-content-between align-items-center mb-2 bg-white rounded">
+                <div class="d-flex flex-row">
+                    <svg class="bi pe-none m-3" width="50" height="50">
+                        <use xlink:href="#people-circle" />
+                    </svg>
+                    <div class="d-flex flex-column my-2" style="text-align: left;">
+                        <div class="commenter mb-1">Username</div>
+                        <pre class="m-0">I strongly recommend you to buy moka pot!</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="comment-template"
+            class="d-flex justify-content-between align-items-center mb-2 bg-white rounded">
+            <div class="d-flex flex-row">
+                <svg class="bi pe-none m-3" width="50" height="50">
+                    <use xlink:href="#people-circle" />
+                </svg>
+                <div class="d-flex flex-column my-2" style="text-align: left;">
+                    <div class="commenter mb-1">Username</div>
+                    <pre class="m-0">I strongly recommend you to buy moka pot!</pre>
+                </div>
+            </div>
+        </div>
+
+                <div id='load-more-comments' style="width: 100%;">
+                    <button id="load-more-btn" class="btn btn-light m-0"
+                        style="width: 100%;">Load
+                        more</button>
+                </div>
+
             </div>
         </div>
         <!-- Footer -->
