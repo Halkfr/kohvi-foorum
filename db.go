@@ -42,7 +42,6 @@ type Comment struct {
 	PostId    int
 	UserId    int
 	Timestamp string
-	User      User
 }
 
 type Messages struct {

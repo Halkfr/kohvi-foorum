@@ -10,9 +10,9 @@ I'm diving into the world of coffee, and it's proving to be quite the maze. With
 
 Looking forward to hearing your real-world insights. Cheers! ☕`
 
-// var comment1_1 string = "Hey there, Lasso-less Cowboy! Sorry to hear about your misfortune. If you're in a real bind and need a lasso ASAP, you could always try fashioning one out of some rope or twine. It might not be as sturdy as a regular lasso, but it could tide you over until you find your missing one or can purchase a new one. Just be careful not to injure yourself or your livestock in the process. Best of luck!"
-// var comment1_2 string = "Howdy, Lasso-less Cowboy! As a seasoned cowboy myself, I've lost my fair share of lassos over the years. One tip I can offer is to check with any local trading posts or general stores in the area. Sometimes, other cowboys might have found a stray lasso and brought it in to sell or trade. It's always worth a shot! Happy roping."
-// var comment1_3 string = "Howdy there! Losing your lasso can be a real pain in the neck, especially when you're just starting out. One trick that might help is to retrace your steps from the last time you used it. Sometimes, we forget that we put things down in strange places, and we end up looking in all the wrong spots. Good luck on your search, partner!"
+var comment1_1 string = "Welcome to the world of coffee! Start with a single origin bean, try different brewing methods, and ask your local barista for tips. Happy brewing!"
+var comment1_2 string = "Hey there! It's awesome that you're diving into the coffee world. My best advice is to start with a medium roast, as it offers a nice balance of flavors. Experiment with a French press and pour-over to see which method suits your taste buds best. Enjoy the journey!"
+var comment1_3 string = "I strongly recommend you to buy moka pot!"
 
 // second post
 var threads2 = []string{"Buy/Sell"}

@@ -266,6 +266,7 @@ async function loadPost(thread = "Viewall") {
                 fetch('./static/templates/post.html').then(postTemplate => postTemplate.text())
                     .then(postTemplateText => {
                         data.forEach(post => {
+                            console.log(data)
                             let div = document.createElement('div');
                             div.classList.add("post-container")
                             div.innerHTML = postTemplateText;

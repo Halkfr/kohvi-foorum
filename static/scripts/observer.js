@@ -52,11 +52,13 @@ const observer = new MutationObserver((mutations) => {
                         response.json().then((data) => {
                             document.body.querySelector('#view-post-category').innerHTML = data.Thread
                             document.body.querySelector('#view-post-title').innerHTML = data.Title
-                            document.body.querySelector('#view-post-image').src= data.Image
+                            document.body.querySelector('#view-post-image').src = data.Image
                             document.body.querySelector('#view-post-content').innerHTML = data.Content
                             console.log(data)
 
                             styleCategoryButton(post, data.Thread)
+
+                            fetchComments(id);
                         })
                     } else {
                         throw new Error('Error fetching post');
@@ -72,3 +74,38 @@ const observer = new MutationObserver((mutations) => {
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
+
+async function fetchComments(id) {
+    return fetch('http://127.0.0.1:8080/api/comments?id=' + id, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(response => {
+        if (response.ok) {
+            response.json().then((comments) => {
+                fetch('./static/templates/comment.html').then(commentTemplate => commentTemplate.text())
+                    .then(commentTemplateText => {
+                        document.body.querySelector('.comments').innerHTML = ""
+                        comments.forEach(comment => {
+                            let div = document.createElement('div');
+                            div.classList.add("comment-container")
+                            div.innerHTML = commentTemplateText;
+                            div.querySelector('.comment-content').innerHTML = comment.Content;
+                            div.querySelector('.comment-timestamp').innerHTML = comment.Timestamp;
+
+                            getUsername(comment.UserId).then(username => {
+                                div.querySelector('.comment-username').innerHTML = username
+                            });
+                            document.body.querySelector('.comments').appendChild(div);
+                        });
+                    }).catch(error => {
+                        console.error('Error:', error);
+                    });
+            })
+        } else {
+            throw new Error('Error fetching comments');
+        }
+    })
+}
