@@ -250,7 +250,6 @@ async function loadPost(thread = "Viewall") {
             response.json().then((data) => {
                 fetch('./static/templates/post.html').then(postTemplate => postTemplate.text())
                     .then(postTemplateText => {
-                        console.log(data)
                         data.forEach(post => {
                             let div = document.createElement('div');
                             div.classList.add("post-container")
@@ -326,7 +325,6 @@ async function getUsername(id) {
             throw new Error('Error fetching username');
         }
     }).then(data => {
-        console.log(String(data));
         return String(data);
     }).catch(error => {
         console.error(error);
@@ -348,7 +346,6 @@ async function getPostCreationDate(id) {
             throw new Error('Error fetching username');
         }
     }).then(data => {
-        console.log(String(data));
         return String(data);
     }).catch(error => {
         console.error(error);
@@ -370,7 +367,6 @@ async function getNumberOfCommentsForPost(id) {
             throw new Error('Error fetching number of comments');
         }
     }).then(data => {
-        // console.log('comments', String(data["comments-number"]));
         return String(data["comments-number"]);
     }).catch(error => {
         console.error(error);

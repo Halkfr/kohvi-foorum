@@ -4,10 +4,9 @@ if (window.location.hostname === "localhost") {
 if (window.location.pathname === '/') window.location.href = '/home';
 
 document.addEventListener('click', e => {
-    console.log(e.target)
+    // console.log(e.target)
     const activeElements = ["title", "home-nav", "create-post-nav", "profile-nav", "sign-out-nav", "register-link", "post-submit-btn"];
     if (activeElements.includes(e.target.id)) {
-        console.log('hey')
         e.preventDefault();
         route(e);
     }
@@ -98,7 +97,9 @@ window.addEventListener(onpopstate, async function () {
             method: 'POST',
             credentials: 'include',
         }).then(response => {
-            if (response.ok) { console.log("sign-out successfully") }
+            if (response.ok) {
+                //  console.log("sign-out successfully") 
+                }
         })
     }
 })
@@ -113,7 +114,7 @@ function startWS() {
         const chatName = document.getElementById("chat-username").innerHTML
         const chatFiller = document.getElementById("chat-scroll-area")
 
-        console.log("Got message!", event.data)
+        // console.log("Got message!", event.data)
         data = JSON.parse(event.data)
 
         // handles messages delivery to chat

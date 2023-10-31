@@ -14,7 +14,6 @@ const observer = new MutationObserver((mutations) => {
 
         // fill profile page
         if (profile && !profile.contains(mutation.target)) {
-            console.log('send request')
             fetch('http://127.0.0.1:8080/api/user', {
                 method: 'GET',
                 headers: {
@@ -30,7 +29,6 @@ const observer = new MutationObserver((mutations) => {
                         document.body.querySelector('#gender').innerHTML = data.Gender
                         document.body.querySelector('#email').innerHTML = data.Email
                         document.body.querySelector('#joined').innerHTML = data.Timestamp
-                        console.log(data)
                     })
                 }
             })
@@ -148,7 +146,6 @@ const observerSidepanel = new MutationObserver((mutation) => {
                 'credentials': 'include',
             },
         }).then(response => response.text()).then(data => {
-            console.log(data)
             if (data != 0) { // change total count for current user
                 document.getElementById("user-list").getElementsByClassName("badge")[0].innerHTML = data
             } else {

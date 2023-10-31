@@ -3,7 +3,6 @@ document.addEventListener('click', function (e) {
         if (e.target.matches('#comment-submit-btn')) {
             if (document.querySelector('form.create-comment').checkValidity()) {
                 e.preventDefault();
-                console.log('create commment!')
                 let formData = new FormData();
                 formData.append('content', document.querySelector('form.create-comment #create-comment-content').value);
                 const urlParams = new URLSearchParams(window.location.search);
