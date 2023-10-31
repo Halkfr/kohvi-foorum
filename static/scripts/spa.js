@@ -96,11 +96,12 @@ function startWS() {
     ws = new WebSocket('ws://127.0.0.1:8080/ws')
     ws.onmessage = (event) => {
         const chatName = document.getElementById("chat-username").innerHTML
-        const chatArea = document.getElementById("chat-scroll-area")
+        const chatFiller = document.getElementById("chat-scroll-area")
         
         console.log("Got message!", event.data)
         data = JSON.parse(event.data)
 
+        // handles messages delivery to chat
        if (chatName == data["SenderName"] || chatName == data["RecipientName"]) { // load message to correct chat
             let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
 
@@ -121,13 +122,16 @@ function startWS() {
             message.appendChild(messageContent)
             date.appendChild(dateContent)
 
-            chatArea.appendChild(sender)
-            chatArea.appendChild(message)
-            chatArea.appendChild(date)
+            chatFiller.appendChild(sender)
+            chatFiller.appendChild(message)
+            chatFiller.appendChild(date)
 
-            chatArea.scrollTo(0, chatArea.scrollHeight)
+            chatFiller.scrollTo(0, chatFiller.scrollHeight)
             window.chatOffset += 1
         }
+
+        // handles notifications
+        
         const senderId = data.Messages.SenderId
         const recipientId = data.Messages.RecipientId
 

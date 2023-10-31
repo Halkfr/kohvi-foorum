@@ -278,11 +278,11 @@ func loadChat(w http.ResponseWriter, r *http.Request) {
 	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
 	sessionCookie, err := r.Cookie("session_token")
 	if err == nil {
-		senderId, _ := strconv.Atoi(r.URL.Query().Get("senderId"))
-		recipientId := sessions[sessionCookie.Value]
+		signedInUserId := sessions[sessionCookie.Value]
+		recipientId, _ := strconv.Atoi(r.URL.Query().Get("chatBtnId"))
 
 		w.Header().Set("Content-Type", "application/json")
-		returnMsgs.Messages = fetchChatMessages(database, senderId, recipientId, limit, offset)
+		returnMsgs.Messages = fetchChatMessages(database, recipientId, signedInUserId, limit, offset)
 		for i := 0; i < len(returnMsgs.Messages); i++ {
 			returnMsgs.MsgUsernames = append(returnMsgs.MsgUsernames, fetchUserById(database, returnMsgs.Messages[i].SenderId).Username)
 		}

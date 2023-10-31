@@ -4,7 +4,6 @@ Most important:
 Create post view page with comments and etc and error page
 Create initial load observer for loading posts, userlist scroll area, chat area, todo fetch total notification count
 Make observer that fires ones on page load for sign-in'ned user. Remove initial classes
-Rename Sender and Recipient where incorect logic, sender = signedInUser
 
 
 Small stuff:

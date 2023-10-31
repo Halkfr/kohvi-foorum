@@ -34,7 +34,7 @@ function createUserlistElement(id, username, status, notificationCount) {
 }
 
 async function loadChat(chatButton, insert = "bottom") {
-    await fetch('http://127.0.0.1:8080/api/load-chat?senderId=' + chatButton.id + '&offset=' + window.chatOffset + '&limit=' + window.chatLimit, {
+    await fetch('http://127.0.0.1:8080/api/load-chat?chatBtnId=' + chatButton.id + '&offset=' + window.chatOffset + '&limit=' + window.chatLimit, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -54,8 +54,8 @@ async function loadChat(chatButton, insert = "bottom") {
     })
 }
 
-function stylizeIncomingMessages(data, senderId, insert) {
-    let chatFiller = document.getElementById("chat-scroll-area")
+function stylizeIncomingMessages(data, recipientId, insert) {
+    const chatFiller = document.getElementById("chat-scroll-area")
     let messages = Object.values(data)[0]
     for (let i = 0; i < messages.length; i++) {
         let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
@@ -67,7 +67,7 @@ function stylizeIncomingMessages(data, senderId, insert) {
         message.appendChild(messageContent)
         date.appendChild(dateContent)
 
-        if (messages[i]['SenderId'] == senderId) {
+        if (messages[i]['SenderId'] == recipientId) {
             sender.classList.add("recipient-name")
             message.classList.add("recipient")
             date.classList.add("recipient-date")
