@@ -138,22 +138,6 @@ body {
     padding-left: 0;
 }
 
-/* check if still relevant */
-.gj-icon {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-div.gj-datepicker {
-    transform: translate(0px, 12px);
-}
-
-#datepicker {
-    user-select: none;
-}
-
-/*  */
-
 .border-v {
     border-left: 3px solid #8f7b72;
 }
@@ -266,7 +250,6 @@ div.gj-datepicker {
   min-width: 1.6em;
   height: 1.6em;
   border-radius: 0.8em; 
-  border: 0.05em solid white;
   background-color: #dc3545;
   display: flex;
   justify-content: center;

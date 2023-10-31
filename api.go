@@ -345,6 +345,17 @@ func sendMessage(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("{\"error\":\"Cannot access cookie\"}"))
 	}
 }
+func userNotificationsCount(w http.ResponseWriter, r *http.Request) {
+	sessionCookie, err := r.Cookie("session_token")
+	if err == nil {
+		signedInUserId := sessions[sessionCookie.Value]
+		w.Header().Set("Content-Type", "text/plain")
+		w.Write([]byte(strconv.Itoa(fetchAllUserNotifications(database, signedInUserId))))
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("{\"error\":\"Cannot access cookie\"}"))
+	}
+}
 
 func getUsername(w http.ResponseWriter, r *http.Request) {
 	senderId, _ := strconv.Atoi(r.URL.Query().Get("id"))

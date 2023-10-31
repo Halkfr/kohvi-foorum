@@ -24,15 +24,35 @@ const routers = {
     '/view-post': 'view-post.html'
 }
 
-const handleLocation = async () => {
-    const isAuthorizated = await checkActiveSession()
 
+let activeSession = null;
+
+async function checkActiveSession() { // checks active session every 10 sec
+    if (activeSession === null) {
+        const response = await fetch('/api/session-status', {
+            method: 'POST',
+            credentials: 'include',
+        });
+        if (response.ok) {
+            activeSession = true;
+        } else {
+            activeSession = false;
+        }   
+        setTimeout(() => {
+            activeSession = null;
+        }, 10000);
+    }
+    
+    return activeSession;
+}
+
+const handleLocation = async () => {
     const path = window.location.pathname
     const html = await fetch('./static/templates/' + routers[path]).then((data) => data.text()).catch(error => {
         console.error('Error:', error);
     });
 
-    if (isAuthorizated === true) {
+    if (activeSession === true) {
         if (path === "/sign-in" || path === "/sign-up") {
             window.history.replaceState({}, '', 'http://127.0.0.1:8080/home',)
             handleLocation()
@@ -52,7 +72,7 @@ const handleLocation = async () => {
                 div.innerHTML = html
             }
         }
-    } else {
+    } else if (activeSession === false){
         if (path === "/sign-in") {
             document.body.innerHTML = html;
         } else if (path === "/sign-up") {
@@ -62,6 +82,9 @@ const handleLocation = async () => {
             window.history.replaceState({}, '', 'http://127.0.0.1:8080/sign-in',)
             handleLocation()
         }
+    } else {
+        await checkActiveSession()
+        handleLocation()
     }
 }
 
@@ -81,28 +104,17 @@ window.onpopstate = handleLocation;
 window.route = route;
 handleLocation();
 
-async function checkActiveSession() {
-    const response = await fetch('/api/session-status', {
-        method: 'POST',
-        credentials: 'include',
-    });
-    if (response.ok) {
-        return true
-    }
-    return false
-}
-
 function startWS() {
     ws = new WebSocket('ws://127.0.0.1:8080/ws')
     ws.onmessage = (event) => {
         const chatName = document.getElementById("chat-username").innerHTML
         const chatFiller = document.getElementById("chat-scroll-area")
-        
+
         console.log("Got message!", event.data)
         data = JSON.parse(event.data)
 
         // handles messages delivery to chat
-       if (chatName == data["SenderName"] || chatName == data["RecipientName"]) { // load message to correct chat
+        if (chatName == data["SenderName"] || chatName == data["RecipientName"]) { // load message to correct chat
             let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
 
             let senderName = document.createTextNode(data["SenderName"])
@@ -131,7 +143,7 @@ function startWS() {
         }
 
         // handles notifications
-        
+
         const senderId = data.Messages.SenderId
         const recipientId = data.Messages.RecipientId
 

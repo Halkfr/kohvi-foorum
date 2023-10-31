@@ -54,7 +54,7 @@ const observer = new MutationObserver((mutations) => {
                             document.body.querySelector('#view-post-title').innerHTML = data.Title
                             document.body.querySelector('#view-post-image').src = data.Image
                             document.body.querySelector('#view-post-content').innerHTML = data.Content
-                            console.log(data)
+                            // console.log(data)
 
                             styleCategoryButton(post, data.Thread)
 
@@ -112,13 +112,39 @@ async function fetchComments(id) {
 
 // observe side panel
 
-const observerSidepanel = new MutationObserver((mutations) => {
+const observerSidepanel = new MutationObserver((mutation) => {
     const sidepanel = document.body.querySelector('#sidepanel')
 
     if (sidepanel) {
-        console.log('sidepanel opened')
-        // DO SOMETHING
-        observerSidepanel.disconnect();
+        document.getElementById("chat-scroll-area").addEventListener('scroll', (event) => {
+            const e = event.target;
+            if (e.scrollTop === 0 && e.scrollHeight > e.clientHeight) {
+                debounce(1000, loadChat(document.getElementById("userlist-holder").getElementsByClassName("active")[0], "top"))
+            }
+        });
+
+        document.getElementById("userlist-scroll-area").addEventListener('scroll', (event) => {
+            const e = event.target;
+            if (e.scrollHeight - e.scrollTop === e.clientHeight) {
+                debounce(100, fillUserlist());
+            }
+        });
+
+        fetch('http://127.0.0.1:8080/api/user-notifications-number', {
+            method: 'GET',
+            headers: {
+                'credentials': 'include',
+            },
+        }).then(response => response.text()).then(data => {
+            console.log(data)
+            if (data != 0) { // change total count for current user
+                document.getElementById("user-list").getElementsByClassName("badge")[0].innerHTML = data
+            } else {
+                document.getElementById("user-list").getElementsByClassName("badge")[0].innerHTML = ""
+            }
+        })
+
+        observerSidepanel.disconnect()
     }
 });
 

@@ -1,5 +1,4 @@
 document.addEventListener('click', function (e) {
-    e.preventDefault();
     if (location.pathname === "/view-post") {
         if (e.target.matches('#comment-submit-btn')) {
             e.preventDefault();

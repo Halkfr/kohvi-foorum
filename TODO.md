@@ -1,28 +1,27 @@
 TODO: 
 
-Most important:
-Create initial load observer for loading posts, userlist scroll area, chat area, todo fetch total notification count
-Make observer that fires ones on page load for sign-in'ned user. Remove initial classes
-
-
 Small stuff:
-Make smooth transition on loading old messages with scroll event
 Fetch real count of post replies or delete them
-Too much auth checks when loading userlist, remove unnessasery
-fix notification badge dropping chat icon
-Clear code from unused code from previous forum
 Make beautiful filler for empty chats
-Remove unnesessery fetches
 Clear notifications on userlistBtn click?
-Handle case when new user was created and sent msg to user with open userlist
+Handle case when new user was created and sent msg to user with open userlist?
 Make total of 20 default users and 10 default posts
-Handle errors
 Cделать редирект с localhost на 127.0.0.1:8080/
 Пофиксить нижнюю линию в окне чата
 Пофиксить посты, они иногда подгружаются в одном порядке, а иногда в другом
 Писать время создания поста на странице поста тоже, а не только в home
 Хэндлить случай, когда у поста нет комментариев
 Убирать Post Image, если у поста нет изображения
+
+
+Good practice:
+fix routing to load only ones
+Make smooth transition on loading old messages with scroll event
+Too much auth checks when loading userlist, remove unnessasery
+Remove fetch username and creation date, add it to responce struct
+fix notification badge dropping chat icon
+Handle errors
+Clear code from unused code from previous forum
 
 
 Optional cool fetures:

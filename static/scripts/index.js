@@ -21,16 +21,6 @@ function createUserlistElement(id, username, status, notificationCount) {
 
     chatButton.addEventListener("click", () => handleChat(chatButton))
     chatButton.addEventListener("click", () => loadChat(chatButton))
-
-    if (document.getElementById("chat-area").classList.contains("initial")) { // move to observer
-        document.getElementById("chat-scroll-area").addEventListener('scroll', (event) => {
-            const e = event.target;
-            if (e.scrollTop === 0 && e.scrollHeight > e.clientHeight) {
-                debounce(1000, loadChat(document.getElementById("userlist-holder").getElementsByClassName("active")[0], "top"))
-            }
-        });
-        document.getElementById("chat-area").classList.remove("initial")
-    }
 }
 
 async function loadChat(chatButton, insert = "bottom") {
@@ -219,15 +209,6 @@ document.addEventListener('click', function (e) {
     }
 
     if (e.target.id === "user-list") {
-        if (document.getElementById("userlist-scroll-area").classList.contains("initial")) {  // move to observer
-            document.getElementById("userlist-scroll-area").addEventListener('scroll', (event) => {
-                const e = event.target;
-                if (e.scrollHeight - e.scrollTop === e.clientHeight) {
-                    debounce(100, fillUserlist());
-                }
-            });
-            document.getElementById("userlist-scroll-area").classList.remove("initial")
-        }
         window.sidepanelOffset = 0
         if (document.getElementById("userlist-holder").classList.contains("d-none")) {
             clearUserlist()
@@ -269,8 +250,8 @@ async function loadPost(thread = "Viewall") {
             response.json().then((data) => {
                 fetch('./static/templates/post.html').then(postTemplate => postTemplate.text())
                     .then(postTemplateText => {
+                        console.log(data)
                         data.forEach(post => {
-                            console.log(data)
                             let div = document.createElement('div');
                             div.classList.add("post-container")
                             div.innerHTML = postTemplateText;
