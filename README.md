@@ -2,10 +2,9 @@ TODO:
 
 Most important:
 Create post view page with comments and etc and error page
-Подгружать total notification count при изначальной загрузке стр используя fetch (настроить observer на загрузку стр)
-Remove initial classes, make observer that fires ones on page load
+Create initial load observer for loading posts, userlist scroll area, chat area, todo fetch total notification count
+Make observer that fires ones on page load for sign-in'ned user. Remove initial classes
 Rename Sender and Recipient where incorect logic, sender = signedInUser
-Debug create post validation messages
 
 
 Small stuff:

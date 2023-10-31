@@ -22,7 +22,7 @@ function createUserlistElement(id, username, status, notificationCount) {
     chatButton.addEventListener("click", () => handleChat(chatButton))
     chatButton.addEventListener("click", () => loadChat(chatButton))
 
-    if (document.getElementById("chat-area").classList.contains("initial")) {
+    if (document.getElementById("chat-area").classList.contains("initial")) { // move to observer
         document.getElementById("chat-scroll-area").addEventListener('scroll', (event) => {
             const e = event.target;
             if (e.scrollTop === 0 && e.scrollHeight > e.clientHeight) {
@@ -219,7 +219,7 @@ document.addEventListener('click', function (e) {
     }
 
     if (e.target.id === "user-list") {
-        if (document.getElementById("userlist-scroll-area").classList.contains("initial")) {
+        if (document.getElementById("userlist-scroll-area").classList.contains("initial")) {  // move to observer
             document.getElementById("userlist-scroll-area").addEventListener('scroll', (event) => {
                 const e = event.target;
                 if (e.scrollHeight - e.scrollTop === e.clientHeight) {

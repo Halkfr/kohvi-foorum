@@ -23,7 +23,7 @@ document.addEventListener('click', function (e) {
         if (e.target.matches('#post-submit-btn')) {
             if (document.querySelector('form.create-post')['titleCategory'].innerHTML == "Select Category") {
                 alert("Please select category")
-            }else if (document.querySelector('form.create-post').checkValidity()) {
+            } else if (document.querySelector('form.create-post').checkValidity()) {
                 e.preventDefault();
                 let formData = new FormData();
                 formData.append('thread', document.querySelector('form.create-post')['titleCategory'].innerHTML);
@@ -41,6 +41,13 @@ document.addEventListener('click', function (e) {
                 }).then(response => {
                     if (response.ok) { window.history.pushState({}, '', 'home'); handleLocation(); } else { /*display error*/ }
                 })
+            } else {
+                if (!document.querySelector('form.create-post #create-post-content').checkValidity()) {
+                    document.querySelector('form.create-post #create-post-content').reportValidity()
+                }
+                if (!document.querySelector('form.create-post #create-post-title').checkValidity()) {
+                    document.querySelector('form.create-post #create-post-title').reportValidity()
+                }
             }
         }
     }
