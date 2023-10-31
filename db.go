@@ -53,15 +53,10 @@ type Messages struct {
 }
 
 type Notification struct {
-	Id       int
-	Active   bool
-	Object   string
-	Title    string
-	ObjectId int // object id (to link)
-
-	Action    string
-	Sender    string //sender username
-	Recipient int    // recipient id
+	Id          int
+	SenderId    int
+	RecipientId int
+	Count       int
 
 	Timestamp string
 }
@@ -224,24 +219,24 @@ func fetchUserlistOffsetExclude(db *sql.DB, signedInUserId, limit, offset int) [
     LIMIT ? OFFSET ?
     `
 
-    record, err := db.Query(query, signedInUserId, signedInUserId, signedInUserId, signedInUserId, signedInUserId, signedInUserId, limit, offset)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer record.Close()
-    for record.Next() {
-        var user User
-        var maxMessageID sql.NullInt64
+	record, err := db.Query(query, signedInUserId, signedInUserId, signedInUserId, signedInUserId, signedInUserId, signedInUserId, limit, offset)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer record.Close()
+	for record.Next() {
+		var user User
+		var maxMessageID sql.NullInt64
 
-        err := record.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp, &maxMessageID)
+		err := record.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Birthdate, &user.Gender, &user.Firstname, &user.Lastname, &user.SessionStatus, &user.Timestamp, &maxMessageID)
 
-        if err != nil {
-            log.Fatal(err)
-        }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-        allUsers = append(allUsers, user)
-    }
-    return allUsers
+		allUsers = append(allUsers, user)
+	}
+	return allUsers
 }
 
 func updateUserStatusById(db *sql.DB, newStatus string, id int) error {
@@ -553,13 +548,9 @@ func deleteRow(db *sql.DB, table string, id int) error {
 func createNotificationsTable(db *sql.DB) {
 	n_table := `CREATE TABLE notifications (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		"Active" BOOLEAN DEFAULT 1,
-        "Object" TEXT,
-		"Title" TEXT,
-		"Object_id" INTEGER,
-        "Action" TEXT,
-        "Sender" TEXT,
-		"Recipient" INTEGER,
+        "SenderId" INTEGER,
+		"RecipientId" INTEGER,
+		"Count" INTEGER DEFAULT 0,
 		timestamp TEXT DEFAULT(strftime('%Y.%m.%d %H:%M', 'now')));`
 
 	query, err := db.Prepare(n_table)
@@ -570,63 +561,57 @@ func createNotificationsTable(db *sql.DB) {
 	fmt.Println("Table for notifications created successfully!")
 }
 
-func addNotification(db *sql.DB, Object, Title string, ObjectId int, Action string, Sender string, Recipient int) {
-	records := `INSERT INTO notifications(Object, Title, Object_id, Action, Sender, Recipient) VALUES (?, ?, ?, ?, ?, ?)`
+func addNotification(db *sql.DB, signedInUserId, RecipientId int) {
+	records := `INSERT INTO notifications(SenderId, RecipientId) VALUES (?, ?)`
 	query, err := db.Prepare(records)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_, err = query.Exec(Object, Title, ObjectId, Action, Sender, Recipient)
+	_, err = query.Exec(signedInUserId, RecipientId)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func fetchNotificationsByUserId(db *sql.DB, user_id int) []Notification {
-	record, err := db.Query("SELECT * FROM notifications WHERE Recipient=?", user_id)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer record.Close()
-
-	var all []Notification
-	for record.Next() {
-		var n Notification
-		err = record.Scan(&n.Id, &n.Active, &n.Object, &n.Title, &n.ObjectId, &n.Action, &n.Sender, &n.Recipient, &n.Timestamp)
-		if err != nil {
-			log.Println(err)
-		}
-		all = append(all, n)
-	}
-	return all
-}
-
-func fetchActiveNotificationsByUserId(db *sql.DB, user_id int) []Notification {
-	record, err := db.Query("SELECT * FROM notifications WHERE Recipient=? AND active=true", user_id)
+func fetchNotications(db *sql.DB, signedInUserId, RecipientId int) Notification {
+	record, err := db.Query("SELECT * FROM notifications WHERE SenderId=? AND RecipientId=?", signedInUserId, RecipientId)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer record.Close()
 
-	var all []Notification
+	var n Notification
 	for record.Next() {
-		var n Notification
-		err = record.Scan(&n.Id, &n.Active, &n.Object, &n.Title, &n.ObjectId, &n.Action, &n.Sender, &n.Recipient, &n.Timestamp)
+		err = record.Scan(&n.Id, &n.SenderId, &n.RecipientId, &n.Count, &n.Timestamp)
 		if err != nil {
 			log.Println(err)
 		}
-		all = append(all, n)
 	}
-	return all
+	return n
 }
 
-func disableNotificationByID(db *sql.DB, id int) error {
-	_, err := db.Exec("UPDATE notifications SET active=false WHERE id = ?", id)
+func incrementNotification(db *sql.DB, signedInUserId, RecipientId int) { // adds notifications to signedInUserId by RecipientId
+	_, err := db.Exec("UPDATE notifications SET Count = Count + 1 WHERE SenderId = ? AND RecipientId = ?", signedInUserId, RecipientId)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	return nil
+}
+
+func clearNotification(db *sql.DB, signedInUserId, RecipientId int) {
+	_, err := db.Exec("UPDATE notifications SET Count = 0 WHERE SenderId = ? AND RecipientId = ?", signedInUserId, RecipientId)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func fetchAllUserNotifications(db *sql.DB, signedInUserId int) int {
+	var sum int
+	err := db.QueryRow("SELECT SUM(Count) FROM notifications WHERE SenderId = ?", signedInUserId).Scan(&sum)
+	if err != nil {
+		return 0
+	}
+	return sum
 }
 
 func getRowCount(db *sql.DB, tableName string) (int, error) {

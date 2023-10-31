@@ -260,3 +260,17 @@ div.gj-datepicker {
     font-size: 1rem;
     margin-top: 10px;
 }
+
+.badge {
+  transform: translate(15px, 10px);
+  min-width: 1.6em;
+  height: 1.6em;
+  border-radius: 0.8em; 
+  border: 0.05em solid white;
+  background-color: #dc3545;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+  color: white;
+  }

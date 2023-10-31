@@ -119,14 +119,20 @@ func userlist(w http.ResponseWriter, r *http.Request) {
 	if offset < userCount-1 {
 		sessionCookie, _ := r.Cookie("session_token")
 		token := sessionCookie.Value
-		excludeId := sessions[token]
+		signedInUserId := sessions[token]
 
 		w.Header().Set("Content-Type", "application/json")
+		var returnUserlist struct {
+			Users []User
+			Count []int
+		}
 
-		users := fetchUserlistOffsetExclude(database, excludeId, limit, offset)
+		returnUserlist.Users = fetchUserlistOffsetExclude(database, signedInUserId, limit, offset)
 
-		json, err := json.Marshal(users)
-
+		for i := 0; i < len(returnUserlist.Users); i++ { // for every user adds count of notifications with signedInUser
+			returnUserlist.Count = append(returnUserlist.Count, fetchNotications(database, signedInUserId, returnUserlist.Users[i].Id).Count)
+		}
+		json, err := json.Marshal(returnUserlist)
 		if err == nil {
 			w.WriteHeader(http.StatusOK)
 			w.Write(json)

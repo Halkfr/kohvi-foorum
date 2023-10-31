@@ -95,33 +95,64 @@ async function checkActiveSession() {
 function startWS() {
     ws = new WebSocket('ws://127.0.0.1:8080/ws')
     ws.onmessage = (event) => {
+        const chatName = document.getElementById("chat-username").innerHTML
+        const chatArea = document.getElementById("chat-scroll-area")
+        
         console.log("Got message!", event.data)
         data = JSON.parse(event.data)
-        let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
 
-        let senderName = document.createTextNode(data["SenderName"])
-        let messageContent = document.createTextNode(data["Messages"]["Content"])
-        let dateContent = document.createTextNode(data["Messages"]["Timestamp"])
+       if (chatName == data["SenderName"] || chatName == data["RecipientName"]) { // load message to correct chat
+            let [date, message, sender] = Array.from({ length: 3 }, () => document.createElement("div"));
 
-        if (data["Sender"]) {
-            sender.classList.add("sender-name")
-            message.classList.add("sender")
-            date.classList.add("sender-date")
+            let senderName = document.createTextNode(data["SenderName"])
+            let messageContent = document.createTextNode(data["Messages"]["Content"])
+            let dateContent = document.createTextNode(data["Messages"]["Timestamp"])
 
-        } else {
-            sender.classList.add("recipient-name")
-            message.classList.add("recipient")
-            date.classList.add("recipient-date")
+            if (data["Sender"]) {
+                sender.classList.add("sender-name")
+                message.classList.add("sender")
+                date.classList.add("sender-date")
+            } else {
+                sender.classList.add("recipient-name")
+                message.classList.add("recipient")
+                date.classList.add("recipient-date")
+            }
+            sender.appendChild(senderName)
+            message.appendChild(messageContent)
+            date.appendChild(dateContent)
 
+            chatArea.appendChild(sender)
+            chatArea.appendChild(message)
+            chatArea.appendChild(date)
+
+            chatArea.scrollTo(0, chatArea.scrollHeight)
+            window.chatOffset += 1
         }
-        sender.appendChild(senderName)
-        message.appendChild(messageContent)
-        date.appendChild(dateContent)
-        
-        document.getElementById("chat-scroll-area").appendChild(sender)
-        document.getElementById("chat-scroll-area").appendChild(message)
-        document.getElementById("chat-scroll-area").appendChild(date)
-        document.getElementById("chat-scroll-area").scrollTo(0, document.getElementById("chat-scroll-area").scrollHeight)
-        window.chatOffset += 1
+        const senderId = data.Messages.SenderId
+        const recipientId = data.Messages.RecipientId
+
+        if (data["Sender"]) { // clears notifications for sender 
+            document.getElementById(recipientId).getElementsByClassName("badge")[0].innerHTML = ""
+            moveBtnTop(recipientId, senderId)
+        } else if (document.getElementById(senderId)) { // adds notifications to recipient
+            document.getElementById(senderId).getElementsByClassName("badge")[0].innerHTML = data.CurrentNotificationCount
+            moveBtnTop(recipientId, senderId)
+        }
+
+        if (data["TotalNotificationCount"] != 0) { // change total count for current user
+            document.getElementById("user-list").getElementsByClassName("badge")[0].innerHTML = data["TotalNotificationCount"]
+        } else {
+            document.getElementById("user-list").getElementsByClassName("badge")[0].innerHTML = ""
+        }
+    }
+}
+
+function moveBtnTop(recipientId, senderId) {
+    let parent = document.getElementById("userlist-scroll-area")
+    if (document.getElementById(recipientId)) { // for user sending messages
+        parent.insertBefore(document.getElementById(recipientId), parent.firstElementChild)
+        parent.scrollTo(0, 0)
+    } else { // for user receiving messages
+        parent.insertBefore(document.getElementById(senderId), parent.firstElementChild)
     }
 }

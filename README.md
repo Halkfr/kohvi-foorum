@@ -2,12 +2,22 @@ TODO:
 
 Most important:
 Create post view page with comments and etc and error page
-Make notifications for messages and move latest incomming chatBtn's top with ws
+Подгружать total notification count при изначальной загрузке стр используя fetch (настроить observer на загрузку стр)
+Remove initial classes, make observer that fires ones on page load
+Rename Sender and Recipient where incorect logic, sender = signedInUser
+Debug create post validation messages
+
 
 Small stuff:
-Make beautiful filler for empty chats
-Fetch real count of post replies or delete them
 Make smooth transition on loading old messages with scroll event
+Fetch real count of post replies or delete them
+Too much auth checks when loading userlist, remove unnessasery
+fix notification badge dropping chat icon
+Clear code from unused code from previous forum
+Make beautiful filler for empty chats
+Remove unnesessery fetches
+Clear notifications on userlistBtn click?
+Handle case when new user was created and sent msg to user with open userlist
 Make total of 20 default users and 10 default posts
 Handle errors
 Cделать редирект с localhost на 127.0.0.1:8080/

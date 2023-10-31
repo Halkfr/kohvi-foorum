@@ -16,8 +16,8 @@ function debounce(delay, fn) {
     };
 }
 
-function createUserlistElement(id, username, status) {
-    let chatButton = createChatButton(id, username, status)
+function createUserlistElement(id, username, status, notificationCount) {
+    let chatButton = createChatButton(id, username, status, notificationCount)
 
     chatButton.addEventListener("click", () => handleChat(chatButton))
     chatButton.addEventListener("click", () => loadChat(chatButton))
@@ -87,7 +87,7 @@ function stylizeIncomingMessages(data, senderId, insert) {
     }
 }
 
-function createChatButton(id, username, status) {
+function createChatButton(id, username, status, notificationCount) {
     let template = document.getElementById('user-template')
     let userChatBtn = template.cloneNode(true)
     userChatBtn.classList.remove("d-none")
@@ -97,7 +97,11 @@ function createChatButton(id, username, status) {
     userChatBtn.classList.add("chat-with-user")
     userChatBtn.id = id
     userChatBtn.classList.add("chat-button")
-
+    if (notificationCount === 0) {
+        userChatBtn.getElementsByClassName("badge")[0].innerHTML = ""
+    } else {
+        userChatBtn.getElementsByClassName("badge")[0].innerHTML = notificationCount
+    }
     document.getElementById("userlist-scroll-area").appendChild(userChatBtn)
     return userChatBtn
 }
@@ -147,8 +151,8 @@ function fillUserlist() {
     }).then(response => {
         if (response.status === 200) {
             response.json().then((data) => {
-                for (let i = 0; i < Object.keys(data).length; i++) {
-                    createUserlistElement(Object.values(data[i])[0], Object.values(data[i])[2], Object.values(data[i])[8])
+                for (let i = 0; i < Object.keys(data.Users).length; i++) {
+                    createUserlistElement(Object.values(data.Users[i])[0], Object.values(data.Users[i])[2], Object.values(data.Users[i])[8], data.Count[i])
                 }
             })
             window.sidepanelOffset += window.sidepanelLimit

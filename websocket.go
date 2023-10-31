@@ -38,9 +38,12 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type returnMessage struct {
-		Messages   Messages
-		SenderName string
-		Sender     bool
+		Messages                 Messages
+		SenderName               string
+		RecipientName            string
+		Sender                   bool
+		CurrentNotificationCount int
+		TotalNotificationCount   int
 	}
 
 	senderId := sessions[sessionCookie.Value]
@@ -60,17 +63,32 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 		if recipientId != 0 {
 			addMessage(database, senderId, recipientId, msg.Content)
 
+			if (fetchNotications(database, senderId, recipientId) == Notification{}) {
+				addNotification(database, senderId, recipientId)
+			}
+			if (fetchNotications(database, recipientId, senderId) == Notification{}) {
+				addNotification(database, recipientId, senderId)
+			}
+
+			clearNotification(database, senderId, recipientId)     // clear sender chat notification table
+			incrementNotification(database, recipientId, senderId) // increment recipient chat notification table
+
 			newMsg.Messages = fetchChatLastMessage(database, senderId, recipientId)
 			newMsg.Sender = true
 			newMsg.SenderName = fetchUserById(database, senderId).Username
+			newMsg.RecipientName = fetchUserById(database, recipientId).Username
+			newMsg.CurrentNotificationCount = fetchNotications(database, senderId, recipientId).Count
+			newMsg.TotalNotificationCount = fetchAllUserNotifications(database, senderId)
 
 			err1 := clients[senderId].WriteJSON(newMsg)
 			if err1 != nil {
 				fmt.Println("Cant send to first client", err1)
 				break
 			}
-			if clients[recipientId] != nil {
+			if clients[recipientId] != nil { // if recipient has ws connection
 				newMsg.Sender = false
+				newMsg.CurrentNotificationCount = fetchNotications(database, recipientId, senderId).Count
+				newMsg.TotalNotificationCount = fetchAllUserNotifications(database, recipientId)
 				err2 := clients[recipientId].WriteJSON(newMsg)
 				if err2 != nil {
 					fmt.Println("Cant send to second client", err2)

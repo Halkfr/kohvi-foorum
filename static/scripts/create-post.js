@@ -25,8 +25,6 @@ document.addEventListener('click', function (e) {
                 alert("Please select category")
             }else if (document.querySelector('form.create-post').checkValidity()) {
                 e.preventDefault();
-                let x = document.querySelector('form.create-post').elements;
-
                 let formData = new FormData();
                 formData.append('thread', document.querySelector('form.create-post')['titleCategory'].innerHTML);
                 formData.append('title', document.querySelector('form.create-post #create-post-title').value);

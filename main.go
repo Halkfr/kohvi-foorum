@@ -112,11 +112,13 @@ func setDB() {
 	addThread(database, "Other")
 	addMessage(database, 1, 2, "Hello")
 	addMessage(database, 1, 2, "How are you")
-	addMessage(database, 2, 1, "Hi, I am fine!")
+	addNotification(database, 2, 1)
+	incrementNotification(database, 2, 1)
+	incrementNotification(database, 2, 1)
 
-	// addThread(database, "Ranch", 1)
-	// addThread(database, "Dogs", 1)
-	// addThread(database, "Other", 1)
+	addMessage(database, 2, 1, "Hi, I am fine!")
+	addNotification(database, 1, 2)
+	incrementNotification(database, 1, 2)
 
 	addPost(database, title1, image1, post1, threads1, 1)
 	addPost(database, title2, image2, post2, threads2, 2)
