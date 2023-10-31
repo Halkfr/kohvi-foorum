@@ -109,3 +109,17 @@ async function fetchComments(id) {
         }
     })
 }
+
+// observe side panel
+
+const observerSidepanel = new MutationObserver((mutations) => {
+    const sidepanel = document.body.querySelector('#sidepanel')
+
+    if (sidepanel) {
+        console.log('sidepanel opened')
+        // DO SOMETHING
+        observerSidepanel.disconnect();
+    }
+});
+
+observerSidepanel.observe(document.body, { childList: true, subtree: true });

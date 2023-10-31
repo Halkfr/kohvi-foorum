@@ -244,53 +244,6 @@ func updateUserStatusById(db *sql.DB, newStatus string, id int) error {
 	return err
 }
 
-// threads (categories)
-// -------------------------------------------------------------------------------------
-
-func createThreadsTable(db *sql.DB) {
-	threads_table := `CREATE TABLE threads (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        "Subject" TEXT UNIQUE,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);`
-	query, err := db.Prepare(threads_table)
-	if err != nil {
-		log.Fatal(err)
-	}
-	query.Exec()
-	fmt.Println("Table for threads created successfully!")
-}
-
-func addThread(db *sql.DB, Subject string) {
-	records := `INSERT INTO threads(Subject) VALUES (?)`
-	query, err := db.Prepare(records)
-	if err != nil {
-		log.Fatal(err)
-	}
-	_, err = query.Exec(Subject)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func fetchAllThreads(db *sql.DB) []string {
-	record, err := db.Query("SELECT Subject FROM threads")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer record.Close()
-
-	var threads []string
-	for record.Next() {
-		var thread string
-		err = record.Scan(&thread)
-		if err != nil {
-			log.Println(err)
-		}
-		threads = append(threads, thread)
-	}
-	return threads
-}
-
 // posts
 // -------------------------------------------------------------------------------------
 
