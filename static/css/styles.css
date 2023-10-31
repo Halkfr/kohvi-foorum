@@ -182,6 +182,8 @@ body {
 }
 
 #chat-scroll-area {
+    background-image: url("/static/images/chat-texture3.png");
+    background-size: 400px;
     width: 400px;
     overflow-y: scroll;
 }
@@ -246,14 +248,14 @@ body {
 }
 
 .badge {
-  transform: translate(15px, 10px);
-  min-width: 1.6em;
-  height: 1.6em;
-  border-radius: 0.8em; 
-  background-color: #dc3545;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.8em;
-  color: white;
-  }
+    transform: translate(15px, 10px);
+    min-width: 1.6em;
+    height: 1.6em;
+    border-radius: 0.8em;
+    background-color: #dc3545;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: white;
+}

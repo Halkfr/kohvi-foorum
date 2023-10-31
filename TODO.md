@@ -2,7 +2,6 @@ TODO:
 
 Small stuff:
 Fetch real count of post replies or delete them
-Make beautiful filler for empty chats
 Clear notifications on userlistBtn click?
 Handle case when new user was created and sent msg to user with open userlist?
 Make total of 20 default users and 10 default posts
