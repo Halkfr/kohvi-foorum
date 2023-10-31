@@ -98,7 +98,7 @@ async function fetchComments(id) {
                             getUsername(comment.UserId).then(username => {
                                 div.querySelector('.comment-username').innerHTML = username
                             });
-                            document.body.querySelector('.comments').appendChild(div);
+                            document.body.querySelector('.comments').prepend(div);
                         });
                     }).catch(error => {
                         console.error('Error:', error);

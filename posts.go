@@ -11,7 +11,7 @@ I'm diving into the world of coffee, and it's proving to be quite the maze. With
 Looking forward to hearing your real-world insights. Cheers! ☕`
 
 var comment1_1 string = "Welcome to the world of coffee! Start with a single origin bean, try different brewing methods, and ask your local barista for tips. Happy brewing!"
-var comment1_2 string = "Hey there! It's awesome that you're diving into the coffee world. My best advice is to start with a medium roast, as it offers a nice balance of flavors. Experiment with a French press and pour-over to see which method suits your taste buds best. Enjoy the journey!"
+var comment1_2 string = "Anyone about tea here? :P"
 var comment1_3 string = "I strongly recommend you to buy moka pot!"
 
 // second post
@@ -42,22 +42,4 @@ I've got to admit, I've been feeling a bit jittery about something lately. It's 
 
 Has anyone else felt this way? Are there genuine risks involved, or is it just overthinking? I could really use some reassurance or advice on this. Let's talk it out! ☕🤔`
 
-// var comment3_1 string = "Howdy, folks! As a cowboy and a lover of photography, I reckon there ain't nothin' quite like capturing the thrill and excitement of a rodeo. I use an old Nikon F2 camera, and while it may not be as fancy as some of them newfangled models, it gets the job done just fine. There's somethin' about the way the film captures the grit and raw energy of the bulls and the cowboys that digital just can't match. So grab your gear and join me in the arena for some good old-fashioned rodeo photography!"
-
-// fourt post
-// var threads4 = []string{"Other"}
-// var title4 = "Cowgirl Seeks Cowboy: Ride, Rope, and Wrangle Together"
-// var image4 string = "girl.png"
-// var post4 string = `Howdy fellas,
-
-// I'm a cowgirl on the lookout for a cowboy who can ride, rope, and wrangle with the best of them. Someone who knows the ins and outs of ranch life and can appreciate a hard day's work.
-
-// Now, I'm not just looking for any old cowboy. I want someone who's got a good head on their shoulders, a kind heart, and a strong work ethic. Someone who's not afraid to get their hands dirty and who knows how to treat a lady right.
-
-// So if you think you fit the bill, send me a message and let's see if we can hit it off. Bonus points if you know how to two-step and don't mind a little dirt on your boots.
-
-// Looking forward to hearing from you,
-// Cowgirl on the lookout.`
-
-// var comment4_1 string = "Sounds like you're looking for a real cowboy, not just a city slicker in boots. I hope you find your perfect match!"
-// var comment4_2 string = "Howdy ma'am, your post caught my eye. I reckon I fit the bill of the cowboy you're looking for. I've been riding, roping, and wrangling since I was knee-high to a grasshopper, and I know how to treat a lady right. I'd love to two-step with you and show you what a real cowboy can do. Let me know if you're interested."
+var comment3_1 string = "No problem if you check the valve is working smoothly. Also, it's better to buy brand moka pots. DM me if want to discuss the topic."

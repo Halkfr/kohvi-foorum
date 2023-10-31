@@ -269,6 +269,21 @@ func addNewPost(w http.ResponseWriter, r *http.Request) {
 	addPost(database, r.FormValue("title"), imagePath, r.FormValue("content"), []string{r.FormValue("thread")}, senderId)
 }
 
+func addNewComment(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("adding new comment")
+	sessionCookie, err := r.Cookie("session_token")
+	if err != nil {
+		http.Error(w, "Failed to get session cookie", http.StatusUnauthorized)
+		return
+	}
+	senderId := sessions[sessionCookie.Value]
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	postId,_ := strconv.Atoi(r.FormValue("postid"))
+	addComment(database, r.FormValue("content"), postId, senderId)
+}
+
+
 func loadChat(w http.ResponseWriter, r *http.Request) {
 	var returnMsgs struct {
 		Messages     []Messages

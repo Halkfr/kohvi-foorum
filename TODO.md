@@ -1,7 +1,6 @@
 TODO: 
 
 Most important:
-Create post view page with comments and etc and error page
 Create initial load observer for loading posts, userlist scroll area, chat area, todo fetch total notification count
 Make observer that fires ones on page load for sign-in'ned user. Remove initial classes
 
@@ -22,6 +21,8 @@ Cделать редирект с localhost на 127.0.0.1:8080/
 Пофиксить нижнюю линию в окне чата
 Пофиксить посты, они иногда подгружаются в одном порядке, а иногда в другом
 Писать время создания поста на странице поста тоже, а не только в home
+Хэндлить случай, когда у поста нет комментариев
+Убирать Post Image, если у поста нет изображения
 
 
 Optional cool fetures:

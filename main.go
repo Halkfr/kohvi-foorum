@@ -29,6 +29,7 @@ func main() {
 	mux.HandleFunc("/api/post", post)
 	mux.HandleFunc("/api/comments", comments)
 	mux.HandleFunc("/api/add-post", addNewPost)
+	mux.HandleFunc("/api/add-comment", addNewComment)
 	mux.HandleFunc("/api/load-chat", loadChat)
 	mux.HandleFunc("/api/send-message", sendMessage)
 	mux.HandleFunc("/api/username", getUsername)
@@ -137,7 +138,7 @@ func setDB() {
 	addComment(database, comment1_3, 1, 2)
 	// addComment(database, comment2_1, 2, 3, 2, 1)
 	// addComment(database, comment2_2, 2, 4, 0, 0)
-	// addComment(database, comment3_1, 3, 4, 3, 0)
+	addComment(database, comment3_1, 3, 5)
 	// addComment(database, comment4_1, 4, 2, 0, 1)
 	// addComment(database, comment4_2, 4, 3, 2, 2)
 
