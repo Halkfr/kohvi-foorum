@@ -269,6 +269,10 @@ async function loadPost(thread = "Viewall") {
                                 div.querySelector('.post-creation-date').innerHTML = date
                             });
 
+                            getNumberOfCommentsForPost(post.Id).then(number => {
+                                div.querySelector('.post-replies').innerHTML = 'replies: ' + number
+                            })
+
                             if (post.Image !== "") {
                                 div.querySelector('img').src = post.Image;
                             } else {
@@ -346,6 +350,28 @@ async function getPostCreationDate(id) {
     }).then(data => {
         console.log(String(data));
         return String(data);
+    }).catch(error => {
+        console.error(error);
+        return ''
+    });
+}
+
+async function getNumberOfCommentsForPost(id) {
+    return fetch('http://127.0.0.1:8080/api/post-comments-number?id=' + id, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Error fetching number of comments');
+        }
+    }).then(data => {
+        // console.log('comments', String(data["comments-number"]));
+        return String(data["comments-number"]);
     }).catch(error => {
         console.error(error);
         return ''

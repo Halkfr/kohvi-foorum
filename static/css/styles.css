@@ -182,7 +182,7 @@ body {
 }
 
 #chat-scroll-area {
-    background-image: url("/static/images/chat-texture3.png");
+    background-image: url("/static/images/chat-texture.png");
     background-size: 400px;
     width: 400px;
     overflow-y: scroll;

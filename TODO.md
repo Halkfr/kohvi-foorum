@@ -1,16 +1,10 @@
-TODO: 
-
 Small stuff:
-Fetch real count of post replies or delete them
+Make beautiful filler for empty chats
 Clear notifications on userlistBtn click?
 Handle case when new user was created and sent msg to user with open userlist?
 Make total of 20 default users and 10 default posts
-Cделать редирект с localhost на 127.0.0.1:8080/
 Пофиксить нижнюю линию в окне чата
 Пофиксить посты, они иногда подгружаются в одном порядке, а иногда в другом
-Писать время создания поста на странице поста тоже, а не только в home
-Хэндлить случай, когда у поста нет комментариев
-Убирать Post Image, если у поста нет изображения
 
 
 Good practice:

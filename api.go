@@ -357,6 +357,29 @@ func userNotificationsCount(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func postCommentsCount(w http.ResponseWriter, r *http.Request) {
+    postId, err := strconv.Atoi(r.URL.Query().Get("id"))
+
+    if err != nil {
+        w.WriteHeader(http.StatusInternalServerError)
+        w.Write([]byte("{\"error\":\"Cannot get id from query string\"}"))
+        return
+    }
+
+    number, err := getNumberOfCommentsByPost(database, postId)
+
+    if err != nil {
+        w.WriteHeader(http.StatusInternalServerError)
+        w.Write([]byte("{\"error\":\"Error querying the database\"}"))
+        return
+    }
+
+    response := fmt.Sprintf("{\"post-id\": %d, \"comments-number\": %d}", postId, number)
+
+    w.WriteHeader(http.StatusOK)
+    w.Write([]byte(response))
+}
+
 func getUsername(w http.ResponseWriter, r *http.Request) {
 	senderId, _ := strconv.Atoi(r.URL.Query().Get("id"))
 	json, err := json.Marshal(fetchUserById(database, senderId).Username)

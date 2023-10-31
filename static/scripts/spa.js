@@ -1,3 +1,6 @@
+if (window.location.hostname === "localhost") {
+    window.location.href = "http://127.0.0.1:8080" + window.location.pathname + window.location.search;
+}
 if (window.location.pathname === '/') window.location.href = '/home';
 
 document.addEventListener('click', e => {

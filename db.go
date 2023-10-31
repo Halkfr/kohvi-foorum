@@ -460,6 +460,13 @@ func fetchCommentsByPost(db *sql.DB, post_id int) []Comment {
 	return comments
 }
 
+func getNumberOfCommentsByPost(db *sql.DB, id int) (int, error) {
+	var commentsNumber int
+    err := database.QueryRow("SELECT COUNT(*) FROM comments WHERE post_id=?", id).Scan(&commentsNumber)
+
+	return commentsNumber, err
+}
+
 func fetchCommentByID(db *sql.DB, id int) Comment {
 	record, err := db.Query("SELECT * FROM comments WHERE id=?", id)
 	if err != nil {
@@ -475,23 +482,6 @@ func fetchCommentByID(db *sql.DB, id int) Comment {
 		}
 	}
 	return comment
-}
-
-func updateCommentByID(db *sql.DB, id int, content string) error {
-	_, err := db.Exec("UPDATE Comments SET content = ? WHERE id = ?", content, id)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func deleteRow(db *sql.DB, table string, id int) error {
-	query := fmt.Sprintf("DELETE FROM %s WHERE id = ?", table)
-	_, err := db.Exec(query, id)
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 //	notification table

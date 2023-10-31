@@ -27,7 +27,6 @@ func main() {
 	mux.HandleFunc("/api/user", user)
 	mux.HandleFunc("/api/posts", posts)
 	mux.HandleFunc("/api/post", post)
-	mux.HandleFunc("/api/user-notifications-number", userNotificationsCount)
 	mux.HandleFunc("/api/comments", comments)
 	mux.HandleFunc("/api/add-post", addNewPost)
 	mux.HandleFunc("/api/add-comment", addNewComment)
@@ -35,6 +34,8 @@ func main() {
 	mux.HandleFunc("/api/send-message", sendMessage)
 	mux.HandleFunc("/api/username", getUsername)
 	mux.HandleFunc("/api/post-creation-date", getPostCreationDate)
+	mux.HandleFunc("/api/user-notifications-number", userNotificationsCount)
+	mux.HandleFunc("/api/post-comments-number", postCommentsCount)
 
 	mux.HandleFunc("/ws", websocketHandler)
 
