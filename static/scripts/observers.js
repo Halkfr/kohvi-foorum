@@ -54,7 +54,7 @@ const observer = new MutationObserver((mutations) => {
                         response.json().then((data) => {
                             document.body.querySelector('#view-post-category').innerHTML = data.Thread
                             document.body.querySelector('#view-post-title').innerHTML = data.Title
-                            if (data.image != null) {
+                            if (data.Image) {
                                 document.body.querySelector('#view-post-image').src = data.Image
                             } else {
                                 document.body.querySelector('#view-post-image').remove()
