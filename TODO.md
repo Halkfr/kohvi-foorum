@@ -18,6 +18,8 @@ Clear code from unused code from previous forum
 
 
 Optional cool fetures:
+Можно сделать закладки в окне чата для быстрого открытия переписки
+Можно не закрывать чат по нажатию на userlistBtn, оставлять открытым, закрывать на крестик, сворачивать итд
 Генерировать кофейный ник
 Add animations
 Change to dark mode on chrome experimental mode enable
