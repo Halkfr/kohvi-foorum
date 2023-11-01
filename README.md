@@ -28,6 +28,8 @@ To run the web-site on local machine:
 
 - Register or login with user that already created (login: `CoffeeExplorer`, password: `BeanBrewer123`).
 
+- Find audit requirements here: https://github.com/01-edu/public/tree/master/subjects/real-time-forum/audit
+
 ## Implementation details
 
 - SQL3
